@@ -1,13 +1,12 @@
 package ar.edu.utn.frba.dds.coleccion;
 
 import ar.edu.utn.frba.dds.hecho.Categoria;
-import ar.edu.utn.frba.dds.hecho.ContenidoMultimedia;
+import ar.edu.utn.frba.dds.hecho.contenido.ContenidoMultimedia;
 import ar.edu.utn.frba.dds.hecho.Hecho;
 import ar.edu.utn.frba.dds.hecho.Ubicacion;
 import ar.edu.utn.frba.dds.hecho.origen.HechoOrigen;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class CriterioDePertenenciaBuilder {
   private String titulo;

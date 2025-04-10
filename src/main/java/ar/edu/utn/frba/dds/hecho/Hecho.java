@@ -1,9 +1,9 @@
 package ar.edu.utn.frba.dds.hecho;
 
+import ar.edu.utn.frba.dds.hecho.contenido.ContenidoMultimedia;
 import ar.edu.utn.frba.dds.hecho.origen.HechoOrigen;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 
 public class Hecho {
@@ -14,15 +14,7 @@ public class Hecho {
   private Ubicacion lugar;
   private LocalDateTime fechaDelHecho;
   private LocalDateTime fechaDeCarga;
-
-  /*
-  FIXME?
-   Aca hay que ver el tema de los visualizadores VS contribuyentes, yo lo dejaría así:
-    - Si en un contribuyente, puede tener etiquetas.
-    - Si es un visualizador, no se puede etiquetar
-  */
   private HechoOrigen hechoOrigen;
-
   private boolean eliminado = false;
 
   public Hecho(String titulo) {

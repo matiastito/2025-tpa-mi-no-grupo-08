@@ -1,18 +1,12 @@
 package ar.edu.utn.frba.dds.hecho.origen;
 
-import static ar.edu.utn.frba.dds.hecho.origen.TipoHechoOrigen.COLABORADOR;
-import ar.edu.utn.frba.dds.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.colaborador.Contribuyente;
 
 import java.util.Collection;
 
 public class HechoOrigenColaborador implements HechoOrigen {
-  private Colaborador colaborador;
+  private Contribuyente contribuyente;
   private Collection<String> etiquetas;
-
-  @Override
-  public TipoHechoOrigen getTipoHecho() {
-    return COLABORADOR;
-  }
 
   @Override
   public Collection<String> etiquetas() {
