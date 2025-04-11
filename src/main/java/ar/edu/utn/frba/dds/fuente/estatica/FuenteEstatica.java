@@ -1,11 +1,11 @@
-package ar.edu.utn.frba.dds.fuente;
+package ar.edu.utn.frba.dds.fuente.estatica;
 
 import static java.lang.String.valueOf;
 import static java.util.Set.of;
 
+import ar.edu.utn.frba.dds.fuente.Fuente;
 import ar.edu.utn.frba.dds.hecho.Hecho;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;

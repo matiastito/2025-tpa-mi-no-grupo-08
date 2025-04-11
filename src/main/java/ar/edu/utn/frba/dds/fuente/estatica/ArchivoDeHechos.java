@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.fuente;
+package ar.edu.utn.frba.dds.fuente.estatica;
 
 import java.util.List;
 

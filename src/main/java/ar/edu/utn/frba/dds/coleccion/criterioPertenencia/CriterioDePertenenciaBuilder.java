@@ -1,12 +1,14 @@
-package ar.edu.utn.frba.dds.coleccion;
+package ar.edu.utn.frba.dds.coleccion.criterioPertenencia;
 
+import ar.edu.utn.frba.dds.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.hecho.Categoria;
+import ar.edu.utn.frba.dds.hecho.HechoOrigen;
 import ar.edu.utn.frba.dds.hecho.contenido.ContenidoMultimedia;
 import ar.edu.utn.frba.dds.hecho.Hecho;
 import ar.edu.utn.frba.dds.hecho.Ubicacion;
-import ar.edu.utn.frba.dds.hecho.origen.HechoOrigen;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 public class CriterioDePertenenciaBuilder {
   private String titulo;
@@ -19,6 +21,9 @@ public class CriterioDePertenenciaBuilder {
   private LocalDateTime fechaDeCargaDesde;
   private LocalDateTime fechaDeCargaHasta;
   private HechoOrigen hechoOrigen;
+  private Contribuyente contribuyente;
+  private Collection<String> etiquetas;
+
 
   public CriterioDePertenenciaBuilder withTitulo(String titulo) {
     this.titulo = titulo;
@@ -34,6 +39,8 @@ public class CriterioDePertenenciaBuilder {
     this.categoria = categoria;
     return this;
   }
+
+  //TODO completear con los distintos atributos.
 
   public CriterioDePertenencia build() {
     CriterioDePertenenciaImpl criterioDePertenenciaImpl = new CriterioDePertenenciaImpl();

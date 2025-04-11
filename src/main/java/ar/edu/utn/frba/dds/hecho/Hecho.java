@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.hecho;
 
 import ar.edu.utn.frba.dds.hecho.contenido.ContenidoMultimedia;
-import ar.edu.utn.frba.dds.hecho.origen.HechoOrigen;
+import ar.edu.utn.frba.dds.hecho.HechoOrigen;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
