@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.integracion;
 
 import static ar.edu.utn.frba.dds.DateHelper.formatearFecha;
 import static ar.edu.utn.frba.dds.coleccion.Coleccion.crearColeccionManual;
+import static ar.edu.utn.frba.dds.hecho.Categorias.categoria;
 import static ar.edu.utn.frba.dds.hecho.Hecho.crearHechoDeTexto;
 import static ar.edu.utn.frba.dds.hecho.HechoOrigen.MANUAL;
 import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
@@ -9,7 +10,6 @@ import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ar.edu.utn.frba.dds.coleccion.Coleccion;
-import ar.edu.utn.frba.dds.hecho.Categoria;
 import ar.edu.utn.frba.dds.hecho.Hecho;
 import ar.edu.utn.frba.dds.hecho.SolicitudDeEliminacionDeHecho;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +27,7 @@ public class Escenario03Test {
             MANUAL,
             "Brote de enfermedad contagiosa causa estragos en San Lorenzo, Santa Fe",
             "Grave brote de enfermedad contagiosa ocurrió en las inmediaciones de San Lorenzo, Santa Fe. El incidente dejó varios heridos y daños materiales. Se ha declarado estado de emergencia en la región para facilitar la asistencia.",
-            new Categoria("Evento sanitario"),
+            categoria("Evento sanitario"),
             formatearFecha("05/07/2005"),
             crearUbicacion("-32.786098", "-60.741543"),
             now()

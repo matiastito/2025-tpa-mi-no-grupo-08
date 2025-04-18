@@ -20,4 +20,8 @@ public class Categoria {
   public int hashCode() {
     return Objects.hashCode(nombre);
   }
+
+  public String getNombre() {
+    return nombre;
+  }
 }

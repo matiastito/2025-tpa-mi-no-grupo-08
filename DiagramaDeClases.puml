@@ -40,6 +40,9 @@ class Hecho {
 class Categoria {
 }
 
+class Categorias {
+}
+
 class SolicitudDeEliminacionDeHecho {
 }
 
@@ -75,8 +78,7 @@ Hecho --> HechoOrigen
 Hecho --> Categoria
 Hecho --> Ubicacion
 Hecho *-- SolicitudDeEliminacionDeHecho
+Categorias o-- Categoria
 FiltroDeHechoBuilder ..> FiltroDeHechoImpl
-'Composicion EntidadA "*" o-- "*" EntidadB
-'Agregacion Inscripcion *-- Alumno
 
 @enduml
