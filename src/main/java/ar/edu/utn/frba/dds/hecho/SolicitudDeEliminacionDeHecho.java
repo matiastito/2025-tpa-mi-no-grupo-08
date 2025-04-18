@@ -4,8 +4,7 @@ public class SolicitudDeEliminacionDeHecho {
   private Hecho hecho;
   private String motivo;
 
-  public SolicitudDeEliminacionDeHecho(Hecho hecho,
-                                       String motivo) {
+  public SolicitudDeEliminacionDeHecho(Hecho hecho, String motivo) {
     this.hecho = hecho;
     this.motivo = motivo;
   }

@@ -49,14 +49,14 @@ public class Coleccion {
   }
 
   public void agregarHecho(Hecho hecho) {
-    if (!hecho.isEliminado()) {
+    if (!hecho.estaEliminado()) {
       this.hechos.add(hecho);
     }
   }
 
   public Collection<Hecho> hechos() {
     return this.hechos.stream()
-        .filter(hecho -> !hecho.isEliminado())
+        .filter(hecho -> !hecho.estaEliminado())
         .filter(this::aplicarFiltros)
         .collect(toCollection(HashSet::new));
   }

@@ -56,7 +56,7 @@ public class Hecho {
     return solicitudDeEliminacionDeHecho;
   }
 
-  public boolean isEliminado() {
+  public boolean estaEliminado() {
     return this.eliminado;
   }
 
