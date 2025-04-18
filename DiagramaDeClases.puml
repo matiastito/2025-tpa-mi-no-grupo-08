@@ -19,15 +19,63 @@ class Coleccion {
 
 }
 
-class Hecho {
+class ArchivoDeHechosImpl {
 
 }
 
+interface ArchivoDeHechos {
+
+}
+
+interface Fuente {
+    Collection<Hecho> traerHechos()
+}
+
+class FuenteEstatica {
+}
+
+class Hecho {
+}
+
+class Categoria {
+}
+
+class SolicitudDeEliminacionDeHecho {
+}
+
+class Ubicacion {
+}
+
+class ContenidoMulitmedia {
+}
+
+enum TipoContenidoMulitmedia {
+    FOTO
+    VIDEO
+    AUDIO
+}
+
+enum HechoOrigen {
+    CONTRIBUYENTE
+    MANUAL
+    EXTERNO
+}
+
+ContenidoMulitmedia --> TipoContenidoMulitmedia
+FuenteEstatica --> ArchivoDeHechos
+FuenteEstatica <|-- Fuente
+ArchivoDeHechos --|> ArchivoDeHechosImpl
 Coleccion --> FiltroDeHecho
-FiltroDeHecho ..> FiltroDeHechoImpl
+FiltroDeHecho ..|> FiltroDeHechoImpl
 Coleccion o-- Hecho
+Coleccion --> Fuente
+Hecho --> ContenidoMulitmedia
 Hecho --> Contribuyente
-FiltroDeHechoBuilder .. FiltroDeHechoImpl
+Hecho --> HechoOrigen
+Hecho --> Categoria
+Hecho --> Ubicacion
+Hecho *-- SolicitudDeEliminacionDeHecho
+FiltroDeHechoBuilder ..> FiltroDeHechoImpl
 'Composicion EntidadA "*" o-- "*" EntidadB
 'Agregacion Inscripcion *-- Alumno
 
