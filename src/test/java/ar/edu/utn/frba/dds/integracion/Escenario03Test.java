@@ -28,7 +28,7 @@ public class Escenario03Test {
             "Brote de enfermedad contagiosa causa estragos en San Lorenzo, Santa Fe",
             "Grave brote de enfermedad contagiosa ocurrió en las inmediaciones de San Lorenzo, Santa Fe. El incidente dejó varios heridos y daños materiales. Se ha declarado estado de emergencia en la región para facilitar la asistencia.",
             new Categoria("Evento sanitario"),
-            formatearFecha("05/07/2005").atStartOfDay(),
+            formatearFecha("05/07/2005"),
             crearUbicacion("-32.786098", "-60.741543"),
             now()
         ));

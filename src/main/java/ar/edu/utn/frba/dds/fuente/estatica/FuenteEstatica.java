@@ -42,7 +42,7 @@ public class FuenteEstatica implements Fuente {
     hechos.add(Hecho.crearHechoDeTexto(
         EXTERNO,
         titulo, descripcion, new Categoria(categoria),
-        formatearFecha(fechaDelHecho).atStartOfDay(),
+        formatearFecha(fechaDelHecho),
         crearUbicacion(latitud, longitud),
         now()
     ));

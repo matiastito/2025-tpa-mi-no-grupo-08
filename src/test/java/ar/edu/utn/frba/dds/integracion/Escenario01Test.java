@@ -29,7 +29,7 @@ public class Escenario01Test {
             "Caída de aeronave impacta en Olavarría",
             "Grave caída de aeronave ocurrió en las inmediaciones de Olavarría, Buenos Aires. El incidente provocó pánico entre los residentes locales. Voluntarios de diversas organizaciones se han sumado a las tareas de auxilio.",
             new Categoria("Caída de aeronave"),
-            formatearFecha("29/11/2001").atStartOfDay(),
+            formatearFecha("29/11/2001"),
             crearUbicacion("-36.868375", "-60.343297"),
             now()
         ));
@@ -39,7 +39,7 @@ public class Escenario01Test {
             "Serio incidente: Accidente con maquinaria industrial en Chos Malal, Neuquén",
             "Un grave accidente con maquinaria industrial se registró en Chos Malal, Neuquén. El incidente dejó a varios sectores sin comunicación. Voluntarios de diversas organizaciones se han sumado a las tareas de auxilio.",
             new Categoria("Accidente con maquinaria industrial"),
-            formatearFecha("16/08/2001").atStartOfDay(),
+            formatearFecha("16/08/2001"),
             crearUbicacion("-37.345571", "-70.241485"),
             now()
         ));
@@ -50,7 +50,7 @@ public class Escenario01Test {
             "Caída de aeronave impacta en Venado Tuerto, Santa Fe",
             "Grave caída de aeronave ocurrió en las inmediaciones de Venado Tuerto, Santa Fe. El incidente destruyó viviendas y dejó a familias evacuadas. Autoridades nacionales se han puesto a disposición para brindar asistencia.",
             new Categoria("Caída de aeronave"),
-            formatearFecha("08/08/2008").atStartOfDay(),
+            formatearFecha("08/08/2008"),
             crearUbicacion("-33.768051", "-61.921032"),
             now()
         ));
@@ -61,7 +61,7 @@ public class Escenario01Test {
             "Accidente en paso a nivel deja múltiples daños en Pehuajó, Buenos Aires",
             "Grave accidente en paso a nivel ocurrió en las inmediaciones de Pehuajó, Buenos Aires. El incidente generó preocupación entre las autoridades provinciales. El Ministerio de Desarrollo Social está brindando apoyo a los damnificados.",
             new Categoria("Accidente en paso a nivel"),
-            formatearFecha("27/01/2020").atStartOfDay(),
+            formatearFecha("27/01/2020"),
             crearUbicacion("-35.855811", "-61.940589"),
             now()
         ));
@@ -72,7 +72,7 @@ public class Escenario01Test {
             "Devastador Derrumbe en obra en construcción afecta a Presidencia Roque Sáenz Peña",
             "Un grave derrumbe en obra en construcción se registró en Presidencia Roque Sáenz Peña, Chaco. El incidente generó preocupación entre las autoridades provinciales. El intendente local se ha trasladado al lugar para supervisar las operaciones.",
             new Categoria("Derrumbe en obra en construcción"),
-            formatearFecha("04/06/2016").atStartOfDay(),
+            formatearFecha("04/06/2016"),
             crearUbicacion("-26.780008", "-60.458782"),
             now()
         ));
@@ -81,8 +81,8 @@ public class Escenario01Test {
   @Test
   public void criteriosDePertenencia() {
     FiltroDeHecho filtroFecha = new FiltroDeHechoBuilder()
-        .conFechaDelHechoDesde(formatearFecha("01/01/2000").atStartOfDay())
-        .conFechaDelHechoHasta(formatearFecha("01/01/2010").atStartOfDay()).build();
+        .conFechaDelHechoDesde(formatearFecha("01/01/2000"))
+        .conFechaDelHechoHasta(formatearFecha("01/01/2010")).build();
 
     coleccionManual.agregarFiltro(filtroFecha);
 
