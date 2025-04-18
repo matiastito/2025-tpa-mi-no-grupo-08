@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/class-diagram
+!include https://raw.githubusercontent.com/patrik-csak/one-dark-plantuml-theme/v1.0.1/theme.puml
+
+class Contribuyente {
+    nombre: String
+    apellido: String
+    edad: String
+
+}
+interface FiltroDeHecho {
+    boolean filtrar()
+}
+class FiltroDeHechoBuilder {
+    FiltroDeHecho build()
+}
+
+class Coleccion {
+
+}
+
+class Hecho {
+
+}
+
+Coleccion --> FiltroDeHecho
+FiltroDeHecho ..> FiltroDeHechoImpl
+Coleccion o-- Hecho
+Hecho --> Contribuyente
+FiltroDeHechoBuilder .. FiltroDeHechoImpl
+'Composicion EntidadA "*" o-- "*" EntidadB
+'Agregacion Inscripcion *-- Alumno
+
+@enduml

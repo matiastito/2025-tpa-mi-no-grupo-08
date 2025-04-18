@@ -1,9 +1,9 @@
 package ar.edu.utn.frba.dds.hecho;
 
 import ar.edu.utn.frba.dds.hecho.contenido.ContenidoMultimedia;
-import ar.edu.utn.frba.dds.hecho.HechoOrigen;
-
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class Hecho {
@@ -15,14 +15,73 @@ public class Hecho {
   private LocalDateTime fechaDelHecho;
   private LocalDateTime fechaDeCarga;
   private HechoOrigen hechoOrigen;
+  private Collection<String> etiquetas;
+  private Collection<SolicitudDeEliminacionDeHecho> solicitudDeEliminacionDeHechosPendientes;
   private boolean eliminado = false;
 
-  public Hecho(String titulo) {
+  private Hecho(HechoOrigen hechoOrigen,
+                String titulo,
+                String descripcion,
+                Categoria categoria,
+                LocalDateTime fechaDelHecho,
+                Ubicacion lugar,
+                LocalDateTime fechaDeCarga) {
+    this.hechoOrigen = hechoOrigen;
     this.titulo = titulo;
+    this.descripcion = descripcion;
+    this.categoria = categoria;
+    this.fechaDelHecho = fechaDelHecho;
+    this.lugar = lugar;
+    this.fechaDeCarga = fechaDeCarga;
+    this.etiquetas = new HashSet<>();
+    this.solicitudDeEliminacionDeHechosPendientes = new HashSet<>();
+  }
+
+  public static Hecho crearHechoDeTexto(
+      HechoOrigen hechoOrigen,
+      String titulo,
+      String descripcion,
+      Categoria categoria,
+      LocalDateTime fechaDelHecho,
+      Ubicacion lugar,
+      LocalDateTime fechaDeCarga) {
+    return new Hecho(hechoOrigen, titulo, descripcion,
+        categoria, fechaDelHecho, lugar, fechaDeCarga);
+  }
+
+  public SolicitudDeEliminacionDeHecho solicitarEliminacion(String motivo) {
+    SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho =
+        new SolicitudDeEliminacionDeHecho(this, motivo);
+    this.solicitudDeEliminacionDeHechosPendientes.add(solicitudDeEliminacionDeHecho);
+    return solicitudDeEliminacionDeHecho;
+  }
+
+  public boolean isEliminado() {
+    return this.eliminado;
   }
 
   public void eliminar() {
     this.eliminado = true;
+  }
+
+  public LocalDateTime getFechaDelHecho() {
+    return fechaDelHecho;
+  }
+
+  public Categoria getCategoria() {
+    return categoria;
+  }
+
+  public String getTitulo() {
+    return titulo;
+  }
+
+  public void etiquetar(String etiqueta) {
+    this.etiquetas.add(etiqueta);
+  }
+
+  public Collection<String> getEtiquetas() {
+    return etiquetas;
   }
 
   @Override
@@ -37,7 +96,7 @@ public class Hecho {
     return Objects.hashCode(titulo);
   }
 
-  public boolean isEliminado() {
-    return this.eliminado;
+  public Collection<SolicitudDeEliminacionDeHecho> getSolicitudesDeEliminacionPendientes() {
+    return this.solicitudDeEliminacionDeHechosPendientes;
   }
 }

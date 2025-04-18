@@ -6,16 +6,28 @@ public class Contribuyente {
   private String edad;
 
   //Representa un contribuyente anónimo.
-  public Contribuyente() {
+  private Contribuyente() {
   }
 
-  public Contribuyente(String nombre) {
+  private Contribuyente(String nombre) {
     this.nombre = nombre;
   }
 
-  public Contribuyente(String nombre, String apellido, String edad) {
+  private Contribuyente(String nombre, String apellido, String edad) {
     this.nombre = nombre;
     this.apellido = apellido;
     this.edad = edad;
+  }
+
+  public static Contribuyente crearContribuyenteAnonimo() {
+    return new Contribuyente();
+  }
+
+  public static Contribuyente crearContribuyente(String nombre) {
+    return new Contribuyente(nombre);
+  }
+
+  public static Contribuyente crearContribuyente(String nombre, String apellido, String edad) {
+    return new Contribuyente(nombre, apellido, edad);
   }
 }

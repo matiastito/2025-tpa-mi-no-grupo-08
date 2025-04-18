@@ -2,36 +2,68 @@ package ar.edu.utn.frba.dds.coleccion;
 
 import static java.util.stream.Collectors.toCollection;
 
-import ar.edu.utn.frba.dds.coleccion.criterioPertenencia.CriterioDePertenencia;
-import ar.edu.utn.frba.dds.hecho.Hecho;
+import ar.edu.utn.frba.dds.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.fuente.Fuente;
-
+import ar.edu.utn.frba.dds.hecho.Hecho;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 public class Coleccion {
   private String titulo;
   private String descripcion;
   private Collection<Hecho> hechos;
   private Fuente fuente;
-  private CriterioDePertenencia criterioDePertenencia;
+  private List<FiltroDeHecho> criteriosDePertenencia;
 
-  public Coleccion(String titulo, String descripcion, Fuente fuente, CriterioDePertenencia criterioDePertenencia) {
+  private Coleccion(String titulo, String descripcion, Fuente fuente) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.fuente = fuente;
-    this.criterioDePertenencia = criterioDePertenencia;
+    this.criteriosDePertenencia = new ArrayList<>();
+    this.hechos = new HashSet<>();
+  }
+
+  private Coleccion(String titulo, String descripcion) {
+    this.titulo = titulo;
+    this.descripcion = descripcion;
+    this.criteriosDePertenencia = new ArrayList<>();
+    this.hechos = new HashSet<>();
+  }
+
+  public static Coleccion crearColeccionManual(String titulo, String descripcion) {
+    return new Coleccion(titulo, descripcion);
+  }
+
+  public static Coleccion crearColeccion(String titulo, String descripcion, Fuente fuente) {
+    return new Coleccion(titulo, descripcion, fuente);
+  }
+
+  public void agregarFiltro(FiltroDeHecho filtro) {
+    this.criteriosDePertenencia.add(filtro);
   }
 
   public void colectarHechos() {
-    this.hechos.addAll(
-        fuente.traerHechos().stream()
-            .filter(criterioDePertenencia::pertenece)
-            .collect(toCollection(HashSet::new)));
+    this.hechos.addAll(fuente.traerHechos());
+  }
+
+  public void agregarHecho(Hecho hecho) {
+    if (!hecho.isEliminado()) {
+      this.hechos.add(hecho);
+    }
   }
 
   public Collection<Hecho> hechos() {
-    return this.hechos.stream().filter(hecho -> !hecho.isEliminado())
+    return this.hechos.stream()
+        .filter(hecho -> !hecho.isEliminado())
+        .filter(this::aplicarFiltros)
         .collect(toCollection(HashSet::new));
   }
+
+  private boolean aplicarFiltros(Hecho hecho) {
+    return this.criteriosDePertenencia.stream().allMatch(
+        filtroDeHecho -> filtroDeHecho.filtrar(hecho));
+  }
+
 }

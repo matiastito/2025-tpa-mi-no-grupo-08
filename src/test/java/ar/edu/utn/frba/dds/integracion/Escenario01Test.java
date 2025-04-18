@@ -1,0 +1,128 @@
+package ar.edu.utn.frba.dds.integracion;
+
+import static ar.edu.utn.frba.dds.DateHelper.formatearFecha;
+import static ar.edu.utn.frba.dds.coleccion.Coleccion.crearColeccionManual;
+import static ar.edu.utn.frba.dds.hecho.Hecho.crearHechoDeTexto;
+import static ar.edu.utn.frba.dds.hecho.HechoOrigen.MANUAL;
+import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
+import static java.time.LocalDateTime.now;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import ar.edu.utn.frba.dds.coleccion.Coleccion;
+import ar.edu.utn.frba.dds.coleccion.filtro.FiltroDeHecho;
+import ar.edu.utn.frba.dds.coleccion.filtro.FiltroDeHechoBuilder;
+import ar.edu.utn.frba.dds.hecho.Categoria;
+import ar.edu.utn.frba.dds.hecho.Hecho;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class Escenario01Test {
+
+  private Coleccion coleccionManual;
+
+  @BeforeEach
+  public void init() {
+    coleccionManual = crearColeccionManual("Colección prueba", "Esto es una prueba");
+    coleccionManual.agregarHecho(
+        crearHechoDeTexto(
+            MANUAL,
+            "Caída de aeronave impacta en Olavarría",
+            "Grave caída de aeronave ocurrió en las inmediaciones de Olavarría, Buenos Aires. El incidente provocó pánico entre los residentes locales. Voluntarios de diversas organizaciones se han sumado a las tareas de auxilio.",
+            new Categoria("Caída de aeronave"),
+            formatearFecha("29/11/2001").atStartOfDay(),
+            crearUbicacion("-36.868375", "-60.343297"),
+            now()
+        ));
+    coleccionManual.agregarHecho(
+        crearHechoDeTexto(
+            MANUAL,
+            "Serio incidente: Accidente con maquinaria industrial en Chos Malal, Neuquén",
+            "Un grave accidente con maquinaria industrial se registró en Chos Malal, Neuquén. El incidente dejó a varios sectores sin comunicación. Voluntarios de diversas organizaciones se han sumado a las tareas de auxilio.",
+            new Categoria("Accidente con maquinaria industrial"),
+            formatearFecha("16/08/2001").atStartOfDay(),
+            crearUbicacion("-37.345571", "-70.241485"),
+            now()
+        ));
+
+    coleccionManual.agregarHecho(
+        crearHechoDeTexto(
+            MANUAL,
+            "Caída de aeronave impacta en Venado Tuerto, Santa Fe",
+            "Grave caída de aeronave ocurrió en las inmediaciones de Venado Tuerto, Santa Fe. El incidente destruyó viviendas y dejó a familias evacuadas. Autoridades nacionales se han puesto a disposición para brindar asistencia.",
+            new Categoria("Caída de aeronave"),
+            formatearFecha("08/08/2008").atStartOfDay(),
+            crearUbicacion("-33.768051", "-61.921032"),
+            now()
+        ));
+
+    coleccionManual.agregarHecho(
+        crearHechoDeTexto(
+            MANUAL,
+            "Accidente en paso a nivel deja múltiples daños en Pehuajó, Buenos Aires",
+            "Grave accidente en paso a nivel ocurrió en las inmediaciones de Pehuajó, Buenos Aires. El incidente generó preocupación entre las autoridades provinciales. El Ministerio de Desarrollo Social está brindando apoyo a los damnificados.",
+            new Categoria("Accidente en paso a nivel"),
+            formatearFecha("27/01/2020").atStartOfDay(),
+            crearUbicacion("-35.855811", "-61.940589"),
+            now()
+        ));
+
+    coleccionManual.agregarHecho(
+        crearHechoDeTexto(
+            MANUAL,
+            "Devastador Derrumbe en obra en construcción afecta a Presidencia Roque Sáenz Peña",
+            "Un grave derrumbe en obra en construcción se registró en Presidencia Roque Sáenz Peña, Chaco. El incidente generó preocupación entre las autoridades provinciales. El intendente local se ha trasladado al lugar para supervisar las operaciones.",
+            new Categoria("Derrumbe en obra en construcción"),
+            formatearFecha("04/06/2016").atStartOfDay(),
+            crearUbicacion("-26.780008", "-60.458782"),
+            now()
+        ));
+  }
+
+  @Test
+  public void criteriosDePertenencia() {
+    FiltroDeHecho filtroFecha = new FiltroDeHechoBuilder()
+        .conFechaDelHechoDesde(formatearFecha("01/01/2000").atStartOfDay())
+        .conFechaDelHechoHasta(formatearFecha("01/01/2010").atStartOfDay()).build();
+
+    coleccionManual.agregarFiltro(filtroFecha);
+
+    assertEquals(coleccionManual.hechos().size(), 3);
+
+    filtroFecha = new FiltroDeHechoBuilder()
+        .conCategoria(new Categoria("Caída de aeronave")).build();
+
+    coleccionManual.agregarFiltro(filtroFecha);
+
+    assertEquals(coleccionManual.hechos().size(), 2);
+  }
+
+  @Test
+  public void filtrosDelVisualizador() {
+    FiltroDeHecho filtro = new FiltroDeHechoBuilder()
+        .conCategoria(new Categoria("Caída de aeronave")).build();
+
+    coleccionManual.agregarFiltro(filtro);
+
+    filtro = new FiltroDeHechoBuilder().conTitulo("un título").build();
+
+    coleccionManual.agregarFiltro(filtro);
+
+    assertEquals(coleccionManual.hechos().size(), 0);
+  }
+
+  @Test
+  public void etiquetas() {
+    FiltroDeHecho filtro = new FiltroDeHechoBuilder()
+        .conTitulo("Caída de aeronave impacta en Olavarría").build();
+
+    coleccionManual.agregarFiltro(filtro);
+
+    assertEquals(coleccionManual.hechos().size(), 1);
+
+    Hecho hecho = coleccionManual.hechos().stream().findFirst().get();
+    hecho.etiquetar("Olavarria");
+    hecho.etiquetar("Grave");
+
+    assertEquals(hecho.getEtiquetas().size(), 2);
+  }
+}
