@@ -11,7 +11,7 @@ public class Hecho {
   private String descripcion;
   private Categoria categoria;
   private ContenidoMultimedia contenidoMultimedia;
-  private Ubicacion lugar;
+  private Ubicacion ubicacion;
   private LocalDateTime fechaDelHecho;
   private LocalDateTime fechaDeCarga;
   private HechoOrigen hechoOrigen;
@@ -24,14 +24,14 @@ public class Hecho {
                 String descripcion,
                 Categoria categoria,
                 LocalDateTime fechaDelHecho,
-                Ubicacion lugar,
+                Ubicacion ubicacion,
                 LocalDateTime fechaDeCarga) {
     this.hechoOrigen = hechoOrigen;
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.categoria = categoria;
     this.fechaDelHecho = fechaDelHecho;
-    this.lugar = lugar;
+    this.ubicacion = ubicacion;
     this.fechaDeCarga = fechaDeCarga;
     this.etiquetas = new HashSet<>();
     this.solicitudDeEliminacionDeHechosPendientes = new HashSet<>();
@@ -98,5 +98,17 @@ public class Hecho {
 
   public Collection<SolicitudDeEliminacionDeHecho> getSolicitudesDeEliminacionPendientes() {
     return this.solicitudDeEliminacionDeHechosPendientes;
+  }
+
+  public String getDescripcion() {
+    return descripcion;
+  }
+
+  public HechoOrigen getHechoOrigen() {
+    return hechoOrigen;
+  }
+
+  public Ubicacion getUbicacion() {
+    return this.ubicacion;
   }
 }

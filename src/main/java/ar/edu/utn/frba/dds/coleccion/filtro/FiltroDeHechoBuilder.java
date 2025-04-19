@@ -120,6 +120,9 @@ public class FiltroDeHechoBuilder {
       ret &= aplicarFiltro(this.fechaDelHechoHasta, hecho.getFechaDelHecho(), LocalDateTime::isBefore);
       ret &= aplicarFiltro(this.categoria, hecho.getCategoria(), Categoria::equals);
       ret &= aplicarFiltro(this.titulo, hecho.getTitulo(), String::equals);
+      ret &= aplicarFiltro(this.descripcion, hecho.getDescripcion(), String::equals);
+      ret &= aplicarFiltro(this.hechoOrigen, hecho.getHechoOrigen(), HechoOrigen::equals);
+      ret &= aplicarFiltro(this.ubicacion, hecho.getUbicacion(), Ubicacion::equals);
       return ret;
     }
 
