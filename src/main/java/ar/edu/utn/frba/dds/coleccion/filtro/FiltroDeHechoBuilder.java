@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.hecho.Ubicacion;
 import ar.edu.utn.frba.dds.hecho.contenido.TipoContenidoMultimedia;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.function.BiFunction;
 
 public class FiltroDeHechoBuilder {
   private String titulo;
@@ -115,19 +116,15 @@ public class FiltroDeHechoBuilder {
     @Override
     public boolean filtrar(Hecho hecho) {
       boolean ret = true;
-      if (this.fechaDelHechoDesde != null) {
-        ret &= hecho.getFechaDelHecho().isAfter(this.fechaDelHechoDesde);
-      }
-      if (this.fechaDelHechoDesde != null) {
-        ret &= hecho.getFechaDelHecho().isBefore(this.fechaDelHechoHasta);
-      }
-      if (this.categoria != null) {
-        ret &= this.categoria.equals(hecho.getCategoria());
-      }
-      if (this.titulo != null) {
-        ret &= this.titulo.equals(hecho.getTitulo());
-      }
+      ret &= aplicarFiltro(this.fechaDelHechoDesde, hecho.getFechaDelHecho(), LocalDateTime::isAfter);
+      ret &= aplicarFiltro(this.fechaDelHechoHasta, hecho.getFechaDelHecho(), LocalDateTime::isBefore);
+      ret &= aplicarFiltro(this.categoria, hecho.getCategoria(), Categoria::equals);
+      ret &= aplicarFiltro(this.titulo, hecho.getTitulo(), String::equals);
       return ret;
+    }
+
+    private <P, S> boolean aplicarFiltro(P valorDelFiltro, S valorDelHecho, BiFunction<S, P, Boolean> funcionAAplicar) {
+      return valorDelFiltro != null ? funcionAAplicar.apply(valorDelHecho, valorDelFiltro) : true;
     }
   }
 }
