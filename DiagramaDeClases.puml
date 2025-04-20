@@ -48,7 +48,7 @@ class Coleccion {
     Collection<Hecho> hechos()
 }
 
-class ArchivoDeHechosImpl {
+class ArchivoDeHechosDelClassPathLocalImpl {
     List<List<String>> getRegistros()
 }
 

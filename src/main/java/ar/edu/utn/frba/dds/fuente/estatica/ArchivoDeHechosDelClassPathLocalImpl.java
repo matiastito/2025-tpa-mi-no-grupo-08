@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class ArchivoDeHechosImpl implements ArchivoDeHechos {
+public class ArchivoDeHechosDelClassPathLocalImpl implements ArchivoDeHechos {
   private final String nombreArchivo;
 
-  public ArchivoDeHechosImpl(String nombreArchivo) {
+  public ArchivoDeHechosDelClassPathLocalImpl(String nombreArchivo) {
     this.nombreArchivo = nombreArchivo;
   }
 

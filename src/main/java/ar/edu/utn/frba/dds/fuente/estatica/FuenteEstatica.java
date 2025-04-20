@@ -22,7 +22,7 @@ public class FuenteEstatica implements Fuente {
 
   public static FuenteEstatica crear() {
     return new FuenteEstatica(
-        new ArchivoDeHechosImpl("desastres_naturales_argentina"));
+        new ArchivoDeHechosDelClassPathLocalImpl("desastres_naturales_argentina"));
   }
 
   @Override
