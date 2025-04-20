@@ -6,25 +6,54 @@ class Contribuyente {
     nombre: String
     apellido: String
     edad: String
-
+    {static} crearContribuyenteAnonimo()
+    {static} crearContribuyente()
 }
 interface FiltroDeHecho {
-    boolean filtrar()
+    boolean filtrar(Hecho hecho)
+}
+class FiltroDeHechoImpl {
+    boolean filtrar(Hecho hecho)
 }
 class FiltroDeHechoBuilder {
+    .. metodos para setear atributos del builder ..
+    FiltroDeHechoBuilder conTitulo(String titulo)
+    FiltroDeHechoBuilder conDescripcion(String descripcion)
+    FiltroDeHechoBuilder conCategoria(Categoria categoria)
+    FiltroDeHechoBuilder conTipoContenidoMultimedia(TipoContenidoMultimedia tipoContenidoMultimedia)
+    FiltroDeHechoBuilder conUbicacion(Ubicacion ubicacion)
+    FiltroDeHechoBuilder conFechaDelHechoDesde(LocalDateTime fechaDelHechoDesde)
+    FiltroDeHechoBuilder conFechaDelHechoHasta(LocalDateTime fechaDelHechoHasta)
+    FiltroDeHechoBuilder conFechaDeCargaDesde(LocalDateTime fechaDeCargaDesde)
+    FiltroDeHechoBuilder conFechaDeCargaHasta(LocalDateTime fechaDeCargaHasta)
+    FiltroDeHechoBuilder conHechoOrigen(HechoOrigen hechoOrigen)
+    FiltroDeHechoBuilder conContribuyente(Contribuyente contribuyente)
+    FiltroDeHechoBuilder conEtiquetas(Collection<String> etiquetas)
+    .. méetodo constructor del Filtro ..
     FiltroDeHecho build()
 }
 
 class Coleccion {
+    titulo: String
+    descripcion: String
+    hechos: Collection<Hecho>
+    fuente: Fuente
+    criteriosDePertenencia: List<FiltroDeHecho> criteriosDePertenencia
 
+    {static} Coleccion crearColeccionManual(String titulo, String descripcion)
+    {static} Coleccion crearColeccion(String titulo, String descripcion, Fuente fuente)
+    void agregarFiltro(FiltroDeHecho filtro)
+    void colectarHechos()
+    void agregarHecho(Hecho hecho)
+    Collection<Hecho> hechos()
 }
 
 class ArchivoDeHechosImpl {
-
+    List<List<String>> getRegistros()
 }
 
 interface ArchivoDeHechos {
-
+    List<List<String>> getRegistros()
 }
 
 interface Fuente {
@@ -32,24 +61,58 @@ interface Fuente {
 }
 
 class FuenteEstatica {
+    archivoDeHechos: ArchivoDeHechos
+    hechos: Collection<Hecho> hechos
+
+    {static} FuenteEstatica crear()
+    Collection<Hecho> traerHechos()
 }
 
 class Hecho {
+    titulo: String
+    descripcion: String
+    categoria: Categoria
+    contenidoMultimedia: ContenidoMultimedia
+    ubicacion: Ubicacion
+    fechaDelHecho: LocalDateTime
+    fechaDeCarga: LocalDateTime
+    hechoOrigen: HechoOrigen
+    etiquetas: Collection<String>
+    solicitudDeEliminacionDeHechosPendientes: Collection<SolicitudDeEliminacionDeHecho>
+    eliminado: boolean
+
+    {static} Hecho crearHechoDeTexto(...)
+    public SolicitudDeEliminacionDeHecho solicitarEliminacion(String motivo)
+    public boolean estaEliminado() {
+    public void eliminar() {
+    void etiquetar(String etiqueta)
 }
 
 class Categoria {
+  nombre: String
 }
 
 class Categorias {
+  {static} categorias: Collection<Categoria>
+  {static} Categoria categoria(String nombre)
 }
 
 class SolicitudDeEliminacionDeHecho {
+  hecho: Hecho
+  motivo: String
+  SolicitudDeEliminacionDeHecho(Hecho hecho, String motivo)
+  void rechazar()
+  public void aceptar()
 }
 
 class Ubicacion {
+    latitud: String
+    longitud: String
 }
 
 class ContenidoMulitmedia {
+    tipoContenidoMultimedia: TipoContenidoMultimedia
+    uri: String
 }
 
 enum TipoContenidoMulitmedia {
