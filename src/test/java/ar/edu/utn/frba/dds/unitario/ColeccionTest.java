@@ -1,16 +1,19 @@
 package ar.edu.utn.frba.dds.unitario;
 
+import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import ar.edu.utn.frba.dds.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.fuente.Fuente;
-import ar.edu.utn.frba.dds.hecho.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import ar.edu.utn.frba.dds.hecho.Categorias;
+import ar.edu.utn.frba.dds.hecho.Hecho;
+import ar.edu.utn.frba.dds.hecho.HechoOrigen;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ColeccionTest {
 
@@ -26,7 +29,7 @@ public class ColeccionTest {
         "Manifestación pacífica",
         Categorias.categoria("Otro"),
         LocalDateTime.of(2025, 1, 20, 14, 30),
-        new Ubicacion("-34.921", "-57.954"),
+        crearUbicacion("-34.921", "-57.954"),
         LocalDateTime.now()
     );
 
