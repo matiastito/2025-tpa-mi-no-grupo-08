@@ -1,13 +1,15 @@
 package ar.edu.utn.frba.dds.unitario;
 
+import static ar.edu.utn.frba.dds.hecho.Categorias.categoria;
+import static ar.edu.utn.frba.dds.hecho.Hecho.crearHechoDeTexto;
 import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
+import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ar.edu.utn.frba.dds.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.fuente.Fuente;
-import ar.edu.utn.frba.dds.hecho.Categorias;
 import ar.edu.utn.frba.dds.hecho.Hecho;
 import ar.edu.utn.frba.dds.hecho.HechoOrigen;
 import java.time.LocalDateTime;
@@ -23,17 +25,16 @@ public class ColeccionTest {
 
   @BeforeEach
   public void setUp() {
-    hecho = Hecho.crearHechoDeTexto(
+    hecho = crearHechoDeTexto(
         HechoOrigen.MANUAL,
         "Protesta en La Plata",
         "Manifestación pacífica",
-        Categorias.categoria("Otro"),
+        categoria("Otro"),
         LocalDateTime.of(2025, 1, 20, 14, 30),
         crearUbicacion("-34.921", "-57.954"),
-        LocalDateTime.now()
+        now()
     );
 
-    // Fuente falsa que devuelve el hecho
     fuente = new Fuente() {
       @Override
       public List<Hecho> traerHechos() {

@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.fuente.estatica;
 
 import static ar.edu.utn.frba.dds.DateHelper.formatearFecha;
+import static ar.edu.utn.frba.dds.hecho.Hecho.crearHechoDeTexto;
 import static ar.edu.utn.frba.dds.hecho.HechoOrigen.EXTERNO;
 import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
@@ -39,12 +40,16 @@ public class FuenteEstatica implements Fuente {
     String longitud = registro.get(4);
     String fechaDelHecho = registro.get(5);
 
-    hechos.add(Hecho.crearHechoDeTexto(
+    Hecho hecho = crearHechoDeTexto(
         EXTERNO,
         titulo, descripcion, new Categoria(categoria),
         formatearFecha(fechaDelHecho),
         crearUbicacion(latitud, longitud),
         now()
-    ));
+    );
+    if (hechos.contains(hecho)) {
+      hechos.remove(hecho);
+    }
+    hechos.add(hecho);
   }
 }

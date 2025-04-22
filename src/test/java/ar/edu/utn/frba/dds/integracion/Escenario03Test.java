@@ -35,20 +35,35 @@ public class Escenario03Test {
   }
 
   @Test
-  public void criteriosDePertenencia() {
+  public void solicitudesDeEliminacion() {
+    //Que la colección solo tenga un hecho
     assertEquals(coleccionManual.hechos().size(), 1);
+
+    //Para ese hecho, no tengo solicitudes de eliminacion
     Hecho hecho = coleccionManual.hechos().stream().findFirst().get();
     assertEquals(hecho.getSolicitudesDeEliminacionPendientes().size(), 0);
+
+    //Voy al hecho, y solicito eliminarlo, entonces tiene que haber 1 solicitud
     SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho =
         hecho.solicitarEliminacion("Es incorrecta la fecha.");
     assertEquals(hecho.getSolicitudesDeEliminacionPendientes().size(), 1);
+
+    //Alguien rechaza la solicitud
     solicitudDeEliminacionDeHecho.rechazar();
+    //Como esta rechazada, cuando piedo los hechos tiene que traer los mismo que tenía
     assertEquals(coleccionManual.hechos().size(), 1);
+    //Y que se haya eliminado la solicitud
     assertEquals(hecho.getSolicitudesDeEliminacionPendientes().size(), 0);
+
+    //Ahora creamos una nueva solicutud
     solicitudDeEliminacionDeHecho = hecho.solicitarEliminacion("Es incorrecta la fecha.");
+    //Para ese hecho, hay 1 solicitud de nuevo
     assertEquals(hecho.getSolicitudesDeEliminacionPendientes().size(), 1);
+    //Y esta ahora la aceptamos
     solicitudDeEliminacionDeHecho.aceptar();
+    //Ahora, ya no esta mas pendiente
     assertEquals(hecho.getSolicitudesDeEliminacionPendientes().size(), 0);
+    //Y como el hecho esta eliminado, ya no lo trae la coleccion
     assertEquals(coleccionManual.hechos().size(), 0);
   }
 }

@@ -15,6 +15,7 @@ public class Escenario02Test {
         "Esto es una prueba",
         crear());
     coleccionExternaArchivo.colectarHechos();
+    System.out.println(coleccionExternaArchivo.hechos().size());
     assertTrue(coleccionExternaArchivo.hechos().size() > 0);
   }
 }
