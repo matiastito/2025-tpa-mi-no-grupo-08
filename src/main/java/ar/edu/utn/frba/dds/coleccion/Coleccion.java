@@ -1,19 +1,20 @@
 package ar.edu.utn.frba.dds.coleccion;
 
 import static java.util.stream.Collectors.toCollection;
-
 import ar.edu.utn.frba.dds.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.fuente.Fuente;
 import ar.edu.utn.frba.dds.hecho.Hecho;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Coleccion {
   private String titulo;
   private String descripcion;
-  private Collection<Hecho> hechos;
+  private Set<Hecho> hechos;
   private Fuente fuente;
   private List<FiltroDeHecho> criteriosDePertenencia;
 
@@ -62,7 +63,7 @@ public class Coleccion {
   }
 
   private boolean aplicarFiltros(Hecho hecho) {
-    return this.criteriosDePertenencia.stream().allMatch(
+    return this.criteriosDePertenencia.stream().anyMatch(
         filtroDeHecho -> filtroDeHecho.filtrar(hecho));
   }
 

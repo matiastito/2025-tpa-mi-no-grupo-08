@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.hecho;
 
+import ar.edu.utn.frba.dds.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.hecho.contenido.ContenidoMultimedia;
 import ar.edu.utn.frba.dds.hecho.contenido.TipoContenidoMultimedia;
 
@@ -51,9 +52,9 @@ public class Hecho {
         categoria, fechaDelHecho, lugar, fechaDeCarga);
   }
 
-  public SolicitudDeEliminacionDeHecho solicitarEliminacion(String motivo) {
+  public SolicitudDeEliminacionDeHecho solicitarEliminacion(String motivo, Contribuyente contribuyente) {
     SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho =
-        new SolicitudDeEliminacionDeHecho(this, motivo);
+        new SolicitudDeEliminacionDeHecho(contribuyente, this, motivo);
     this.solicitudDeEliminacionDeHechosPendientes.add(solicitudDeEliminacionDeHecho);
     return solicitudDeEliminacionDeHecho;
   }

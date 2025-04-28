@@ -45,7 +45,7 @@ class Coleccion {
     Collection<Hecho> hechos()
 }
 
-class ArchivoDeHechosCSVDelClassPathLocalImpl implements ArchivoDeHechos {
+class ArchivoCSVDelClassPathLocalImpl implements ArchivoDeHechos {
     List<List<String>> getRegistros()
 }
 
@@ -61,7 +61,7 @@ class FuenteEstatica {
     archivoDeHechos: ArchivoDeHechos
     hechos: Collection<Hecho> hechos
 
-    {static} FuenteEstatica crear()
+    {static} FuenteEstatica crear(ArchivoDeHechos archivoDeHechos)
     Collection<Hecho> traerHechos()
 }
 

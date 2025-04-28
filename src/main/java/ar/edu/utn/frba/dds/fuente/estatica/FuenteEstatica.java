@@ -21,9 +21,8 @@ public class FuenteEstatica implements Fuente {
     this.archivoDeHechos = archivoDeHechos;
   }
 
-  public static FuenteEstatica crear() {
-    return new FuenteEstatica(
-        new ArchivoDeHechosCSVDelClassPathLocalImpl("desastres_naturales_argentina"));
+  public static FuenteEstatica crear(ArchivoDeHechos archivoDeHechos) {
+    return new FuenteEstatica(archivoDeHechos);
   }
 
   @Override

@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class ArchivoDeHechosCSVDelClassPathLocalImpl implements ArchivoDeHechos {
+public class ArchivoCSVDelClassPathLocalImpl implements ArchivoDeHechos {
   private final String nombreArchivo;
 
-  public ArchivoDeHechosCSVDelClassPathLocalImpl(String nombreArchivo) {
+  public ArchivoCSVDelClassPathLocalImpl(String nombreArchivo) {
     this.nombreArchivo = nombreArchivo;
   }
 
