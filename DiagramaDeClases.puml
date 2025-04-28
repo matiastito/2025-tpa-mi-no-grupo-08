@@ -9,28 +9,25 @@ class Contribuyente {
     {static} crearContribuyenteAnonimo()
     {static} crearContribuyente()
 }
+
 interface FiltroDeHecho {
     boolean filtrar(Hecho hecho)
 }
-class FiltroDeHechoImpl {
-    boolean filtrar(Hecho hecho)
+
+class TituloFiltroDeHecho implements FiltroDeHecho {
+
 }
-class FiltroDeHechoBuilder {
-    .. metodos para setear atributos del builder ..
-    FiltroDeHechoBuilder conTitulo(String titulo)
-    FiltroDeHechoBuilder conDescripcion(String descripcion)
-    FiltroDeHechoBuilder conCategoria(Categoria categoria)
-    FiltroDeHechoBuilder conTipoContenidoMultimedia(TipoContenidoMultimedia tipoContenidoMultimedia)
-    FiltroDeHechoBuilder conUbicacion(Ubicacion ubicacion)
-    FiltroDeHechoBuilder conFechaDelHechoDesde(LocalDateTime fechaDelHechoDesde)
-    FiltroDeHechoBuilder conFechaDelHechoHasta(LocalDateTime fechaDelHechoHasta)
-    FiltroDeHechoBuilder conFechaDeCargaDesde(LocalDateTime fechaDeCargaDesde)
-    FiltroDeHechoBuilder conFechaDeCargaHasta(LocalDateTime fechaDeCargaHasta)
-    FiltroDeHechoBuilder conHechoOrigen(HechoOrigen hechoOrigen)
-    FiltroDeHechoBuilder conContribuyente(Contribuyente contribuyente)
-    FiltroDeHechoBuilder conEtiquetas(Collection<String> etiquetas)
-    .. méetodo constructor del Filtro ..
-    FiltroDeHecho build()
+
+class CategoriaFiltroDeHecho implements FiltroDeHecho {
+
+}
+
+class FechaDelHechoFiltroDeHecho implements FiltroDeHecho {
+
+}
+
+class TipoContenidoMulitmediaFiltroDeHecho implements FiltroDeHecho {
+
 }
 
 class Coleccion {
@@ -48,7 +45,7 @@ class Coleccion {
     Collection<Hecho> hechos()
 }
 
-class ArchivoDeHechosDelClassPathLocalImpl {
+class ArchivoDeHechosCSVDelClassPathLocalImpl implements ArchivoDeHechos {
     List<List<String>> getRegistros()
 }
 
@@ -77,7 +74,7 @@ class Hecho {
     fechaDelHecho: LocalDateTime
     fechaDeCarga: LocalDateTime
     hechoOrigen: HechoOrigen
-    etiquetas: Collection<String>
+    etiquetas: Collection<Etiqueta>
     solicitudDeEliminacionDeHechosPendientes: Collection<SolicitudDeEliminacionDeHecho>
     eliminado: boolean
 
@@ -86,6 +83,10 @@ class Hecho {
     public boolean estaEliminado() {
     public void eliminar() {
     void etiquetar(String etiqueta)
+}
+
+class Etiqueta {
+  nombre: String
 }
 
 class Categoria {
@@ -130,9 +131,7 @@ enum HechoOrigen {
 ContenidoMulitmedia --> TipoContenidoMulitmedia
 FuenteEstatica --> ArchivoDeHechos
 FuenteEstatica <|-- Fuente
-ArchivoDeHechos --|> ArchivoDeHechosImpl
 Coleccion --> FiltroDeHecho
-FiltroDeHecho ..|> FiltroDeHechoImpl
 Coleccion o-- Hecho
 Coleccion --> Fuente
 Hecho --> ContenidoMulitmedia
@@ -141,7 +140,7 @@ Hecho --> HechoOrigen
 Hecho --> Categoria
 Hecho --> Ubicacion
 Hecho *-- SolicitudDeEliminacionDeHecho
+Hecho *-- Etiqueta
 Categorias o-- Categoria
-FiltroDeHechoBuilder ..> FiltroDeHechoImpl
 
 @enduml

@@ -3,8 +3,8 @@ package ar.edu.utn.frba.dds.fuente.estatica;
 import static java.nio.file.Files.lines;
 import static java.nio.file.Paths.get;
 import static java.util.Objects.requireNonNull;
-
 import ar.edu.utn.frba.dds.hecho.Hecho;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class ArchivoDeHechosDelClassPathLocalImpl implements ArchivoDeHechos {
+public class ArchivoDeHechosCSVDelClassPathLocalImpl implements ArchivoDeHechos {
   private final String nombreArchivo;
 
-  public ArchivoDeHechosDelClassPathLocalImpl(String nombreArchivo) {
+  public ArchivoDeHechosCSVDelClassPathLocalImpl(String nombreArchivo) {
     this.nombreArchivo = nombreArchivo;
   }
 

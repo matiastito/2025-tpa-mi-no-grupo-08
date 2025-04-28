@@ -1,9 +1,14 @@
 package ar.edu.utn.frba.dds.colaborador;
 
+import static java.time.LocalDate.now;
+import static java.time.Period.between;
+
+import java.time.LocalDate;
+
 public class Contribuyente {
   private String nombre;
   private String apellido;
-  private String edad;
+  private LocalDate fechaNacimiento;
 
   //Representa un contribuyente anónimo.
   private Contribuyente() {
@@ -13,21 +18,22 @@ public class Contribuyente {
     this.nombre = nombre;
   }
 
-  private Contribuyente(String nombre, String apellido, String edad) {
+  private Contribuyente(String nombre, String apellido, LocalDate fechaNacimiento) {
     this.nombre = nombre;
     this.apellido = apellido;
-    this.edad = edad;
+    this.fechaNacimiento = fechaNacimiento;
   }
 
-  public static Contribuyente crearContribuyenteAnonimo() {
-    return new Contribuyente();
+
+  public Integer getEdad() {
+    return between(now(), fechaNacimiento).getYears();
   }
 
   public static Contribuyente crearContribuyente(String nombre) {
     return new Contribuyente(nombre);
   }
 
-  public static Contribuyente crearContribuyente(String nombre, String apellido, String edad) {
-    return new Contribuyente(nombre, apellido, edad);
+  public static Contribuyente crearContribuyente(String nombre, String apellido, LocalDate fechaNacimiento) {
+    return new Contribuyente(nombre, apellido, fechaNacimiento);
   }
 }

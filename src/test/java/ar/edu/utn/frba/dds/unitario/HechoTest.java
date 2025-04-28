@@ -5,8 +5,8 @@ import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import ar.edu.utn.frba.dds.hecho.Categorias;
+import ar.edu.utn.frba.dds.hecho.Etiqueta;
 import ar.edu.utn.frba.dds.hecho.Hecho;
 import ar.edu.utn.frba.dds.hecho.HechoOrigen;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,8 +36,8 @@ public class HechoTest {
 
   @Test
   public void puedeEtiquetarse() {
-    hecho.etiquetar("urgente");
-    assertTrue(hecho.getEtiquetas().contains("urgente"));
+    hecho.etiquetar(new Etiqueta("urgente"));
+    assertTrue(hecho.getEtiquetas().contains(new Etiqueta("urgente")));
   }
 
   @Test

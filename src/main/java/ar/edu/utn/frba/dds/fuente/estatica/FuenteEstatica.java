@@ -5,10 +5,10 @@ import static ar.edu.utn.frba.dds.hecho.Hecho.crearHechoDeTexto;
 import static ar.edu.utn.frba.dds.hecho.HechoOrigen.EXTERNO;
 import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
-
 import ar.edu.utn.frba.dds.fuente.Fuente;
 import ar.edu.utn.frba.dds.hecho.Categoria;
 import ar.edu.utn.frba.dds.hecho.Hecho;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +23,7 @@ public class FuenteEstatica implements Fuente {
 
   public static FuenteEstatica crear() {
     return new FuenteEstatica(
-        new ArchivoDeHechosDelClassPathLocalImpl("desastres_naturales_argentina"));
+        new ArchivoDeHechosCSVDelClassPathLocalImpl("desastres_naturales_argentina"));
   }
 
   @Override

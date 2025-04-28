@@ -8,10 +8,12 @@ import static ar.edu.utn.frba.dds.hecho.HechoOrigen.MANUAL;
 import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import ar.edu.utn.frba.dds.coleccion.Coleccion;
+import ar.edu.utn.frba.dds.coleccion.filtro.CategoriaFiltroDeHecho;
+import ar.edu.utn.frba.dds.coleccion.filtro.FechaDelHechoFiltroDeHecho;
 import ar.edu.utn.frba.dds.coleccion.filtro.FiltroDeHecho;
-import ar.edu.utn.frba.dds.coleccion.filtro.FiltroDeHechoBuilder;
+import ar.edu.utn.frba.dds.coleccion.filtro.TituloFiltroDeHecho;
+import ar.edu.utn.frba.dds.hecho.Etiqueta;
 import ar.edu.utn.frba.dds.hecho.Hecho;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,16 +82,14 @@ public class Escenario01Test {
 
   @Test
   public void criteriosDePertenencia() {
-    FiltroDeHecho filtroFecha = new FiltroDeHechoBuilder()
-        .conFechaDelHechoDesde(formatearFecha("01/01/2000"))
-        .conFechaDelHechoHasta(formatearFecha("01/01/2010")).build();
+    FiltroDeHecho filtroFecha =
+        new FechaDelHechoFiltroDeHecho(formatearFecha("01/01/2000"), formatearFecha("01/01/2010"));
 
     coleccionManual.agregarFiltro(filtroFecha);
 
     assertEquals(coleccionManual.hechos().size(), 3);
 
-    filtroFecha = new FiltroDeHechoBuilder()
-        .conCategoria(categoria("Caída de aeronave")).build();
+    filtroFecha = new CategoriaFiltroDeHecho(categoria("Caída de aeronave"));
 
     coleccionManual.agregarFiltro(filtroFecha);
 
@@ -98,12 +98,12 @@ public class Escenario01Test {
 
   @Test
   public void filtrosDelVisualizador() {
-    FiltroDeHecho filtro = new FiltroDeHechoBuilder()
-        .conCategoria(categoria("Caída de aeronave")).build();
+    FiltroDeHecho filtro =
+        new CategoriaFiltroDeHecho(categoria("Caída de aeronave"));
 
     coleccionManual.agregarFiltro(filtro);
 
-    filtro = new FiltroDeHechoBuilder().conTitulo("un título").build();
+    filtro = new TituloFiltroDeHecho("un título");
 
     coleccionManual.agregarFiltro(filtro);
 
@@ -112,16 +112,15 @@ public class Escenario01Test {
 
   @Test
   public void etiquetas() {
-    FiltroDeHecho filtro = new FiltroDeHechoBuilder()
-        .conTitulo("Caída de aeronave impacta en Olavarría").build();
+    FiltroDeHecho filtro = new TituloFiltroDeHecho("Caída de aeronave impacta en Olavarría");
 
     coleccionManual.agregarFiltro(filtro);
 
     assertEquals(coleccionManual.hechos().size(), 1);
 
     Hecho hecho = coleccionManual.hechos().stream().findFirst().get();
-    hecho.etiquetar("Olavarria");
-    hecho.etiquetar("Grave");
+    hecho.etiquetar(new Etiqueta("Olavarria"));
+    hecho.etiquetar(new Etiqueta("Grave"));
 
     assertEquals(hecho.getEtiquetas().size(), 2);
   }

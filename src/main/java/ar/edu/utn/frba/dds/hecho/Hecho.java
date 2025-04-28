@@ -1,6 +1,8 @@
 package ar.edu.utn.frba.dds.hecho;
 
 import ar.edu.utn.frba.dds.hecho.contenido.ContenidoMultimedia;
+import ar.edu.utn.frba.dds.hecho.contenido.TipoContenidoMultimedia;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,7 +17,7 @@ public class Hecho {
   private LocalDateTime fechaDelHecho;
   private LocalDateTime fechaDeCarga;
   private HechoOrigen hechoOrigen;
-  private Collection<String> etiquetas;
+  private Collection<Etiqueta> etiquetas;
   private Collection<SolicitudDeEliminacionDeHecho> solicitudDeEliminacionDeHechosPendientes;
   private boolean eliminado = false;
 
@@ -76,11 +78,11 @@ public class Hecho {
     return titulo;
   }
 
-  public void etiquetar(String etiqueta) {
+  public void etiquetar(Etiqueta etiqueta) {
     this.etiquetas.add(etiqueta);
   }
 
-  public Collection<String> getEtiquetas() {
+  public Collection<Etiqueta> getEtiquetas() {
     return etiquetas;
   }
 
@@ -110,5 +112,9 @@ public class Hecho {
 
   public Ubicacion getUbicacion() {
     return this.ubicacion;
+  }
+
+  public TipoContenidoMultimedia getTipoContenidoMultimedia() {
+    return this.contenidoMultimedia.getTipoContenidoMultimedia();
   }
 }
