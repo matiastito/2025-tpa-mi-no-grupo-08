@@ -63,7 +63,7 @@ public class Coleccion {
   }
 
   private boolean aplicarFiltros(Hecho hecho) {
-    return this.criteriosDePertenencia.stream().anyMatch(
+    return this.criteriosDePertenencia.stream().allMatch(
         filtroDeHecho -> filtroDeHecho.filtrar(hecho));
   }
 

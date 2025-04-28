@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 
 public class SolicitudDeEliminacionDeHecho {
   private SolicitudDeEliminacionDeHechoEstado solicitudDeEliminacionDeHechoEstado;
-  private LocalDateTime fechaCreacion:
+  private LocalDateTime fechaCreacion;
   private Hecho hecho;
   private String motivo;
   private Contribuyente repotador;
   private Administrador aprobador;
-  private LocalDateTime fechaResolucion:
+  private LocalDateTime fechaResolucion;
 
   public SolicitudDeEliminacionDeHecho(Contribuyente reportadoPor, Hecho hecho, String motivo) {
     this.hecho = hecho;
@@ -34,8 +34,8 @@ public class SolicitudDeEliminacionDeHecho {
     resolver(RECHAZADA, aprobador);
   }
 
-  private void resolver(SolicitudDeEliminacionDeHechoEstado aceptada, Administrador aprobador) {
-    this.solicitudDeEliminacionDeHechoEstado = aceptada;
+  private void resolver(SolicitudDeEliminacionDeHechoEstado estado, Administrador aprobador) {
+    this.solicitudDeEliminacionDeHechoEstado = estado;
     this.hecho.getSolicitudesDeEliminacionPendientes().remove(this);
     this.aprobador = aprobador;
     this.fechaResolucion = now();

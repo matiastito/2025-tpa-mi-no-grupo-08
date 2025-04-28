@@ -52,7 +52,7 @@ public class Hecho {
         categoria, fechaDelHecho, lugar, fechaDeCarga);
   }
 
-  public SolicitudDeEliminacionDeHecho solicitarEliminacion(String motivo, Contribuyente contribuyente) {
+  public SolicitudDeEliminacionDeHecho solicitarEliminacion(Contribuyente contribuyente, String motivo) {
     SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho =
         new SolicitudDeEliminacionDeHecho(contribuyente, this, motivo);
     this.solicitudDeEliminacionDeHechosPendientes.add(solicitudDeEliminacionDeHecho);

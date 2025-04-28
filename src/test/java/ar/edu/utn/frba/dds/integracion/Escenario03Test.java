@@ -1,6 +1,8 @@
 package ar.edu.utn.frba.dds.integracion;
 
 import static ar.edu.utn.frba.dds.DateHelper.formatearFecha;
+import static ar.edu.utn.frba.dds.administrador.Administrador.crearAdministrador;
+import static ar.edu.utn.frba.dds.colaborador.Contribuyente.crearContribuyente;
 import static ar.edu.utn.frba.dds.coleccion.Coleccion.crearColeccionManual;
 import static ar.edu.utn.frba.dds.hecho.Categorias.categoria;
 import static ar.edu.utn.frba.dds.hecho.Hecho.crearHechoDeTexto;
@@ -8,7 +10,8 @@ import static ar.edu.utn.frba.dds.hecho.HechoOrigen.MANUAL;
 import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import ar.edu.utn.frba.dds.administrador.Administrador;
+import ar.edu.utn.frba.dds.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.hecho.Hecho;
 import ar.edu.utn.frba.dds.hecho.SolicitudDeEliminacionDeHecho;
@@ -36,6 +39,9 @@ public class Escenario03Test {
 
   @Test
   public void solicitudesDeEliminacion() {
+    Administrador administrador = crearAdministrador("Carlos");
+    Contribuyente contribuyente = crearContribuyente("Juan");
+
     //Que la colección solo tenga un hecho
     assertEquals(coleccionManual.hechos().size(), 1);
 
@@ -45,22 +51,22 @@ public class Escenario03Test {
 
     //Voy al hecho, y solicito eliminarlo, entonces tiene que haber 1 solicitud
     SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho =
-        hecho.solicitarEliminacion("Es incorrecta la fecha.");
+        hecho.solicitarEliminacion(contribuyente, "Es incorrecta la fecha.");
     assertEquals(hecho.getSolicitudesDeEliminacionPendientes().size(), 1);
 
     //Alguien rechaza la solicitud
-    solicitudDeEliminacionDeHecho.rechazar();
+    solicitudDeEliminacionDeHecho.rechazar(administrador);
     //Como esta rechazada, cuando piedo los hechos tiene que traer los mismo que tenía
     assertEquals(coleccionManual.hechos().size(), 1);
     //Y que se haya eliminado la solicitud
     assertEquals(hecho.getSolicitudesDeEliminacionPendientes().size(), 0);
 
     //Ahora creamos una nueva solicutud
-    solicitudDeEliminacionDeHecho = hecho.solicitarEliminacion("Es incorrecta la fecha.");
+    solicitudDeEliminacionDeHecho = hecho.solicitarEliminacion(contribuyente, "Es incorrecta la fecha.");
     //Para ese hecho, hay 1 solicitud de nuevo
     assertEquals(hecho.getSolicitudesDeEliminacionPendientes().size(), 1);
     //Y esta ahora la aceptamos
-    solicitudDeEliminacionDeHecho.aceptar();
+    solicitudDeEliminacionDeHecho.aprobar(administrador);
     //Ahora, ya no esta mas pendiente
     assertEquals(hecho.getSolicitudesDeEliminacionPendientes().size(), 0);
     //Y como el hecho esta eliminado, ya no lo trae la coleccion
