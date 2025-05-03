@@ -1,10 +1,11 @@
 package ar.edu.utn.frba.dds.fuente.estatica;
 
-import static ar.edu.utn.frba.dds.DateHelper.formatearFecha;
+import static ar.edu.utn.frba.dds.util.DateHelper.formatearFecha;
 import static ar.edu.utn.frba.dds.hecho.Hecho.crearHechoDeTexto;
 import static ar.edu.utn.frba.dds.hecho.HechoOrigen.EXTERNO;
 import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
+
 import ar.edu.utn.frba.dds.fuente.Fuente;
 import ar.edu.utn.frba.dds.hecho.Categoria;
 import ar.edu.utn.frba.dds.hecho.Hecho;

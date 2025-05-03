@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.integracion;
 
-import static ar.edu.utn.frba.dds.DateHelper.formatearFecha;
+import static ar.edu.utn.frba.dds.util.DateHelper.formatearFecha;
 import static ar.edu.utn.frba.dds.administrador.Administrador.crearAdministrador;
 import static ar.edu.utn.frba.dds.colaborador.Contribuyente.crearContribuyente;
 import static ar.edu.utn.frba.dds.coleccion.Coleccion.crearColeccionManual;
@@ -10,6 +10,7 @@ import static ar.edu.utn.frba.dds.hecho.HechoOrigen.MANUAL;
 import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import ar.edu.utn.frba.dds.administrador.Administrador;
 import ar.edu.utn.frba.dds.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.coleccion.Coleccion;

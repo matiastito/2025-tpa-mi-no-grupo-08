@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.integracion;
 
-import static ar.edu.utn.frba.dds.DateHelper.formatearFecha;
+import static ar.edu.utn.frba.dds.util.DateHelper.formatearFecha;
 import static ar.edu.utn.frba.dds.coleccion.Coleccion.crearColeccionManual;
 import static ar.edu.utn.frba.dds.hecho.Categorias.categoria;
 import static ar.edu.utn.frba.dds.hecho.Hecho.crearHechoDeTexto;
@@ -8,6 +8,7 @@ import static ar.edu.utn.frba.dds.hecho.HechoOrigen.MANUAL;
 import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import ar.edu.utn.frba.dds.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.coleccion.filtro.CategoriaFiltroDeHecho;
 import ar.edu.utn.frba.dds.coleccion.filtro.FechaDelHechoFiltroDeHecho;

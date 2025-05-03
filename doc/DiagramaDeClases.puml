@@ -93,11 +93,6 @@ class Categoria {
   nombre: String
 }
 
-class Categorias {
-  {static} categorias: Collection<Categoria>
-  {static} Categoria categoria(String nombre)
-}
-
 class SolicitudDeEliminacionDeHecho {
   hecho: Hecho
   motivo: String
@@ -141,6 +136,5 @@ Hecho --> Categoria
 Hecho --> Ubicacion
 Hecho *-- SolicitudDeEliminacionDeHecho
 Hecho *-- Etiqueta
-Categorias o-- Categoria
 
 @enduml
