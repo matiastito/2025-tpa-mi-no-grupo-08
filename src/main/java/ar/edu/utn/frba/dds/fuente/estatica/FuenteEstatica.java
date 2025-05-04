@@ -1,34 +1,32 @@
 package ar.edu.utn.frba.dds.fuente.estatica;
 
-import static ar.edu.utn.frba.dds.util.DateHelper.formatearFecha;
-import static ar.edu.utn.frba.dds.hecho.Hecho.crearHechoDeTexto;
 import static ar.edu.utn.frba.dds.hecho.HechoOrigen.EXTERNO;
 import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
+import static ar.edu.utn.frba.dds.util.DateHelper.formatearFecha;
 import static java.time.LocalDateTime.now;
 
-import ar.edu.utn.frba.dds.fuente.Fuente;
+import ar.edu.utn.frba.dds.fuente.estatica.archivo.lector.LectorDeArchivo;
+import ar.edu.utn.frba.dds.fuente.estatica.archivo.localizador.LocalizadorDeArchivo;
 import ar.edu.utn.frba.dds.hecho.Categoria;
 import ar.edu.utn.frba.dds.hecho.Hecho;
-
+import java.net.URI;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-public class FuenteEstatica implements Fuente {
-  private ArchivoDeHechos archivoDeHechos;
+public class FuenteEstatica {
+  private LectorDeArchivo lectorDeArchivoDeHechos;
+  private LocalizadorDeArchivo localizadorDeArchivo;
   private Collection<Hecho> hechos = new HashSet<Hecho>();
 
-  private FuenteEstatica(ArchivoDeHechos archivoDeHechos) {
-    this.archivoDeHechos = archivoDeHechos;
+  public FuenteEstatica(LectorDeArchivo lectorDeArchivoDeHechos, LocalizadorDeArchivo localizadorDeArchivo) {
+    this.lectorDeArchivoDeHechos = lectorDeArchivoDeHechos;
+    this.localizadorDeArchivo = localizadorDeArchivo;
   }
 
-  public static FuenteEstatica crear(ArchivoDeHechos archivoDeHechos) {
-    return new FuenteEstatica(archivoDeHechos);
-  }
-
-  @Override
   public Collection<Hecho> traerHechos() {
-    this.archivoDeHechos.getRegistros().forEach(this::agregarHecho);
+    URI archivoURI = localizadorDeArchivo.getURI();
+    this.lectorDeArchivoDeHechos.getRegistros(archivoURI).forEach(this::agregarHecho);
     return hechos;
   }
 
@@ -40,7 +38,7 @@ public class FuenteEstatica implements Fuente {
     String longitud = registro.get(4);
     String fechaDelHecho = registro.get(5);
 
-    Hecho hecho = crearHechoDeTexto(
+    Hecho hecho = new Hecho(
         EXTERNO,
         titulo, descripcion, new Categoria(categoria),
         formatearFecha(fechaDelHecho),

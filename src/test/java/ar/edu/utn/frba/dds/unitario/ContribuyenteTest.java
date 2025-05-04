@@ -10,13 +10,13 @@ public class ContribuyenteTest {
 
   @Test
   public void sePuedeCrearContribuyenteIdentificadoConNombre() {
-    Contribuyente contribuyente = Contribuyente.crearContribuyente("Juan");
+    Contribuyente contribuyente = new Contribuyente("Juan");
     assertNotNull(contribuyente);
   }
 
   @Test
   public void sePuedeCrearContribuyenteConNombreApellidoYEdad() {
-    Contribuyente contribuyente = Contribuyente.crearContribuyente("Ana", "García", formatearFecha("12/12/2001").toLocalDate());
+    Contribuyente contribuyente = new Contribuyente("Ana", "García", formatearFecha("12/12/2001").toLocalDate());
     assertNotNull(contribuyente);
   }
 }

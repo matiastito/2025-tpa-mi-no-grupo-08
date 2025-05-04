@@ -4,9 +4,9 @@ import static ar.edu.utn.frba.dds.hecho.SolicitudDeEliminacionDeHechoEstado.ACEP
 import static ar.edu.utn.frba.dds.hecho.SolicitudDeEliminacionDeHechoEstado.PENDIENTE;
 import static ar.edu.utn.frba.dds.hecho.SolicitudDeEliminacionDeHechoEstado.RECHAZADA;
 import static java.time.LocalDateTime.now;
+
 import ar.edu.utn.frba.dds.administrador.Administrador;
 import ar.edu.utn.frba.dds.colaborador.Contribuyente;
-
 import java.time.LocalDateTime;
 
 public class SolicitudDeEliminacionDeHecho {
@@ -36,8 +36,11 @@ public class SolicitudDeEliminacionDeHecho {
 
   private void resolver(SolicitudDeEliminacionDeHechoEstado estado, Administrador aprobador) {
     this.solicitudDeEliminacionDeHechoEstado = estado;
-    this.hecho.getSolicitudesDeEliminacionPendientes().remove(this);
     this.aprobador = aprobador;
     this.fechaResolucion = now();
+  }
+
+  public SolicitudDeEliminacionDeHechoEstado getEstado() {
+    return solicitudDeEliminacionDeHechoEstado;
   }
 }

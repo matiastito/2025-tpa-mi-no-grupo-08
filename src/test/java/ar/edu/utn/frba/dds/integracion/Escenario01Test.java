@@ -1,11 +1,9 @@
 package ar.edu.utn.frba.dds.integracion;
 
-import static ar.edu.utn.frba.dds.util.DateHelper.formatearFecha;
-import static ar.edu.utn.frba.dds.coleccion.Coleccion.crearColeccionManual;
 import static ar.edu.utn.frba.dds.hecho.Categorias.categoria;
-import static ar.edu.utn.frba.dds.hecho.Hecho.crearHechoDeTexto;
 import static ar.edu.utn.frba.dds.hecho.HechoOrigen.MANUAL;
 import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
+import static ar.edu.utn.frba.dds.util.DateHelper.formatearFecha;
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,9 +23,9 @@ public class Escenario01Test {
 
   @BeforeEach
   public void init() {
-    coleccionManual = crearColeccionManual("Colección prueba", "Esto es una prueba");
+    coleccionManual = new Coleccion("Colección prueba", "Esto es una prueba");
     coleccionManual.agregarHecho(
-        crearHechoDeTexto(
+        new Hecho(
             MANUAL,
             "Caída de aeronave impacta en Olavarría",
             "Grave caída de aeronave ocurrió en las inmediaciones de Olavarría, Buenos Aires. El incidente provocó pánico entre los residentes locales. Voluntarios de diversas organizaciones se han sumado a las tareas de auxilio.",
@@ -37,7 +35,7 @@ public class Escenario01Test {
             now()
         ));
     coleccionManual.agregarHecho(
-        crearHechoDeTexto(
+        new Hecho(
             MANUAL,
             "Serio incidente: Accidente con maquinaria industrial en Chos Malal, Neuquén",
             "Un grave accidente con maquinaria industrial se registró en Chos Malal, Neuquén. El incidente dejó a varios sectores sin comunicación. Voluntarios de diversas organizaciones se han sumado a las tareas de auxilio.",
@@ -48,7 +46,7 @@ public class Escenario01Test {
         ));
 
     coleccionManual.agregarHecho(
-        crearHechoDeTexto(
+        new Hecho(
             MANUAL,
             "Caída de aeronave impacta en Venado Tuerto, Santa Fe",
             "Grave caída de aeronave ocurrió en las inmediaciones de Venado Tuerto, Santa Fe. El incidente destruyó viviendas y dejó a familias evacuadas. Autoridades nacionales se han puesto a disposición para brindar asistencia.",
@@ -59,7 +57,7 @@ public class Escenario01Test {
         ));
 
     coleccionManual.agregarHecho(
-        crearHechoDeTexto(
+        new Hecho(
             MANUAL,
             "Accidente en paso a nivel deja múltiples daños en Pehuajó, Buenos Aires",
             "Grave accidente en paso a nivel ocurrió en las inmediaciones de Pehuajó, Buenos Aires. El incidente generó preocupación entre las autoridades provinciales. El Ministerio de Desarrollo Social está brindando apoyo a los damnificados.",
@@ -70,7 +68,7 @@ public class Escenario01Test {
         ));
 
     coleccionManual.agregarHecho(
-        crearHechoDeTexto(
+        new Hecho(
             MANUAL,
             "Devastador Derrumbe en obra en construcción afecta a Presidencia Roque Sáenz Peña",
             "Un grave derrumbe en obra en construcción se registró en Presidencia Roque Sáenz Peña, Chaco. El incidente generó preocupación entre las autoridades provinciales. El intendente local se ha trasladado al lugar para supervisar las operaciones.",

@@ -14,7 +14,7 @@ public class SolicitudDeEliminacionDeHechoTest {
 
   @BeforeEach
   public void setUp() {
-    hecho = Hecho.crearHechoDeTexto(
+    hecho = new Hecho(
         HechoOrigen.MANUAL,
         "Incendio en Córdoba",
         "Incendio forestal de gran magnitud",

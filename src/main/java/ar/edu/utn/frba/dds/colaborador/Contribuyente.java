@@ -11,29 +11,20 @@ public class Contribuyente {
   private LocalDate fechaNacimiento;
 
   //Representa un contribuyente anónimo.
-  private Contribuyente() {
+  public Contribuyente() {
   }
 
-  private Contribuyente(String nombre) {
+  public Contribuyente(String nombre) {
     this.nombre = nombre;
   }
 
-  private Contribuyente(String nombre, String apellido, LocalDate fechaNacimiento) {
+  public Contribuyente(String nombre, String apellido, LocalDate fechaNacimiento) {
     this.nombre = nombre;
     this.apellido = apellido;
     this.fechaNacimiento = fechaNacimiento;
   }
 
-
   public Integer getEdad() {
     return between(now(), fechaNacimiento).getYears();
-  }
-
-  public static Contribuyente crearContribuyente(String nombre) {
-    return new Contribuyente(nombre);
-  }
-
-  public static Contribuyente crearContribuyente(String nombre, String apellido, LocalDate fechaNacimiento) {
-    return new Contribuyente(nombre, apellido, fechaNacimiento);
   }
 }

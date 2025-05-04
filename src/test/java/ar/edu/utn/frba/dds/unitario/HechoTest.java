@@ -1,15 +1,18 @@
 package ar.edu.utn.frba.dds.unitario;
 
-import static ar.edu.utn.frba.dds.colaborador.Contribuyente.crearContribuyente;
+import static ar.edu.utn.frba.dds.hecho.SolicitudDeEliminacionDeHechoEstado.PENDIENTE;
 import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import ar.edu.utn.frba.dds.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.hecho.Categorias;
 import ar.edu.utn.frba.dds.hecho.Etiqueta;
 import ar.edu.utn.frba.dds.hecho.Hecho;
 import ar.edu.utn.frba.dds.hecho.HechoOrigen;
+import ar.edu.utn.frba.dds.hecho.SolicitudDeEliminacionDeHecho;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +21,7 @@ public class HechoTest {
 
   @BeforeEach
   public void setUp() {
-    hecho = Hecho.crearHechoDeTexto(
+    hecho = new Hecho(
         HechoOrigen.MANUAL,
         "Incendio en Córdoba",
         "Incendio forestal de gran magnitud",
@@ -43,8 +46,8 @@ public class HechoTest {
 
   @Test
   public void puedeSolicitarseEliminacion() {
-    var solicitud = hecho.solicitarEliminacion(crearContribuyente("Juan"), "Contenido sensible por razones legales");
-    assertTrue(hecho.getSolicitudesDeEliminacionPendientes().contains(solicitud));
+    var solicitud = new SolicitudDeEliminacionDeHecho(new Contribuyente("Juan"), hecho, "Contenido sensible por razones legales");
+    assertTrue(solicitud.getEstado().equals(PENDIENTE));
   }
 
   @Test
@@ -55,7 +58,7 @@ public class HechoTest {
 
   @Test
   public void dosHechosConElMismoTituloSonIguales() {
-    Hecho otroHecho = Hecho.crearHechoDeTexto(
+    Hecho otroHecho = new Hecho(
         HechoOrigen.MANUAL,
         "Incendio en Córdoba",
         "Otro contenido",
