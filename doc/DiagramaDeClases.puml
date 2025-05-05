@@ -36,13 +36,12 @@ class Coleccion {
     titulo: String
     descripcion: String
     hechos: Collection<Hecho>
-    fuente: Fuente
+    fuente: FuenteEstatica
     criteriosDePertenencia: FiltrosParaHecho
 
     void agregarFiltro(FiltroDeHecho filtro)
     void colectarHechos()
     void agregarHecho(Hecho hecho)
-    Collection<Hecho> hechos()
 }
 
 class FiltrosParaHecho {
@@ -77,7 +76,6 @@ enum TipoArchivo {
 class FuenteEstatica {
   lectorDeArchivoDeHechos: LectorDeArchivo
   localizadorDeArchivo: LocalizadorDeArchivo
-  hechos: Collection<Hecho>
   Collection<Hecho> traerHechos()
 }
 

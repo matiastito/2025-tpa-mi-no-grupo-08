@@ -17,7 +17,6 @@ import java.util.List;
 public class FuenteEstatica {
   private LectorDeArchivo lectorDeArchivoDeHechos;
   private LocalizadorDeArchivo localizadorDeArchivo;
-  private Collection<Hecho> hechos = new HashSet<Hecho>();
 
   public FuenteEstatica(LectorDeArchivo lectorDeArchivoDeHechos, LocalizadorDeArchivo localizadorDeArchivo) {
     this.lectorDeArchivoDeHechos = lectorDeArchivoDeHechos;
@@ -25,12 +24,14 @@ public class FuenteEstatica {
   }
 
   public Collection<Hecho> traerHechos() {
+    Collection<Hecho> hechos = new HashSet<Hecho>();
     URI archivoURI = localizadorDeArchivo.getURI();
-    this.lectorDeArchivoDeHechos.getRegistros(archivoURI).forEach(this::agregarHecho);
+    this.lectorDeArchivoDeHechos.getRegistros(archivoURI).forEach(
+        r -> agregarHecho(hechos, r));
     return hechos;
   }
 
-  private void agregarHecho(List<String> registro) {
+  private void agregarHecho(Collection<Hecho> hechos, List<String> registro) {
     String titulo = registro.get(0);
     String descripcion = registro.get(1);
     String categoria = registro.get(2);
