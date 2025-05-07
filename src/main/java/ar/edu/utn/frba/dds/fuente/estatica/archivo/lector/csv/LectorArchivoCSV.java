@@ -1,38 +1,25 @@
-package ar.edu.utn.frba.dds.fuente.estatica;
+package ar.edu.utn.frba.dds.fuente.estatica.archivo.lector.csv;
 
 import static java.nio.file.Files.lines;
 import static java.nio.file.Paths.get;
-import static java.util.Objects.requireNonNull;
 
-import ar.edu.utn.frba.dds.hecho.Hecho;
+import ar.edu.utn.frba.dds.fuente.estatica.archivo.lector.LectorDeArchivo;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class ArchivoDeHechosDelClassPathLocalImpl implements ArchivoDeHechos {
-  private final String nombreArchivo;
+public class LectorArchivoCSV implements LectorDeArchivo {
 
-  public ArchivoDeHechosDelClassPathLocalImpl(String nombreArchivo) {
-    this.nombreArchivo = nombreArchivo;
-  }
-
-  @Override
-  public List<List<String>> getRegistros() {
-    URI csvFile = null;
+  public List<List<String>> getRegistros(URI uri) {
     List<List<String>> registros = null;
-    List<Hecho> colaboradorHumanos = new ArrayList<>();
-    try {
-      csvFile = requireNonNull(getClass().getClassLoader().getResource(nombreArchivo + ".csv")).toURI();
-    } catch (URISyntaxException e) {
-      throw new RuntimeException("No se pudo armar la ruta al archivo de Hechos.");
-    }
-    try (Stream<String> lines = lines(get(csvFile)).skip(1)) {
+    try (
+        Stream<String> lines = lines(get(uri)).skip(1)) {
       registros = lines.map(this::parseLine).toList();
       return registros;
-    } catch (IOException e) {
+    } catch (
+        IOException e) {
       throw new RuntimeException("Ocurrió un error al parsear el archivo CSV de Hechos.");
     }
   }

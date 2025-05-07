@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.hecho;
 
 import ar.edu.utn.frba.dds.hecho.contenido.ContenidoMultimedia;
+import ar.edu.utn.frba.dds.hecho.contenido.TipoContenidoMultimedia;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,17 +16,16 @@ public class Hecho {
   private LocalDateTime fechaDelHecho;
   private LocalDateTime fechaDeCarga;
   private HechoOrigen hechoOrigen;
-  private Collection<String> etiquetas;
-  private Collection<SolicitudDeEliminacionDeHecho> solicitudDeEliminacionDeHechosPendientes;
+  private Collection<Etiqueta> etiquetas;
   private boolean eliminado = false;
 
-  private Hecho(HechoOrigen hechoOrigen,
-                String titulo,
-                String descripcion,
-                Categoria categoria,
-                LocalDateTime fechaDelHecho,
-                Ubicacion ubicacion,
-                LocalDateTime fechaDeCarga) {
+  public Hecho(HechoOrigen hechoOrigen,
+               String titulo,
+               String descripcion,
+               Categoria categoria,
+               LocalDateTime fechaDelHecho,
+               Ubicacion ubicacion,
+               LocalDateTime fechaDeCarga) {
     this.hechoOrigen = hechoOrigen;
     this.titulo = titulo;
     this.descripcion = descripcion;
@@ -34,26 +34,6 @@ public class Hecho {
     this.ubicacion = ubicacion;
     this.fechaDeCarga = fechaDeCarga;
     this.etiquetas = new HashSet<>();
-    this.solicitudDeEliminacionDeHechosPendientes = new HashSet<>();
-  }
-
-  public static Hecho crearHechoDeTexto(
-      HechoOrigen hechoOrigen,
-      String titulo,
-      String descripcion,
-      Categoria categoria,
-      LocalDateTime fechaDelHecho,
-      Ubicacion lugar,
-      LocalDateTime fechaDeCarga) {
-    return new Hecho(hechoOrigen, titulo, descripcion,
-        categoria, fechaDelHecho, lugar, fechaDeCarga);
-  }
-
-  public SolicitudDeEliminacionDeHecho solicitarEliminacion(String motivo) {
-    SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho =
-        new SolicitudDeEliminacionDeHecho(this, motivo);
-    this.solicitudDeEliminacionDeHechosPendientes.add(solicitudDeEliminacionDeHecho);
-    return solicitudDeEliminacionDeHecho;
   }
 
   public boolean estaEliminado() {
@@ -76,11 +56,11 @@ public class Hecho {
     return titulo;
   }
 
-  public void etiquetar(String etiqueta) {
+  public void etiquetar(Etiqueta etiqueta) {
     this.etiquetas.add(etiqueta);
   }
 
-  public Collection<String> getEtiquetas() {
+  public Collection<Etiqueta> getEtiquetas() {
     return etiquetas;
   }
 
@@ -96,10 +76,6 @@ public class Hecho {
     return Objects.hashCode(titulo);
   }
 
-  public Collection<SolicitudDeEliminacionDeHecho> getSolicitudesDeEliminacionPendientes() {
-    return this.solicitudDeEliminacionDeHechosPendientes;
-  }
-
   public String getDescripcion() {
     return descripcion;
   }
@@ -110,5 +86,9 @@ public class Hecho {
 
   public Ubicacion getUbicacion() {
     return this.ubicacion;
+  }
+
+  public TipoContenidoMultimedia getTipoContenidoMultimedia() {
+    return this.contenidoMultimedia.getTipoContenidoMultimedia();
   }
 }

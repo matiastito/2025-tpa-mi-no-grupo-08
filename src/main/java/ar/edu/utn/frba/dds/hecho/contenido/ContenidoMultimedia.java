@@ -8,4 +8,8 @@ public class ContenidoMultimedia {
     this.tipoContenidoMultimedia = tipoContenidoMultimedia;
     this.uri = uri;
   }
+
+  public TipoContenidoMultimedia getTipoContenidoMultimedia() {
+    return tipoContenidoMultimedia;
+  }
 }

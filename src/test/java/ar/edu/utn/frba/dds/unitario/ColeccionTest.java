@@ -1,31 +1,32 @@
 package ar.edu.utn.frba.dds.unitario;
 
 import static ar.edu.utn.frba.dds.hecho.Categorias.categoria;
-import static ar.edu.utn.frba.dds.hecho.Hecho.crearHechoDeTexto;
 import static ar.edu.utn.frba.dds.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 import ar.edu.utn.frba.dds.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.coleccion.filtro.FiltroDeHecho;
-import ar.edu.utn.frba.dds.fuente.Fuente;
+import ar.edu.utn.frba.dds.fuente.estatica.FuenteEstatica;
 import ar.edu.utn.frba.dds.hecho.Hecho;
 import ar.edu.utn.frba.dds.hecho.HechoOrigen;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 public class ColeccionTest {
 
   private Hecho hecho;
-  private Fuente fuente;
+  private FuenteEstatica fuente;
   private Coleccion coleccion;
 
   @BeforeEach
   public void setUp() {
-    hecho = crearHechoDeTexto(
+    hecho = new Hecho(
         HechoOrigen.MANUAL,
         "Protesta en La Plata",
         "Manifestación pacífica",
@@ -35,14 +36,10 @@ public class ColeccionTest {
         now()
     );
 
-    fuente = new Fuente() {
-      @Override
-      public List<Hecho> traerHechos() {
-        return List.of(hecho);
-      }
-    };
+    fuente = Mockito.mock(FuenteEstatica.class);
+    when(fuente.traerHechos()).thenReturn(List.of(hecho));
 
-    coleccion = Coleccion.crearColeccion("Protestas", "Protestas sociales en Argentina", fuente);
+    coleccion = new Coleccion("Protestas", "Protestas sociales en Argentina", fuente);
   }
 
   @Test
