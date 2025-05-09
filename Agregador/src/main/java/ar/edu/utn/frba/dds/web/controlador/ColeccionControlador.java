@@ -36,9 +36,16 @@ public class ColeccionControlador {
         get()
         .retrieve()
         .toEntity(String.class);
-
     return result.getBody();
   }
 
+  @GetMapping("/login")
+  public String login(String coleccionId) {
+    ResponseEntity<String> result = RestClient.create("http://api-ddsi.disilab.ar/public/api/login")
+        .post()
+        .body("{\"email\":\"ddsi@gmail.com\", \"password\":\"ddsi2025*\"}")
+        .retrieve()
+        .toEntity(String.class);
+    return result.getBody();
+  }
 }
-
