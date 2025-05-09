@@ -30,8 +30,8 @@ public class ColeccionControlador {
    *
    * @return
    */
-  @GetMapping("/colecciones/{id}/hechos")
-  public String hechosPorColeccion() {
+  @GetMapping("/colecciones/{coleccionId}/hechos")
+  public String hechosPorColeccion(String coleccionId) {
     ResponseEntity<String> result = RestClient.create("http://localhost:8082").
         get()
         .retrieve()
