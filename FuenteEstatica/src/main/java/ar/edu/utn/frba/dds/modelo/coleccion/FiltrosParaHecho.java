@@ -1,0 +1,24 @@
+package ar.edu.utn.frba.dds.modelo.coleccion;
+
+import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
+import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class FiltrosParaHecho {
+  private List<FiltroDeHecho> filtros;
+
+  public FiltrosParaHecho() {
+    this.filtros = new ArrayList<>();
+  }
+
+  public boolean aplicarFiltros(Hecho hecho) {
+    return this.filtros.stream().allMatch(
+        filtroDeHecho -> filtroDeHecho.filtrar(hecho));
+  }
+
+  public void agregarFiltro(FiltroDeHecho filtro) {
+    this.filtros.add(filtro);
+  }
+}
