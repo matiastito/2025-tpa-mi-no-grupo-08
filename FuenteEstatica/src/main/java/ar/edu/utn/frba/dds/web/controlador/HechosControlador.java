@@ -6,7 +6,7 @@ import ar.edu.utn.frba.dds.archivo.lector.csv.LectorArchivoCSV;
 import ar.edu.utn.frba.dds.archivo.localizador.LocalizadorDeArchivoDelClassPathLocal;
 import ar.edu.utn.frba.dds.modelo.fuente.estatica.FuenteEstatica;
 import ar.edu.utn.frba.dds.web.dto.HechoDTO;
-import ar.edu.utn.frba.dds.web.dto.Mapper;
+import ar.edu.utn.frba.dds.web.dto.MapeadorDeHechoADTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +22,7 @@ public class HechosControlador {
         new LocalizadorDeArchivoDelClassPathLocal("desastres_naturales_argentina", CSV));
     return fuenteEstatica.traerHechos()
         .stream()
-        .map(Mapper::toDto)
+        .map(MapeadorDeHechoADTO::toDto)
         .collect(toList());
   }
 }
