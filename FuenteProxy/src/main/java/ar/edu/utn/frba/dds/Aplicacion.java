@@ -1,3 +1,5 @@
+package ar.edu.utn.frba.dds;
+
 import static org.springframework.boot.SpringApplication.run;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

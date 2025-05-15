@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.modelo.coleccion;
 
 import static java.util.stream.Collectors.toCollection;
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
-import ar.edu.utn.frba.dds.modelo.fuente.estatica.FuenteEstatica;
+import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 
 import java.util.Collection;
@@ -10,13 +10,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Coleccion {
+  private String handle;
   private String titulo;
   private String descripcion;
   private Set<Hecho> hechos;
-  private FuenteEstatica fuente;
+  private Fuente fuente;
   private FiltrosParaHecho criteriosDePertenencia;
 
-  public Coleccion(String titulo, String descripcion, FuenteEstatica fuente) {
+  public Coleccion(String titulo, String descripcion, Fuente fuente) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.fuente = fuente;
@@ -36,7 +37,7 @@ public class Coleccion {
   }
 
   public void colectarHechos() {
-    this.hechos.addAll(fuente.traerHechos());
+    this.hechos.addAll(fuente.hechos());
   }
 
   public void agregarHecho(Hecho hecho) {

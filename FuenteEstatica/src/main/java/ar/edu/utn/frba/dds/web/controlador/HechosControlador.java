@@ -15,7 +15,7 @@ import java.util.Collection;
 @RestController
 public class HechosControlador {
 
-  @GetMapping("/")
+  @GetMapping("/hechos")
   public Collection<HechoDTO> home() {
     FuenteEstatica fuenteEstatica = new FuenteEstatica(
         new LectorArchivoCSV(),
