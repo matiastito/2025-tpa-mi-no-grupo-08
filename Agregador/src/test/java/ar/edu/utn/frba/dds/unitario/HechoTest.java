@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.modelo.hecho.Categorias;
 import ar.edu.utn.frba.dds.modelo.hecho.Etiqueta;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
+import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
