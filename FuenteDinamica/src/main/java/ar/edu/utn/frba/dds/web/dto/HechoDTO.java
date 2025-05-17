@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.web.dto;
 
+import ar.edu.utn.frba.dds.modelo.Hecho;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -14,4 +15,8 @@ public class HechoDTO {
   //private HechoOrigen hechoOrigen;
   private Collection<String> etiquetas;
   private boolean eliminado = false;
+
+  public static Hecho toHecho(HechoDTO hechoDTO) {
+    return new Hecho();
+  }
 }

@@ -6,6 +6,7 @@ import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 import static ar.edu.utn.frba.dds.util.DateHelper.formatearFecha;
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.CategoriaFiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FechaDelHechoFiltroDeHecho;

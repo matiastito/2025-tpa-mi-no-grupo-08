@@ -6,12 +6,12 @@ import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.modelo.hecho.Categorias;
 import ar.edu.utn.frba.dds.modelo.hecho.Etiqueta;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
-import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

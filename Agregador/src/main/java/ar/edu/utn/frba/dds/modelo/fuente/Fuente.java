@@ -1,11 +1,11 @@
 package ar.edu.utn.frba.dds.modelo.fuente;
 
 import static org.springframework.web.client.RestClient.create;
-import ar.edu.utn.frba.dds.web.dto.HechoDTO;
+
+import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+import java.util.List;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 public class Fuente {
   private String baseUrl;
@@ -14,11 +14,11 @@ public class Fuente {
     this.baseUrl = baseUrl;
   }
 
-  public List<HechoDTO> hechos() {
-    ResponseEntity<List<HechoDTO>> result = create("http://" + baseUrl + "/hechos").
+  public List<Hecho> hechos() {
+    ResponseEntity<List<Hecho>> result = create("http://" + baseUrl + "/hechos").
         get()
         .retrieve()
-        .toEntity(new ParameterizedTypeReference<List<HechoDTO>>() {
+        .toEntity(new ParameterizedTypeReference<List<Hecho>>() {
         });
     return result.getBody();
   }

@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.servicio;
 
 import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.repositorio.ColeccionRepositorio;
-
 import java.util.Collection;
 
 public class ColeccionServicio {
@@ -10,5 +9,9 @@ public class ColeccionServicio {
 
   public Collection<Coleccion> colecciones() {
     return coleccionRepositorio.colleciones();
+  }
+
+  public Coleccion coleccion(String coleccionId) {
+    return coleccionRepositorio.collecion(coleccionId);
   }
 }

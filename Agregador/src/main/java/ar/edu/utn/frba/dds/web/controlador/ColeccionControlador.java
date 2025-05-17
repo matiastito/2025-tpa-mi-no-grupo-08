@@ -1,8 +1,11 @@
 package ar.edu.utn.frba.dds.web.controlador;
 
-import static org.springframework.web.client.RestClient.create;
+import static ar.edu.utn.frba.dds.web.controlador.dto.ColeccionDTO.toColeccionDTO;
+import static java.util.stream.Collectors.toSet;
+
 import ar.edu.utn.frba.dds.servicio.ColeccionServicio;
-import org.springframework.http.ResponseEntity;
+import ar.edu.utn.frba.dds.web.controlador.dto.ColeccionDTO;
+import java.util.Collection;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +20,11 @@ public class ColeccionControlador {
    * independientemente del origen de sus fuentes.
    */
   @GetMapping("/colecciones")
-  public String colecciones() {
-    return coleccionServicio.colecciones();
+  public Collection<ColeccionDTO> colecciones() {
+    return coleccionServicio.colecciones()
+        .stream()
+        .map(ColeccionDTO::toColeccionDTO)
+        .collect(toSet());
   }
 
   /**
@@ -29,12 +35,7 @@ public class ColeccionControlador {
    * @return
    */
   @GetMapping("/colecciones/{coleccionId}/hechos")
-  public String hechosPorColeccion(String coleccionId) {
-    ResponseEntity<String> result = create("http://localhost:8082").
-        get()
-        .retrieve()
-        .toEntity(String.class);
-    return result.getBody();
+  public ColeccionDTO hechosPorColeccion(String coleccionId) {
+    return toColeccionDTO(coleccionServicio.coleccion(coleccionId));
   }
-
 }
