@@ -1,7 +1,8 @@
 package ar.edu.utn.frba.dds.unitario;
 
-import static ar.edu.utn.frba.dds.util.DateHelper.formatearFecha;
+import static ar.edu.utn.frba.dds.util.FormateadorDeFecha.formatearFecha;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
 import org.junit.jupiter.api.Test;
 

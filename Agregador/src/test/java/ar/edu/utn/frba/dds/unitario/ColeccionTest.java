@@ -6,17 +6,17 @@ import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
+
 import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.fuente.estatica.FuenteEstatica;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class ColeccionTest {
 

@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.web.controlador;
 
 import static org.springframework.web.client.RestClient.create;
+
 import ar.edu.utn.frba.dds.web.dto.HechoDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +19,8 @@ public class HechoControlador {
    * @return
    */
   @GetMapping("/hechos")
-  public String hechos() {
-    ResponseEntity<String> result = create("http://localhost:8082").
+  public HechoDTO hechos() {
+    ResponseEntity<HechoDTO> result = create("http://localhost:8082").
         get()
         .retrieve()
         .toEntity(HechoDTO.class);

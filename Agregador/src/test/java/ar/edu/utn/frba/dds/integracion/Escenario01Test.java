@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.integracion;
 import static ar.edu.utn.frba.dds.modelo.hecho.Categorias.categoria;
 import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.MANUAL;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
-import static ar.edu.utn.frba.dds.util.DateHelper.formatearFecha;
+import static ar.edu.utn.frba.dds.util.FormateadorDeFecha.formatearFecha;
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

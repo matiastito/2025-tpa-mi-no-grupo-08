@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.unitario;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
+
 import ar.edu.utn.frba.dds.modelo.hecho.Categorias;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
