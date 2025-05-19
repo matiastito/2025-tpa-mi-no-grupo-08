@@ -4,7 +4,7 @@ import static ar.edu.utn.frba.dds.archivo.TipoArchivo.CSV;
 import static java.util.stream.Collectors.toList;
 import ar.edu.utn.frba.dds.archivo.lector.csv.LectorArchivoCSV;
 import ar.edu.utn.frba.dds.archivo.localizador.LocalizadorDeArchivoDelClassPathLocal;
-import ar.edu.utn.frba.dds.modelo.fuente.estatica.FuenteEstatica;
+import ar.edu.utn.frba.dds.modelo.fuente.FuenteEstatica;
 import ar.edu.utn.frba.dds.web.dto.HechoDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,8 +1,7 @@
-package ar.edu.utn.frba.dds;
+package ar.edu.utn.frba.dds.modelo.fuente;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.client.RestClient.create;
-
 import ar.edu.utn.frba.dds.web.dto.LoginResponse;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;

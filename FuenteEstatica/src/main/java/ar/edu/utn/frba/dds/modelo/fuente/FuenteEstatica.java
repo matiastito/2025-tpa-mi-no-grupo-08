@@ -1,14 +1,14 @@
-package ar.edu.utn.frba.dds.modelo.fuente.estatica;
+package ar.edu.utn.frba.dds.modelo.fuente;
 
 import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.EXTERNO;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 import static ar.edu.utn.frba.dds.util.FormateadorDeFecha.formatearFecha;
 import static java.time.LocalDateTime.now;
-
 import ar.edu.utn.frba.dds.archivo.lector.LectorDeArchivo;
 import ar.edu.utn.frba.dds.archivo.localizador.LocalizadorDeArchivo;
 import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+
 import java.net.URI;
 import java.util.Collection;
 import java.util.HashSet;
