@@ -29,15 +29,6 @@ public class LoginResponse {
     this.data = data;
   }
 
-  @Override
-  public String toString() {
-    return "LoginResponse{" +
-        "error=" + error +
-        ", message='" + message + '\'' +
-        ", data=" + data +
-        '}';
-  }
-
   public static class Data {
     private String access_token;
     private String token_type;
@@ -65,15 +56,6 @@ public class LoginResponse {
 
     public void setUser(User user) {
       this.user = user;
-    }
-
-    @Override
-    public String toString() {
-      return "Data{" +
-          "access_token='" + access_token + '\'' +
-          ", token_type='" + token_type + '\'' +
-          ", user=" + user +
-          '}';
     }
 
     public static class User {
@@ -130,18 +112,6 @@ public class LoginResponse {
 
       public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
-      }
-
-      @Override
-      public String toString() {
-        return "User{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", email='" + email + '\'' +
-            ", email_verified_at=" + email_verified_at +
-            ", created_at='" + created_at + '\'' +
-            ", updated_at='" + updated_at + '\'' +
-            '}';
       }
     }
   }

@@ -20,7 +20,11 @@ public class HechoDTO {
     return fechaDelHecho;
   }
 
-  public static HechoDTO from(Hecho hecho) {
+  public static HechoDTO toDTO(Hecho hecho) {
     return new HechoDTO(hecho.getHechoOrigen(), hecho.getFechaDelHecho().toString());
+  }
+
+  public static Hecho toModel(HechoDTO hechoDTO) {
+    return null;
   }
 }
