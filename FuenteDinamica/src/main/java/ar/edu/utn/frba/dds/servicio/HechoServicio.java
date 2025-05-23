@@ -1,13 +1,10 @@
 package ar.edu.utn.frba.dds.servicio;
 
-import static java.util.Collections.emptySet;
-
-import ar.edu.utn.frba.dds.modelo.Hecho;
 import ar.edu.utn.frba.dds.repositorio.HechoRepositorio;
-import ar.edu.utn.frba.dds.web.dto.HechoDTO;
-import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 
 @Service
 public class HechoServicio {
@@ -19,7 +16,7 @@ public class HechoServicio {
     hechoRepositorio.guardar(hecho);
   }
 
-  public Collection<HechoDTO> dameHechos() {
-    return emptySet();
+  public Collection<Hecho> dameHechos() {
+    return hechoRepositorio.dameHechos();
   }
 }

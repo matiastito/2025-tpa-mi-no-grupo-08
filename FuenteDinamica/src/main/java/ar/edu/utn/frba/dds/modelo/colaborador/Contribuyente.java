@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.modelo;
+package ar.edu.utn.frba.dds.modelo.colaborador;
 
 import static java.time.LocalDate.now;
 import static java.time.Period.between;
