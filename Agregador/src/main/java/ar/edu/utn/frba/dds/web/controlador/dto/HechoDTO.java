@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.web.dto;
+package ar.edu.utn.frba.dds.web.controlador.dto;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;

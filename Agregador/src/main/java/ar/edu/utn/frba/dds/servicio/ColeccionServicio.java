@@ -1,11 +1,13 @@
 package ar.edu.utn.frba.dds.servicio;
 
 import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
-import ar.edu.utn.frba.dds.repositorio.ColeccionRepositorio;
+import ar.edu.utn.frba.dds.repositorio.ColeccionRepositorioEnMemoria;
 import java.util.Collection;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ColeccionServicio {
-  private ColeccionRepositorio coleccionRepositorio;
+  private ColeccionRepositorioEnMemoria coleccionRepositorio;
 
   public Collection<Coleccion> colecciones() {
     return coleccionRepositorio.colleciones();
