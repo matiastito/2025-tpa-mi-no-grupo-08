@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.web.dto;
 
-public class LoginResponse {
+public class LoginResponseDTO {
   private boolean error;
   private String message;
   private Data data;

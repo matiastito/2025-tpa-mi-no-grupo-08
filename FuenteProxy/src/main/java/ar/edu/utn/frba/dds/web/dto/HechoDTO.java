@@ -1,11 +1,7 @@
 package ar.edu.utn.frba.dds.web.dto;
 
-import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.CONTRIBUYENTE;
-import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
-import static java.time.LocalDateTime.now;
+import static java.lang.String.valueOf;
 
-import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
-import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -15,37 +11,10 @@ public class HechoDTO {
   private String categoria;
   // TODO
   //private ContenidoMultimediaDTO contenidoMultimedia;
-  private UbicacionDTO ubicacion;
   private LocalDateTime fechaDelHecho;
+  private UbicacionDTO ubicacion;
   private LocalDateTime fechaDeCarga;
   private Collection<String> etiquetas;
-
-  public static Hecho toHecho(HechoDTO hechoDTO) {
-    return new Hecho(
-        CONTRIBUYENTE,
-        hechoDTO.titulo,
-        hechoDTO.descripcion,
-        new Categoria(hechoDTO.categoria),
-        hechoDTO.fechaDelHecho,
-        crearUbicacion(hechoDTO.ubicacion.latitud, hechoDTO.ubicacion.longitud),
-        now()
-    );
-  }
-
-  public static HechoDTO toHechoDTO(Hecho hecho) {
-    HechoDTO hechoDTO = new HechoDTO();
-    hechoDTO.titulo = hecho.getTitulo();
-    hechoDTO.descripcion = hecho.getDescripcion();
-    hechoDTO.fechaDelHecho = hecho.getFechaDelHecho();
-    hechoDTO.fechaDeCarga = hecho.getFechaDeCarga();
-    hechoDTO.categoria = hecho.getCategoria().getNombre();
-    hechoDTO.ubicacion = hechoDTO.new UbicacionDTO(
-        hecho.getUbicacion().getLatitud(),
-        hecho.getUbicacion().getLongitud()
-    );
-    // hechoDTO.etiquetas = hecho.getEtiquetas();
-    return hechoDTO;
-  }
 
   public void setTitulo(String titulo) {
     this.titulo = titulo;
@@ -136,4 +105,16 @@ public class HechoDTO {
 
   }
 
+  public static HechoDTO toHechoDTO(DesastreDTO desastreDTO) {
+    HechoDTO hechoDTO = new HechoDTO();
+    hechoDTO.titulo = desastreDTO.getTitulo();
+    hechoDTO.descripcion = desastreDTO.getDescripcion();
+    hechoDTO.fechaDelHecho = desastreDTO.getFechaHecho();
+    hechoDTO.fechaDeCarga = desastreDTO.getCreatedAt();
+    hechoDTO.ubicacion = hechoDTO.new UbicacionDTO(
+        valueOf(desastreDTO.getLatitud()),
+        valueOf(desastreDTO.getLongitud()));
+    hechoDTO.categoria = desastreDTO.getCategoria();
+    return hechoDTO;
+  }
 }

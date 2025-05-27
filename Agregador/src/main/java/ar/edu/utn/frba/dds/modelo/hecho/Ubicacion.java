@@ -11,6 +11,14 @@ public class Ubicacion {
     this.longitud = longitud;
   }
 
+  public String getLatitud() {
+    return latitud;
+  }
+
+  public String getLongitud() {
+    return longitud;
+  }
+
   public static Ubicacion crearUbicacion(String latitud, String longitud) {
     return new Ubicacion(latitud, longitud);
   }

@@ -1,10 +1,11 @@
 package ar.edu.utn.frba.dds.modelo.coleccion;
 
+import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.PROXY;
 import static java.util.stream.Collectors.toCollection;
+
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,11 +26,16 @@ public class Coleccion {
     this.hechos = new HashSet<>();
   }
 
-  public Coleccion(String titulo, String descripcion) {
-    this.titulo = titulo;
-    this.descripcion = descripcion;
-    this.criteriosDePertenencia = new FiltrosParaHecho();
-    this.hechos = new HashSet<>();
+  public String getTitulo() {
+    return titulo;
+  }
+
+  public String getDescripcion() {
+    return descripcion;
+  }
+
+  public Fuente getFuente() {
+    return fuente;
   }
 
   public void agregarFiltro(FiltroDeHecho filtro) {
@@ -47,6 +53,9 @@ public class Coleccion {
   }
 
   public Collection<Hecho> hechos() {
+    if (PROXY.equals(fuente.getTipoFuente())) {
+      colectarHechos();
+    }
     return this.hechos.stream()
         .filter(hecho -> !hecho.estaEliminado())
         .filter(criteriosDePertenencia::aplicarFiltros)

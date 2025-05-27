@@ -10,18 +10,27 @@ public class Contribuyente {
   private String apellido;
   private LocalDate fechaNacimiento;
 
-  //Representa un contribuyente anónimo.
-  public Contribuyente() {
-  }
-
   public Contribuyente(String nombre) {
     this.nombre = nombre;
+  }
+
+  public Contribuyente(String nombre, String apellido) {
+    this.nombre = nombre;
+    this.apellido = apellido;
   }
 
   public Contribuyente(String nombre, String apellido, LocalDate fechaNacimiento) {
     this.nombre = nombre;
     this.apellido = apellido;
     this.fechaNacimiento = fechaNacimiento;
+  }
+
+  public String getApellido() {
+    return apellido;
+  }
+
+  public String getNombre() {
+    return nombre;
   }
 
   public Integer getEdad() {

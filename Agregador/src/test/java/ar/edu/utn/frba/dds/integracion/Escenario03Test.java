@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.integracion;
 
+import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.DINAMICA;
 import static ar.edu.utn.frba.dds.modelo.hecho.Categorias.categoria;
 import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.MANUAL;
 import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.ACEPTADA;
@@ -9,10 +10,13 @@ import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 import static ar.edu.utn.frba.dds.util.FormateadorDeFecha.formatearFecha;
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import ar.edu.utn.frba.dds.modelo.administrador.Administrador;
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
+import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import java.util.Collection;
@@ -26,7 +30,9 @@ public class Escenario03Test {
 
   @BeforeEach
   public void init() {
-    coleccionManual = new Coleccion("Colección prueba", "Esto es una prueba");
+    Fuente fuente = mock(Fuente.class);
+    when(fuente.getTipoFuente()).thenReturn(DINAMICA);
+    coleccionManual = new Coleccion("Colección prueba", "Esto es una prueba", fuente);
     coleccionManual.agregarHecho(
         new Hecho(
             MANUAL,

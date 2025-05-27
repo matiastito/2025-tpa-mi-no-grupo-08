@@ -4,17 +4,20 @@ import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEsta
 import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.PENDIENTE;
 import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.RECHAZADA;
 import static java.time.LocalDateTime.now;
+
 import ar.edu.utn.frba.dds.modelo.administrador.Administrador;
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
-
 import java.time.LocalDateTime;
 
 public class SolicitudDeEliminacionDeHecho {
   private SolicitudDeEliminacionDeHechoEstado solicitudDeEliminacionDeHechoEstado;
-  private LocalDateTime fechaCreacion;
+
   private Hecho hecho;
+
+  private LocalDateTime fechaCreacion;
   private String motivo;
   private Contribuyente repotador;
+
   private Administrador aprobador;
   private LocalDateTime fechaResolucion;
 
@@ -34,13 +37,25 @@ public class SolicitudDeEliminacionDeHecho {
     resolver(RECHAZADA, aprobador);
   }
 
+  public void rechazar() {
+    resolver(RECHAZADA);
+  }
+
   private void resolver(SolicitudDeEliminacionDeHechoEstado estado, Administrador aprobador) {
-    this.solicitudDeEliminacionDeHechoEstado = estado;
     this.aprobador = aprobador;
+    resolver(estado);
+  }
+
+  private void resolver(SolicitudDeEliminacionDeHechoEstado estado) {
+    this.solicitudDeEliminacionDeHechoEstado = estado;
     this.fechaResolucion = now();
   }
 
   public SolicitudDeEliminacionDeHechoEstado getEstado() {
     return solicitudDeEliminacionDeHechoEstado;
+  }
+
+  public String getMotivo() {
+    return motivo;
   }
 }

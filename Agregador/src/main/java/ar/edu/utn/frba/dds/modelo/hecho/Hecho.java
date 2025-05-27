@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.modelo.hecho;
 
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.ContenidoMultimedia;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.TipoContenidoMultimedia;
-
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -65,18 +64,6 @@ public class Hecho {
     return etiquetas;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof Hecho hecho)) return false;
-    return Objects.equals(titulo, hecho.titulo);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(titulo);
-  }
-
   public String getDescripcion() {
     return descripcion;
   }
@@ -91,5 +78,21 @@ public class Hecho {
 
   public TipoContenidoMultimedia getTipoContenidoMultimedia() {
     return this.contenidoMultimedia.getTipoContenidoMultimedia();
+  }
+
+  public LocalDateTime getFechaDeCarga() {
+    return fechaDeCarga;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Hecho hecho)) return false;
+    return Objects.equals(titulo, hecho.titulo);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(titulo);
   }
 }

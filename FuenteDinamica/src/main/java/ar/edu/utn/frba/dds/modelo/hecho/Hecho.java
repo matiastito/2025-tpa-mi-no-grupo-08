@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.modelo.hecho;
 
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.ContenidoMultimedia;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.TipoContenidoMultimedia;
-
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -91,5 +90,9 @@ public class Hecho {
 
   public TipoContenidoMultimedia getTipoContenidoMultimedia() {
     return this.contenidoMultimedia.getTipoContenidoMultimedia();
+  }
+
+  public LocalDateTime getFechaDeCarga() {
+    return this.fechaDeCarga;
   }
 }

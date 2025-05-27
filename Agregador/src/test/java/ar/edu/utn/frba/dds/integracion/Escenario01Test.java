@@ -1,17 +1,21 @@
 package ar.edu.utn.frba.dds.integracion;
 
+import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.DINAMICA;
 import static ar.edu.utn.frba.dds.modelo.hecho.Categorias.categoria;
 import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.MANUAL;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 import static ar.edu.utn.frba.dds.util.FormateadorDeFecha.formatearFecha;
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.CategoriaFiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FechaDelHechoFiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.TituloFiltroDeHecho;
+import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Etiqueta;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +27,9 @@ public class Escenario01Test {
 
   @BeforeEach
   public void init() {
-    coleccionManual = new Coleccion("Colección prueba", "Esto es una prueba");
+    Fuente fuente = mock(Fuente.class);
+    when(fuente.getTipoFuente()).thenReturn(DINAMICA);
+    coleccionManual = new Coleccion("Colección prueba", "Esto es una prueba", fuente);
     coleccionManual.agregarHecho(
         new Hecho(
             MANUAL,

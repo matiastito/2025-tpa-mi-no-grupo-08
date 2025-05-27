@@ -1,14 +1,19 @@
 package ar.edu.utn.frba.dds.web.controlador;
 
-import static org.springframework.web.client.RestClient.create;
+import static java.util.stream.Collectors.toSet;
 
+import ar.edu.utn.frba.dds.servicio.ColeccionServicio;
 import ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO;
-import org.springframework.http.ResponseEntity;
+import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HechoControlador {
+
+  @Autowired
+  private ColeccionServicio coleccionServicio;
 
   /**
    * GET /hechos
@@ -19,13 +24,10 @@ public class HechoControlador {
    * @return|
    */
   @GetMapping("/hechos")
-  public HechoDTO hechos() {
-    ResponseEntity<HechoDTO> result = create("http://localhost:8082").
-        get()
-        .retrieve()
-        .toEntity(HechoDTO.class);
-    return result.getBody();
+  public Collection<HechoDTO> hechos() {
+    return coleccionServicio.hechos().stream()
+        .map(HechoDTO::toDTO)
+        .collect(toSet());
   }
-
 }
 

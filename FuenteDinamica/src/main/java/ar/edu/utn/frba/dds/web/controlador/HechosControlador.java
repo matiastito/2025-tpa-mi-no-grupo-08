@@ -18,13 +18,16 @@ public class HechosControlador {
   @Autowired
   private HechoServicio hechoServicio;
 
-  @PostMapping("/hecho")
+  @PostMapping("/hechos")
   public void hecho(@RequestBody HechoDTO hechoDTO) {
     hechoServicio.guardarHecho(toHecho(hechoDTO));
   }
 
   @GetMapping("/hechos")
   public Collection<HechoDTO> hechos() {
-    return hechoServicio.dameHechos().stream().map(HechoDTO::toHechoDTO).collect(toSet());
+    return hechoServicio.dameHechos()
+        .stream()
+        .map(HechoDTO::toHechoDTO)
+        .collect(toSet());
   }
 }

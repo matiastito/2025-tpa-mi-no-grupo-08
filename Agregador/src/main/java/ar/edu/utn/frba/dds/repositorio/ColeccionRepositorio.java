@@ -8,5 +8,5 @@ public interface ColeccionRepositorio {
 
   Collection<Coleccion> colleciones();
 
-  Coleccion collecion(String coleccionId);
+  Coleccion collecion(Long coleccionId);
 }

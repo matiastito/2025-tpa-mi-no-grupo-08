@@ -1,18 +1,28 @@
 package ar.edu.utn.frba.dds.web.controlador;
 
+import static ar.edu.utn.frba.dds.web.controlador.dto.ColeccionDTO.toColeccion;
 import static ar.edu.utn.frba.dds.web.controlador.dto.ColeccionDTO.toColeccionDTO;
 import static java.util.stream.Collectors.toSet;
 
 import ar.edu.utn.frba.dds.servicio.ColeccionServicio;
 import ar.edu.utn.frba.dds.web.controlador.dto.ColeccionDTO;
 import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ColeccionControlador {
 
+  @Autowired
   private ColeccionServicio coleccionServicio;
+
+  @PostMapping("/colecciones")
+  public void coleccion(@RequestBody ColeccionDTO coleccionDTO) {
+    coleccionServicio.guardarColeccion(toColeccion(coleccionDTO));
+  }
 
   /**
    * GET /colecciones
@@ -35,7 +45,7 @@ public class ColeccionControlador {
    * @return
    */
   @GetMapping("/colecciones/{coleccionId}/hechos")
-  public ColeccionDTO hechosPorColeccion(String coleccionId) {
+  public ColeccionDTO hechosPorColeccion(Long coleccionId) {
     return toColeccionDTO(coleccionServicio.coleccion(coleccionId));
   }
 }

@@ -15,6 +15,14 @@ public class Ubicacion {
     return new Ubicacion(latitud, longitud);
   }
 
+  public String getLatitud() {
+    return latitud;
+  }
+
+  public String getLongitud() {
+    return longitud;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
