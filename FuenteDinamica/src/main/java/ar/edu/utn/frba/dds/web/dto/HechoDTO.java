@@ -3,13 +3,15 @@ package ar.edu.utn.frba.dds.web.dto;
 import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.CONTRIBUYENTE;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
-
 import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 
 public class HechoDTO {
+  private HechoOrigen hechoOrigen;
   private String titulo;
   private String descripcion;
   private String categoria;
@@ -34,6 +36,7 @@ public class HechoDTO {
 
   public static HechoDTO toHechoDTO(Hecho hecho) {
     HechoDTO hechoDTO = new HechoDTO();
+    hechoDTO.hechoOrigen = CONTRIBUYENTE;
     hechoDTO.titulo = hecho.getTitulo();
     hechoDTO.descripcion = hecho.getDescripcion();
     hechoDTO.fechaDelHecho = hecho.getFechaDelHecho();
@@ -45,6 +48,10 @@ public class HechoDTO {
     );
     // hechoDTO.etiquetas = hecho.getEtiquetas();
     return hechoDTO;
+  }
+
+  public void setHechoOrigen(HechoOrigen hechoOrigen) {
+    this.hechoOrigen = hechoOrigen;
   }
 
   public void setTitulo(String titulo) {
@@ -73,6 +80,10 @@ public class HechoDTO {
 
   public void setEtiquetas(Collection<String> etiquetas) {
     this.etiquetas = etiquetas;
+  }
+
+  public HechoOrigen getHechoOrigen() {
+    return hechoOrigen;
   }
 
   public LocalDateTime getFechaDelHecho() {
@@ -131,9 +142,4 @@ public class HechoDTO {
       this.longitud = longitud;
     }
   }
-
-  public class HechoOrigenDTO {
-
-  }
-
 }

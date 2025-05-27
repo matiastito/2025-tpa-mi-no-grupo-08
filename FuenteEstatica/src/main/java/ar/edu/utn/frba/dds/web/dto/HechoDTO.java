@@ -1,10 +1,11 @@
 package ar.edu.utn.frba.dds.web.dto;
 
+import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.EXTERNO;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
-
 import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
+
 import java.time.LocalDateTime;
 
 public class HechoDTO {
@@ -79,6 +80,7 @@ public class HechoDTO {
 
   public static HechoDTO toDTO(Hecho hecho) {
     HechoDTO hechoDTO = new HechoDTO();
+    hechoDTO.hechoOrigen = EXTERNO;
     hechoDTO.titulo = hecho.getTitulo();
     hechoDTO.descripcion = hecho.getDescripcion();
     hechoDTO.hechoOrigen = hecho.getHechoOrigen();
@@ -92,7 +94,7 @@ public class HechoDTO {
 
   public static Hecho toHecho(HechoDTO hechoDTO) {
     Hecho hecho = new Hecho(
-        HechoOrigen.EXTERNO,
+        EXTERNO,
         hechoDTO.titulo,
         hechoDTO.descripcion,
         new Categoria(hechoDTO.categoria),
