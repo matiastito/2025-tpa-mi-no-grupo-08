@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ContribuyenteRepositorioEnMemoria implements ContribuyenteRepositorio {
   private final Map<Long, Contribuyente> contribuyentes = new HashMap<>();
-  private final AtomicLong proximoId = new AtomicLong();
+  private final AtomicLong proximoId = new AtomicLong(1);
 
   @Override
   public void guardar(Contribuyente contribuyente) {

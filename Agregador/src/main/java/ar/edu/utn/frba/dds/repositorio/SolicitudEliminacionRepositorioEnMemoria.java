@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class SolicitudEliminacionRepositorioEnMemoria implements SolicitudEliminacionRepositorio {
   private final Map<Long, SolicitudDeEliminacionDeHecho> solicitudesDeEliminacionDeHecho = new HashMap<>();
-  private final AtomicLong proximoId = new AtomicLong();
+  private final AtomicLong proximoId = new AtomicLong(1);
 
   @Override
   public void guardar(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho) {

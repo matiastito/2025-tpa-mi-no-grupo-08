@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class HechoReposotorioEnMemoria implements HechoRepositorio {
   private final Map<Long, Hecho> hechos = new HashMap<>();
-  private final AtomicLong proximoId = new AtomicLong();
+  private final AtomicLong proximoId = new AtomicLong(1);
 
   @Override
   public void guardar(Hecho hecho) {
-    hechos.put(proximoId.incrementAndGet(), hecho);
+    hechos.put(proximoId.getAndIncrement(), hecho);
   }
 
   @Override

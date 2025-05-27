@@ -91,7 +91,7 @@ public class HechoDTO {
   }
 
   public static Hecho toHecho(HechoDTO hechoDTO) {
-    Hecho hecho = new Hecho(
+    return new Hecho(
         HechoOrigen.EXTERNO,
         hechoDTO.titulo,
         hechoDTO.descripcion,
@@ -100,7 +100,6 @@ public class HechoDTO {
         crearUbicacion(hechoDTO.ubicacion.getLatitud(), hechoDTO.ubicacion.getLongitud()),
         hechoDTO.fechaDelHecho
     );
-    return hecho;
   }
 
   private class UbicacionDTO {
