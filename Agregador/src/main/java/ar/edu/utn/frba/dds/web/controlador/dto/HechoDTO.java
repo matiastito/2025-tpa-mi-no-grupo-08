@@ -79,6 +79,7 @@ public class HechoDTO {
 
   public static HechoDTO toDTO(Hecho hecho) {
     HechoDTO hechoDTO = new HechoDTO();
+    hechoDTO.hechoOrigen = hecho.getHechoOrigen();
     hechoDTO.titulo = hecho.getTitulo();
     hechoDTO.descripcion = hecho.getDescripcion();
     hechoDTO.hechoOrigen = hecho.getHechoOrigen();
@@ -92,7 +93,7 @@ public class HechoDTO {
 
   public static Hecho toHecho(HechoDTO hechoDTO) {
     return new Hecho(
-        HechoOrigen.EXTERNO,
+        hechoDTO.hechoOrigen,
         hechoDTO.titulo,
         hechoDTO.descripcion,
         new Categoria(hechoDTO.categoria),
