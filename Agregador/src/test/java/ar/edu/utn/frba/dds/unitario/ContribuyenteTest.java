@@ -1,0 +1,22 @@
+package ar.edu.utn.frba.dds.unitario;
+
+import static ar.edu.utn.frba.dds.util.FormateadorDeFecha.formatearFecha;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
+import org.junit.jupiter.api.Test;
+
+public class ContribuyenteTest {
+
+  @Test
+  public void sePuedeCrearContribuyenteIdentificadoConNombre() {
+    Contribuyente contribuyente = new Contribuyente("Juan");
+    assertNotNull(contribuyente);
+  }
+
+  @Test
+  public void sePuedeCrearContribuyenteConNombreApellidoYEdad() {
+    Contribuyente contribuyente = new Contribuyente("Ana", "García", formatearFecha("12/12/2001").toLocalDate());
+    assertNotNull(contribuyente);
+  }
+}
