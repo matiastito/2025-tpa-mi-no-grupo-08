@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds.web.dto;
 
-import static ar.edu.utn.frba.dds.modelo.fuente.HechoOrigen.EXTERNO;
+import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.EXTERNO;
 import static java.lang.String.valueOf;
-import ar.edu.utn.frba.dds.modelo.fuente.HechoOrigen;
+import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
