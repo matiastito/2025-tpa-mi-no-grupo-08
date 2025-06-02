@@ -10,6 +10,8 @@ import jakarta.annotation.PostConstruct;
 import java.util.Collection;
 import org.springframework.stereotype.Component;
 
+// FIXME parametrizar url + agregar un adapter + hacerloASincronicoó
+
 @Component
 public class FuenteProxy {
 

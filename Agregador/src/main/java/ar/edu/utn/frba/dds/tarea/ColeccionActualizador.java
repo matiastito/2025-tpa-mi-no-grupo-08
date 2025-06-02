@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+//FIXME hacerlo en threads
 @Component
 public class ColeccionActualizador {
   @Autowired

@@ -4,6 +4,7 @@ import static java.lang.Math.random;
 
 import org.springframework.stereotype.Component;
 
+//FIXME agregar el algortirmo TF y hacerlo async
 @Component
 public class DetectorDeSpamServicioDummy implements DetectorDeSpamServicio {
   @Override

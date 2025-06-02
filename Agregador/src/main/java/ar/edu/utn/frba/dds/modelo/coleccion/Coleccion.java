@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+//FIXME agergar una coleccion de fuentes, ver cache para fuentesProxy
 public class Coleccion {
   private String handle;
   private String titulo;
@@ -43,6 +44,7 @@ public class Coleccion {
   }
 
   public void colectarHechos() {
+    //FIXME acá que lo saque y lo vuelva a agregar (ver que hace el addAll), que se quede con el mas nuevo.
     this.hechos.addAll(fuente.hechos());
   }
 
