@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class PagedResponseDTO {
@@ -122,5 +123,13 @@ public class PagedResponseDTO {
 
   public void setTotal(int total) {
     this.total = total;
+  }
+
+  public boolean isLastPage() {
+    return getLastPage() == getCurrentPage();
+  }
+
+  public int getNextPage() {
+    return getCurrentPage() + 1;
   }
 }
