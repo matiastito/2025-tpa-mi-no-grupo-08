@@ -2,8 +2,10 @@ package ar.edu.utn.frba.dds.modelo.fuente;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.client.RestClient.create;
+import static reactor.core.publisher.Flux.just;
 import static reactor.core.publisher.Mono.empty;
 import ar.edu.utn.frba.dds.web.dto.DesastreDTO;
+import ar.edu.utn.frba.dds.web.dto.HechoDTO;
 import ar.edu.utn.frba.dds.web.dto.LoginResponseDTO;
 import ar.edu.utn.frba.dds.web.dto.PagedResponseDTO;
 import jakarta.annotation.PostConstruct;
@@ -11,6 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 // FIXME parametrizar url + agregar un adapter + hacerloASincrónico
 
@@ -31,8 +36,23 @@ public class FuenteProxy {
         .getBody();
   }
 
-  public Flux<DesastreDTO> hechos() {
-    return getAllPages();
+  private Collection<HechoDTO> cache = new HashSet<>();
+
+  public Collection<HechoDTO> hechos() {
+
+    getAllPages().flatMap(desastreDTO -> {
+          System.out.println("Bla");
+          return just(HechoDTO.toHechoDTO(desastreDTO));
+        })
+        .collectList()
+        .doOnNext(items -> {
+          System.out.println("Fetched " + items.size() + " items in total.");
+
+        })
+        .flatMapMany(Flux::fromIterable) // If you want to process items individually
+        .doOnNext(hechoDTO -> System.out.println("Processing item: " + hechoDTO.getCategoria()))
+        .subscribe(list -> cache.add(list));
+    return cache;
   }
 
   public Flux<DesastreDTO> getAllPages() {
@@ -59,6 +79,7 @@ public class FuenteProxy {
         .accept(APPLICATION_JSON)
         .header("Authorization", "Bearer " + accessToken)
         .retrieve()
-        .bodyToMono(PagedResponseDTO.class);
+        .bodyToMono(PagedResponseDTO.class)
+        .share();
   }
 }
