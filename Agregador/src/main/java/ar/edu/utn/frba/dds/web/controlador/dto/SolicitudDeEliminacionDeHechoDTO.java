@@ -17,6 +17,10 @@ public class SolicitudDeEliminacionDeHechoDTO {
     return new SolicitudDeEliminacionDeHecho(contribuyente, hecho, solicitudDeEliminacionDeHechoDTO.getMotivo());
   }
 
+  public static SolicitudDeEliminacionDeHechoDTO toDTO(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho) {
+    return new SolicitudDeEliminacionDeHechoDTO();
+  }
+
   public ContribuyenteDTO getRepotador() {
     return repotador;
   }

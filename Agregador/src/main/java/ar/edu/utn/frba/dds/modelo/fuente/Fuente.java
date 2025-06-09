@@ -4,7 +4,9 @@ import static java.util.stream.Collectors.toSet;
 import static org.springframework.web.client.RestClient.create;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO;
+import ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHechoDTO;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.core.ParameterizedTypeReference;
@@ -41,17 +43,15 @@ public class Fuente {
         .collect(toSet());
   }
 
-  /*
-  public void solicitarRevision(Hecho hecho) {
+  public void solicitarRevision(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho) {
     ResponseEntity<List<HechoDTO>> result =
         create("http://" + baseUrl + "/hechos")
             .post()
-            .body(SolicitudDeEliminacionDeHechoDTO.toDTO(hecho))
+            .body(SolicitudDeEliminacionDeHechoDTO.toDTO(solicitudDeEliminacionDeHecho))
             .retrieve()
             .toEntity(new ParameterizedTypeReference<>() {
             });
   }
-  */
 }
 
 
