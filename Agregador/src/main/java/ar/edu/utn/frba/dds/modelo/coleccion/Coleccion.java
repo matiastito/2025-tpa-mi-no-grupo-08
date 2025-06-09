@@ -1,11 +1,11 @@
 package ar.edu.utn.frba.dds.modelo.coleccion;
 
-import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.PROXY;
+import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.METAMAPA;
 import static java.util.stream.Collectors.toSet;
-
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -45,7 +45,7 @@ public class Coleccion {
 
   public void colectarHechos() {
     fuentes.forEach((f, h) -> {
-      if (!f.getTipoFuente().equals(PROXY)) {
+      if (!METAMAPA.equals(f.getTipoFuente())) {
         h.addAll(f.hechos());
       }
     });
@@ -53,7 +53,7 @@ public class Coleccion {
 
   public Collection<Hecho> hechos() {
     fuentes.forEach((f, h) -> {
-          if (PROXY.equals(f.getTipoFuente())) {
+          if (METAMAPA.equals(f.getTipoFuente())) {
             h.addAll(f.hechos());
           }
         }
