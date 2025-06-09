@@ -1,13 +1,16 @@
 package ar.edu.utn.frba.dds.web.controlador.dto;
 
+import static java.util.stream.Collectors.toSet;
+
 import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.fuente.TipoFuente;
+import java.util.Set;
 
 public class ColeccionDTO {
   private String titulo;
   private String descripcion;
-  private FuenteDTO fuente;
+  private Set<FuenteDTO> fuentes;
 
   public ColeccionDTO() {
   }
@@ -20,8 +23,8 @@ public class ColeccionDTO {
     return descripcion;
   }
 
-  public FuenteDTO getFuente() {
-    return fuente;
+  public Set<FuenteDTO> getFuentes() {
+    return fuentes;
   }
 
   public void setTitulo(String titulo) {
@@ -32,11 +35,11 @@ public class ColeccionDTO {
     this.descripcion = descripcion;
   }
 
-  public void setFuente(FuenteDTO fuente) {
-    this.fuente = fuente;
+  public void setFuentes(Set<FuenteDTO> fuentes) {
+    this.fuentes = fuentes;
   }
 
-  public class FuenteDTO {
+  public static class FuenteDTO {
     private String baseUrl;
     private TipoFuente tipoFuente;
 
@@ -69,16 +72,17 @@ public class ColeccionDTO {
     return new Coleccion(
         coleccionDTO.titulo,
         coleccionDTO.descripcion,
-        new Fuente(coleccionDTO.getFuente().baseUrl,
-            coleccionDTO.getFuente().tipoFuente));
+        coleccionDTO.fuentes.stream().map(f ->
+            new Fuente(f.baseUrl, f.tipoFuente)).toList().toArray(new Fuente[0]));
   }
 
   public static ColeccionDTO toDTO(Coleccion coleccion) {
     ColeccionDTO coleccionDTO = new ColeccionDTO();
     coleccionDTO.titulo = coleccion.getTitulo();
     coleccionDTO.descripcion = coleccion.getDescripcion();
-    coleccionDTO.fuente =
-        coleccionDTO.new FuenteDTO(coleccion.getFuente().getBaseUrl(), coleccion.getFuente().getTipoFuente());
+    coleccionDTO.fuentes =
+        coleccion.getFuentes().stream().map(f ->
+            new FuenteDTO(f.getBaseUrl(), f.getTipoFuente())).collect(toSet());
     return coleccionDTO;
   }
 }

@@ -3,15 +3,19 @@ package ar.edu.utn.frba.dds.web.dto;
 import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.CONTRIBUYENTE;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
+
+import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+import ar.edu.utn.frba.dds.modelo.hecho.HechoEstado;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
-
 import java.time.LocalDateTime;
 import java.util.Collection;
 
 public class HechoDTO {
   private HechoOrigen hechoOrigen;
+  private HechoEstado hechoEstado;
+  private ContribuyenteDTO contribuyente;
   private String titulo;
   private String descripcion;
   private String categoria;
@@ -22,9 +26,11 @@ public class HechoDTO {
   private LocalDateTime fechaDeCarga;
   private Collection<String> etiquetas;
 
-  public static Hecho toHecho(HechoDTO hechoDTO) {
+  public static Hecho toHecho(HechoDTO hechoDTO, HechoEstado hechoEstado) {
     return new Hecho(
         CONTRIBUYENTE,
+        hechoEstado,
+        new Contribuyente(hechoDTO.contribuyente.nombre, hechoDTO.contribuyente.apellido),
         hechoDTO.titulo,
         hechoDTO.descripcion,
         new Categoria(hechoDTO.categoria),
@@ -34,9 +40,24 @@ public class HechoDTO {
     );
   }
 
+  public static Hecho toHecho(HechoDTO hechoDTO) {
+    return new Hecho(
+        CONTRIBUYENTE,
+        hechoDTO.hechoEstado,
+        new Contribuyente(hechoDTO.contribuyente.nombre, hechoDTO.contribuyente.apellido),
+        hechoDTO.titulo,
+        hechoDTO.descripcion,
+        new Categoria(hechoDTO.categoria),
+        hechoDTO.fechaDelHecho,
+        crearUbicacion(hechoDTO.ubicacion.latitud, hechoDTO.ubicacion.longitud),
+        hechoDTO.fechaDeCarga
+    );
+  }
+
   public static HechoDTO toHechoDTO(Hecho hecho) {
     HechoDTO hechoDTO = new HechoDTO();
     hechoDTO.hechoOrigen = CONTRIBUYENTE;
+    hechoDTO.hechoEstado = hecho.getHechoEstado();
     hechoDTO.titulo = hecho.getTitulo();
     hechoDTO.descripcion = hecho.getDescripcion();
     hechoDTO.fechaDelHecho = hecho.getFechaDelHecho();
@@ -52,6 +73,14 @@ public class HechoDTO {
 
   public void setHechoOrigen(HechoOrigen hechoOrigen) {
     this.hechoOrigen = hechoOrigen;
+  }
+
+  public void setHechoEstado(HechoEstado hechoEstado) {
+    this.hechoEstado = hechoEstado;
+  }
+
+  public void setContribuyente(ContribuyenteDTO contribuyente) {
+    this.contribuyente = contribuyente;
   }
 
   public void setTitulo(String titulo) {
@@ -84,6 +113,14 @@ public class HechoDTO {
 
   public HechoOrigen getHechoOrigen() {
     return hechoOrigen;
+  }
+
+  public HechoEstado getHechoEstado() {
+    return hechoEstado;
+  }
+
+  public ContribuyenteDTO getContribuyente() {
+    return contribuyente;
   }
 
   public LocalDateTime getFechaDelHecho() {
@@ -140,6 +177,35 @@ public class HechoDTO {
 
     public void setLongitud(String longitud) {
       this.longitud = longitud;
+    }
+  }
+
+  public class ContribuyenteDTO {
+    private String nombre;
+    private String apellido;
+
+    public ContribuyenteDTO() {
+    }
+
+    public ContribuyenteDTO(String nombre, String apellido) {
+      this.nombre = nombre;
+      this.apellido = apellido;
+    }
+
+    public String getApellido() {
+      return apellido;
+    }
+
+    public String getNombre() {
+      return nombre;
+    }
+
+    public void setNombre(String nombre) {
+      this.nombre = nombre;
+    }
+
+    public void setApellido(String apellido) {
+      this.apellido = apellido;
     }
   }
 }

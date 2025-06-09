@@ -18,6 +18,20 @@ public class HechoReposotorioEnMemoria implements HechoRepositorio {
   }
 
   @Override
+  public void modificar(Hecho hecho) {
+    hechos.keySet().forEach(id -> {
+      if (hechos.get(id).equals(hecho)) {
+        hechos.put(id, hecho);
+      }
+    });
+  }
+
+  @Override
+  public Hecho dameHecho(Hecho hecho) {
+    return hechos.values().stream().filter(h -> h.equals(hecho)).findFirst().get();
+  }
+
+  @Override
   public Collection<Hecho> dameHechos() {
     return hechos.values();
   }

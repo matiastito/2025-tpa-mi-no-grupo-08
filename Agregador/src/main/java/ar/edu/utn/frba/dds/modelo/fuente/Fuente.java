@@ -40,6 +40,18 @@ public class Fuente {
         .map(HechoDTO::toHecho)
         .collect(toSet());
   }
+
+  /*
+  public void solicitarRevision(Hecho hecho) {
+    ResponseEntity<List<HechoDTO>> result =
+        create("http://" + baseUrl + "/hechos")
+            .post()
+            .body(SolicitudDeEliminacionDeHechoDTO.toDTO(hecho))
+            .retrieve()
+            .toEntity(new ParameterizedTypeReference<>() {
+            });
+  }
+  */
 }
 
 

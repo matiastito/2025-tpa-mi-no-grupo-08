@@ -6,5 +6,9 @@ import java.util.Collection;
 public interface HechoRepositorio {
   void guardar(Hecho hecho);
 
+  void modificar(Hecho hecho);
+
+  Hecho dameHecho(Hecho hecho);
+
   Collection<Hecho> dameHechos();
 }

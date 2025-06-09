@@ -23,9 +23,7 @@ public class SolicitudEliminacionServicio {
   }
 
   public void guardarSolicitudDeEliminacionDeHecho(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho) {
-    if (detectorDeSpamServicio.esSpam(solicitudDeEliminacionDeHecho.getMotivo())) {
-      solicitudDeEliminacionDeHecho.rechazar();
-    }
     solicitudEliminacionRepositorio.guardar(solicitudDeEliminacionDeHecho);
+    detectorDeSpamServicio.rechazaSpam(solicitudDeEliminacionDeHecho);
   }
 }

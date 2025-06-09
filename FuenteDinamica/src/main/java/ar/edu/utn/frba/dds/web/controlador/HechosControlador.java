@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.web.controlador;
 
+import static ar.edu.utn.frba.dds.modelo.hecho.HechoEstado.PENDIENTE;
 import static ar.edu.utn.frba.dds.web.dto.HechoDTO.toHecho;
 import static java.util.stream.Collectors.toSet;
 
@@ -9,10 +10,10 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-//FIXME agregar la modificacion de los hechos
 @RestController
 public class HechosControlador {
 
@@ -20,8 +21,13 @@ public class HechosControlador {
   private HechoServicio hechoServicio;
 
   @PostMapping("/hechos")
-  public void hecho(@RequestBody HechoDTO hechoDTO) {
-    hechoServicio.guardarHecho(toHecho(hechoDTO));
+  public void crearHecho(@RequestBody HechoDTO hechoDTO) {
+    hechoServicio.guardarHecho(toHecho(hechoDTO, PENDIENTE));
+  }
+
+  @PutMapping("/hechos")
+  public void modificarHecho(@RequestBody HechoDTO hechoDTO) {
+    hechoServicio.modificarHecho(toHecho(hechoDTO));
   }
 
   @GetMapping("/hechos")

@@ -18,6 +18,11 @@ public class Contribuyente {
     this.nombre = nombre;
   }
 
+  public Contribuyente(String nombre, String apellido) {
+    this.nombre = nombre;
+    this.apellido = apellido;
+  }
+
   public Contribuyente(String nombre, String apellido, LocalDate fechaNacimiento) {
     this.nombre = nombre;
     this.apellido = apellido;

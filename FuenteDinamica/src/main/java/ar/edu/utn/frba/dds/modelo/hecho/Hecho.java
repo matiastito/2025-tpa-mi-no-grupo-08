@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelo.hecho;
 
+import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.ContenidoMultimedia;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.TipoContenidoMultimedia;
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.util.HashSet;
 import java.util.Objects;
 
 public class Hecho {
+  private final Contribuyente contribuyente;
   private String titulo;
   private String descripcion;
   private Categoria categoria;
@@ -16,10 +18,13 @@ public class Hecho {
   private LocalDateTime fechaDelHecho;
   private LocalDateTime fechaDeCarga;
   private HechoOrigen hechoOrigen;
+  private HechoEstado hechoEstado;
   private Collection<Etiqueta> etiquetas;
   private boolean eliminado = false;
 
   public Hecho(HechoOrigen hechoOrigen,
+               HechoEstado hechoEstado,
+               Contribuyente contribuyente,
                String titulo,
                String descripcion,
                Categoria categoria,
@@ -27,6 +32,8 @@ public class Hecho {
                Ubicacion ubicacion,
                LocalDateTime fechaDeCarga) {
     this.hechoOrigen = hechoOrigen;
+    this.hechoEstado = hechoEstado;
+    this.contribuyente = contribuyente;
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.categoria = categoria;
@@ -54,6 +61,10 @@ public class Hecho {
 
   public String getTitulo() {
     return titulo;
+  }
+
+  public Contribuyente getContribuyente() {
+    return contribuyente;
   }
 
   public void etiquetar(Etiqueta etiqueta) {
@@ -94,5 +105,9 @@ public class Hecho {
 
   public LocalDateTime getFechaDeCarga() {
     return this.fechaDeCarga;
+  }
+
+  public HechoEstado getHechoEstado() {
+    return hechoEstado;
   }
 }

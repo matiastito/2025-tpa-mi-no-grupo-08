@@ -1,30 +1,30 @@
 package ar.edu.utn.frba.dds.modelo.coleccion;
 
 import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.PROXY;
-import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toSet;
 
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
-//FIXME agergar una coleccion de fuentes, ver cache para fuentesProxy
 public class Coleccion {
   private String handle;
   private String titulo;
   private String descripcion;
-  private Set<Hecho> hechos;
-  private Fuente fuente;
+  private Map<Fuente, Collection<Hecho>> fuentes;
   private FiltrosParaHecho criteriosDePertenencia;
 
-  public Coleccion(String titulo, String descripcion, Fuente fuente) {
+  public Coleccion(String titulo, String descripcion, Fuente... fuentes) {
     this.titulo = titulo;
     this.descripcion = descripcion;
-    this.fuente = fuente;
+    this.fuentes = new HashMap<>();
+    getFuentes().forEach(fuente -> this.fuentes.put(fuente, new LinkedHashSet<>()));
     this.criteriosDePertenencia = new FiltrosParaHecho();
-    this.hechos = new HashSet<>();
   }
 
   public String getTitulo() {
@@ -35,8 +35,8 @@ public class Coleccion {
     return descripcion;
   }
 
-  public Fuente getFuente() {
-    return fuente;
+  public Set<Fuente> getFuentes() {
+    return fuentes.keySet();
   }
 
   public void agregarFiltro(FiltroDeHecho filtro) {
@@ -44,23 +44,27 @@ public class Coleccion {
   }
 
   public void colectarHechos() {
-    //FIXME acá que lo saque y lo vuelva a agregar (ver que hace el addAll), que se quede con el mas nuevo.
-    this.hechos.addAll(fuente.hechos());
-  }
-
-  public void agregarHecho(Hecho hecho) {
-    if (!hecho.estaEliminado()) {
-      this.hechos.add(hecho);
-    }
+    fuentes.forEach((f, h) -> {
+      if (!f.getTipoFuente().equals(PROXY)) {
+        h.addAll(f.hechos());
+      }
+    });
   }
 
   public Collection<Hecho> hechos() {
-    if (PROXY.equals(fuente.getTipoFuente())) {
-      colectarHechos();
-    }
-    return this.hechos.stream()
+    fuentes.forEach((f, h) -> {
+          if (PROXY.equals(f.getTipoFuente())) {
+            h.addAll(f.hechos());
+          }
+        }
+    );
+    return this.fuentes.values()
+        .stream()
+        .flatMap(Collection::stream)
+        .collect(toSet())
+        .stream()
         .filter(hecho -> !hecho.estaEliminado())
         .filter(criteriosDePertenencia::aplicarFiltros)
-        .collect(toCollection(HashSet::new));
+        .collect(toSet());
   }
 }
