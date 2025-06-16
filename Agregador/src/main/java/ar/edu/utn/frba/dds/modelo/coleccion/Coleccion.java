@@ -2,10 +2,11 @@ package ar.edu.utn.frba.dds.modelo.coleccion;
 
 import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.METAMAPA;
 import static java.util.stream.Collectors.toSet;
+
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
-
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -23,7 +24,8 @@ public class Coleccion {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.fuentes = new HashMap<>();
-    getFuentes().forEach(fuente -> this.fuentes.put(fuente, new LinkedHashSet<>()));
+    Arrays.stream(fuentes).sequential().forEach(
+        f -> this.fuentes.put(f, new LinkedHashSet<>()));
     this.criteriosDePertenencia = new FiltrosParaHecho();
   }
 
@@ -44,17 +46,17 @@ public class Coleccion {
   }
 
   public void colectarHechos() {
-    fuentes.forEach((f, h) -> {
+    fuentes.forEach((f, hechosExistentes) -> {
       if (!METAMAPA.equals(f.getTipoFuente())) {
-        h.addAll(f.hechos());
+        actualizarLosNoEliminados(f, hechosExistentes);
       }
     });
   }
 
   public Collection<Hecho> hechos() {
-    fuentes.forEach((f, h) -> {
+    fuentes.forEach((f, hechosExistentes) -> {
           if (METAMAPA.equals(f.getTipoFuente())) {
-            h.addAll(f.hechos());
+            actualizarLosNoEliminados(f, hechosExistentes);
           }
         }
     );
@@ -67,4 +69,9 @@ public class Coleccion {
         .filter(criteriosDePertenencia::aplicarFiltros)
         .collect(toSet());
   }
+
+  private void actualizarLosNoEliminados(Fuente f, Collection<Hecho> hechosExistentes) {
+    hechosExistentes.addAll(f.hechos().stream().filter(h -> !h.estaEliminado()).collect(toSet()));
+  }
+
 }

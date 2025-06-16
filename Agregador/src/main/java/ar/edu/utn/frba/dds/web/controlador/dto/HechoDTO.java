@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.web.controlador.dto;
 
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 
+import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
@@ -17,6 +18,7 @@ public class HechoDTO {
   private LocalDateTime fechaDelHecho;
   private UbicacionDTO ubicacion;
   private LocalDateTime fechaDeCarga;
+  private boolean eliminado;
 
   public HechoDTO() {
   }
@@ -77,6 +79,14 @@ public class HechoDTO {
     return fechaDelHecho;
   }
 
+  public boolean isEliminado() {
+    return eliminado;
+  }
+
+  public void setEliminado(boolean eliminado) {
+    this.eliminado = eliminado;
+  }
+
   public static HechoDTO toDTO(Hecho hecho) {
     HechoDTO hechoDTO = new HechoDTO();
     hechoDTO.hechoOrigen = hecho.getHechoOrigen();
@@ -88,10 +98,11 @@ public class HechoDTO {
     hechoDTO.fechaDeCarga = hecho.getFechaDeCarga();
     hechoDTO.ubicacion = hechoDTO.
         new UbicacionDTO(hecho.getUbicacion().getLatitud(), hecho.getUbicacion().getLongitud());
+    hechoDTO.eliminado = hecho.estaEliminado();
     return hechoDTO;
   }
 
-  public static Hecho toHecho(HechoDTO hechoDTO) {
+  public static Hecho toHecho(HechoDTO hechoDTO, Fuente fuente) {
     return new Hecho(
         hechoDTO.hechoOrigen,
         hechoDTO.titulo,
@@ -99,7 +110,8 @@ public class HechoDTO {
         new Categoria(hechoDTO.categoria),
         hechoDTO.fechaDeCarga,
         crearUbicacion(hechoDTO.ubicacion.getLatitud(), hechoDTO.ubicacion.getLongitud()),
-        hechoDTO.fechaDelHecho
+        hechoDTO.fechaDelHecho,
+        fuente
     );
   }
 

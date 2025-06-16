@@ -4,16 +4,17 @@ import static ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHe
 
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import ar.edu.utn.frba.dds.servicio.ColeccionServicio;
 import ar.edu.utn.frba.dds.servicio.ContribuyenteServicio;
 import ar.edu.utn.frba.dds.servicio.SolicitudEliminacionServicio;
 import ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHechoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-//FIXME el agregador no sabe nada de que hecho esta eliminado, se lo fwd a la fuente correspondiente
 @RestController
 public class SolicitudDeEliminacionDeHechoControlador {
   @Autowired
@@ -30,16 +31,44 @@ public class SolicitudDeEliminacionDeHechoControlador {
    * de la misma.
    */
   @PostMapping("/solicitudes")
-  public void solicitudes(@RequestBody SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO) {
+  public void crearSolicitud(@RequestBody SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO) {
+    //Buscar Contribuyente
     Contribuyente contribuyente = null;
     if (solicitudDeEliminacionDeHechoDTO.getRepotador() != null) {
       contribuyente = contribuyenteServicio.guardar(
           solicitudDeEliminacionDeHechoDTO.getRepotador().getNombre(),
           solicitudDeEliminacionDeHechoDTO.getRepotador().getApellido());
     }
+
+    //Buscar Hecho
     Hecho hecho = coleccionServicio.buscarHechoPorTitulo(solicitudDeEliminacionDeHechoDTO.getTituloHecho());
+
+    //Registar Solicitud
     solicitudEliminacionServicio.guardarSolicitudDeEliminacionDeHecho(
         toModel(solicitudDeEliminacionDeHechoDTO, hecho, contribuyente));
+  }
+
+
+  /**
+   * POST /solicitudes
+   * Permite crear solicitudes de eliminación,
+   * enviando los datos de la solicitud como un JSON a través del cuerpo (body)
+   * de la misma.
+   */
+  @PutMapping("/solicitudes")
+  public void modificarSolicitud(
+      @RequestBody SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO) {
+    //Buscar Solicitud
+    Hecho hecho = coleccionServicio.buscarHechoPorTitulo(solicitudDeEliminacionDeHechoDTO.getTituloHecho());
+    SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho =
+        solicitudEliminacionServicio.buscarSolicitudDeEliminacionDeHecho(hecho);
+
+    //Buscar Administrador
+    if (solicitudDeEliminacionDeHechoDTO.isAprobada()) {
+      solicitudDeEliminacionDeHecho.aprobar(null);
+    } else {
+      solicitudDeEliminacionDeHecho.rechazar(null);
+    }
   }
 }
 

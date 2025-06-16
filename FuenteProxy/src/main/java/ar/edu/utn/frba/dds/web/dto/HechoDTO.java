@@ -2,8 +2,9 @@ package ar.edu.utn.frba.dds.web.dto;
 
 import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.EXTERNO;
 import static java.lang.String.valueOf;
-import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
 
+import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -18,6 +19,7 @@ public class HechoDTO {
   private UbicacionDTO ubicacion;
   private LocalDateTime fechaDeCarga;
   private Collection<String> etiquetas;
+  private boolean eliminado;
 
   public void setHechoOrigen(HechoOrigen hechoOrigen) {
     this.hechoOrigen = hechoOrigen;
@@ -49,6 +51,14 @@ public class HechoDTO {
 
   public void setEtiquetas(Collection<String> etiquetas) {
     this.etiquetas = etiquetas;
+  }
+
+  public void setEliminado(boolean eliminado) {
+    this.eliminado = eliminado;
+  }
+
+  public boolean isEliminado() {
+    return eliminado;
   }
 
   public HechoOrigen getHechoOrigen() {
@@ -83,6 +93,10 @@ public class HechoDTO {
     return descripcion;
   }
 
+  public Hecho toHecho() {
+    return new Hecho("ToFO");
+  }
+
   public class UbicacionDTO {
     private String latitud;
     private String longitud;
@@ -110,10 +124,6 @@ public class HechoDTO {
     public void setLongitud(String longitud) {
       this.longitud = longitud;
     }
-  }
-
-  public class HechoOrigenDTO {
-
   }
 
   public static HechoDTO toHechoDTO(DesastreDTO desastreDTO) {

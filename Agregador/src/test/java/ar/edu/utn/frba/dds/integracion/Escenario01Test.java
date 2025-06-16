@@ -18,6 +18,7 @@ import ar.edu.utn.frba.dds.modelo.coleccion.filtro.TituloFiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Etiqueta;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +31,7 @@ public class Escenario01Test {
     Fuente fuente = mock(Fuente.class);
     when(fuente.getTipoFuente()).thenReturn(DINAMICA);
     coleccionManual = new Coleccion("Colección prueba", "Esto es una prueba", fuente);
-    coleccionManual.agregarHecho(
+    when(fuente.hechos()).thenReturn(Sets.set(
         new Hecho(
             MANUAL,
             "Caída de aeronave impacta en Olavarría",
@@ -38,9 +39,9 @@ public class Escenario01Test {
             categoria("Caída de aeronave"),
             formatearFecha("29/11/2001"),
             crearUbicacion("-36.868375", "-60.343297"),
-            now()
-        ));
-    coleccionManual.agregarHecho(
+            now(),
+            fuente
+        ),
         new Hecho(
             MANUAL,
             "Serio incidente: Accidente con maquinaria industrial en Chos Malal, Neuquén",
@@ -48,10 +49,9 @@ public class Escenario01Test {
             categoria("Accidente con maquinaria industrial"),
             formatearFecha("16/08/2001"),
             crearUbicacion("-37.345571", "-70.241485"),
-            now()
-        ));
-
-    coleccionManual.agregarHecho(
+            now(),
+            fuente
+        ),
         new Hecho(
             MANUAL,
             "Caída de aeronave impacta en Venado Tuerto, Santa Fe",
@@ -59,10 +59,9 @@ public class Escenario01Test {
             categoria("Caída de aeronave"),
             formatearFecha("08/08/2008"),
             crearUbicacion("-33.768051", "-61.921032"),
-            now()
-        ));
-
-    coleccionManual.agregarHecho(
+            now(),
+            fuente
+        ),
         new Hecho(
             MANUAL,
             "Accidente en paso a nivel deja múltiples daños en Pehuajó, Buenos Aires",
@@ -70,19 +69,19 @@ public class Escenario01Test {
             categoria("Accidente en paso a nivel"),
             formatearFecha("27/01/2020"),
             crearUbicacion("-35.855811", "-61.940589"),
-            now()
-        ));
-
-    coleccionManual.agregarHecho(
-        new Hecho(
+            now(),
+            fuente
+        ), new Hecho(
             MANUAL,
             "Devastador Derrumbe en obra en construcción afecta a Presidencia Roque Sáenz Peña",
             "Un grave derrumbe en obra en construcción se registró en Presidencia Roque Sáenz Peña, Chaco. El incidente generó preocupación entre las autoridades provinciales. El intendente local se ha trasladado al lugar para supervisar las operaciones.",
             categoria("Derrumbe en obra en construcción"),
             formatearFecha("04/06/2016"),
             crearUbicacion("-26.780008", "-60.458782"),
-            now()
-        ));
+            now(),
+            fuente
+        )));
+    coleccionManual.colectarHechos();
   }
 
   @Test

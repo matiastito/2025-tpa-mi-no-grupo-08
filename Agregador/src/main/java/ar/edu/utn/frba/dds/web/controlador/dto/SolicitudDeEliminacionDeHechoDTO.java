@@ -9,6 +9,9 @@ public class SolicitudDeEliminacionDeHechoDTO {
   private String motivo;
   private ContribuyenteDTO repotador;
 
+  private AdministradorDTO administrador;
+  private boolean aprobada;
+
   public SolicitudDeEliminacionDeHechoDTO() {
   }
 
@@ -45,6 +48,22 @@ public class SolicitudDeEliminacionDeHechoDTO {
     this.repotador = repotador;
   }
 
+  public void setAprobada(boolean aprobada) {
+    this.aprobada = aprobada;
+  }
+
+  public boolean isAprobada() {
+    return aprobada;
+  }
+
+  public AdministradorDTO getAdministrador() {
+    return administrador;
+  }
+
+  public void setAdministrador(AdministradorDTO administrador) {
+    this.administrador = administrador;
+  }
+
   public class ContribuyenteDTO {
     private String nombre;
     private String apellido;
@@ -67,5 +86,18 @@ public class SolicitudDeEliminacionDeHechoDTO {
     public void setApellido(String apellido) {
       this.apellido = apellido;
     }
+  }
+
+  public class AdministradorDTO {
+    private String nombre;
+
+    public String getNombre() {
+      return nombre;
+    }
+
+    public void setNombre(String nombre) {
+      this.nombre = nombre;
+    }
+
   }
 }

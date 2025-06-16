@@ -22,7 +22,8 @@ public class HechosControlador {
 
   @PostMapping("/hechos")
   public void crearHecho(@RequestBody HechoDTO hechoDTO) {
-    hechoServicio.guardarHecho(toHecho(hechoDTO, PENDIENTE));
+    hechoDTO.setHechoEstado(PENDIENTE);
+    hechoServicio.guardarHecho(toHecho(hechoDTO));
   }
 
   @PutMapping("/hechos")

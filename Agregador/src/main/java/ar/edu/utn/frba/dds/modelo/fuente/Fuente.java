@@ -1,14 +1,15 @@
 package ar.edu.utn.frba.dds.modelo.fuente;
 
+import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.DINAMICA;
+import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.METAMAPA;
+import static ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO.toDTO;
 import static java.util.stream.Collectors.toSet;
 import static org.springframework.web.client.RestClient.create;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
-import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO;
-import ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHechoDTO;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 
@@ -30,7 +31,7 @@ public class Fuente {
   }
 
   public Collection<Hecho> hechos() {
-    ResponseEntity<List<HechoDTO>> result =
+    ResponseEntity<Set<HechoDTO>> result =
         create("http://" + baseUrl + "/hechos")
             .get()
             .retrieve()
@@ -39,18 +40,20 @@ public class Fuente {
     return result
         .getBody()
         .stream()
-        .map(HechoDTO::toHecho)
+        .map(h -> HechoDTO.toHecho(h, this))
+        //.map(hecho -> hecho.setFuente(this))
         .collect(toSet());
   }
 
-  public void solicitarRevision(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho) {
-    ResponseEntity<List<HechoDTO>> result =
-        create("http://" + baseUrl + "/hechos")
-            .post()
-            .body(SolicitudDeEliminacionDeHechoDTO.toDTO(solicitudDeEliminacionDeHecho))
-            .retrieve()
-            .toEntity(new ParameterizedTypeReference<>() {
-            });
+  public void eliminar(Hecho hecho) {
+    if (DINAMICA.equals(tipoFuente) || METAMAPA.equals(tipoFuente)) {
+      create("http://" + baseUrl + "/hechos")
+          .put()
+          .body(toDTO(hecho))
+          .retrieve()
+          .toEntity(new ParameterizedTypeReference<>() {
+          });
+    }
   }
 }
 

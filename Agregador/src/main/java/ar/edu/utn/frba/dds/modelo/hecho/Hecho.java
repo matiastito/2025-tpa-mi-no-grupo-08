@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelo.hecho;
 
+import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.ContenidoMultimedia;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.TipoContenidoMultimedia;
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class Hecho {
   private LocalDateTime fechaDeCarga;
   private HechoOrigen hechoOrigen;
   private Collection<Etiqueta> etiquetas;
+  private Fuente fuente;
   private boolean eliminado = false;
 
   public Hecho(HechoOrigen hechoOrigen,
@@ -25,7 +27,19 @@ public class Hecho {
                Categoria categoria,
                LocalDateTime fechaDelHecho,
                Ubicacion ubicacion,
-               LocalDateTime fechaDeCarga) {
+               LocalDateTime fechaDeCarga,
+               Fuente fuente) {
+    this(hechoOrigen, titulo, descripcion, categoria, fechaDelHecho, ubicacion, fechaDeCarga);
+    this.fuente = fuente;
+  }
+
+  private Hecho(HechoOrigen hechoOrigen,
+                String titulo,
+                String descripcion,
+                Categoria categoria,
+                LocalDateTime fechaDelHecho,
+                Ubicacion ubicacion,
+                LocalDateTime fechaDeCarga) {
     this.hechoOrigen = hechoOrigen;
     this.titulo = titulo;
     this.descripcion = descripcion;
@@ -42,6 +56,7 @@ public class Hecho {
 
   public void eliminar() {
     this.eliminado = true;
+    this.fuente.eliminar(this);
   }
 
   public LocalDateTime getFechaDelHecho() {
@@ -82,6 +97,15 @@ public class Hecho {
 
   public LocalDateTime getFechaDeCarga() {
     return fechaDeCarga;
+  }
+
+  public Hecho setFuente(Fuente fuente) {
+    this.fuente = fuente;
+    return this;
+  }
+
+  public Fuente getFuente() {
+    return this.fuente;
   }
 
   @Override

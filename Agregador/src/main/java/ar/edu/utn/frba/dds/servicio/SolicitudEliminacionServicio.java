@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.servicio;
 
+import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import ar.edu.utn.frba.dds.repositorio.SolicitudEliminacionRepositorio;
 import java.util.Collection;
@@ -25,5 +26,11 @@ public class SolicitudEliminacionServicio {
   public void guardarSolicitudDeEliminacionDeHecho(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho) {
     solicitudEliminacionRepositorio.guardar(solicitudDeEliminacionDeHecho);
     detectorDeSpamServicio.rechazaSpam(solicitudDeEliminacionDeHecho);
+  }
+
+  public SolicitudDeEliminacionDeHecho buscarSolicitudDeEliminacionDeHecho(Hecho hecho) {
+    return solicitudEliminacionRepositorio.solicitudesDeEliminacionDeHecho().stream().filter(
+        s -> s.getHecho().equals(hecho)
+    ).findFirst().get();
   }
 }

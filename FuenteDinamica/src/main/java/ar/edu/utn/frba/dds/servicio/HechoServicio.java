@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.servicio;
 
 import static java.time.LocalDateTime.now;
 import static java.time.temporal.ChronoUnit.DAYS;
+import static java.util.stream.Collectors.toSet;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.repositorio.HechoRepositorio;
@@ -33,6 +34,6 @@ public class HechoServicio {
   }
 
   public Collection<Hecho> dameHechos() {
-    return hechoRepositorio.dameHechos();
+    return hechoRepositorio.dameHechos().stream().filter(h -> !h.estaEliminado()).collect(toSet());
   }
 }

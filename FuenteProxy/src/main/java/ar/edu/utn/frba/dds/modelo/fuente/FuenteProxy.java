@@ -5,4 +5,6 @@ import java.util.Collection;
 
 public interface FuenteProxy {
   Collection<HechoDTO> hechos();
+
+  void eliminar(HechoDTO hecho);
 }

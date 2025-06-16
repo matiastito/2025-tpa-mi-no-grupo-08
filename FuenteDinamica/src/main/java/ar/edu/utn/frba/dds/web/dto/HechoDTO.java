@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.web.dto;
 
 import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.CONTRIBUYENTE;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
-import static java.time.LocalDateTime.now;
 
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
@@ -25,23 +24,10 @@ public class HechoDTO {
   private LocalDateTime fechaDelHecho;
   private LocalDateTime fechaDeCarga;
   private Collection<String> etiquetas;
-
-  public static Hecho toHecho(HechoDTO hechoDTO, HechoEstado hechoEstado) {
-    return new Hecho(
-        CONTRIBUYENTE,
-        hechoEstado,
-        new Contribuyente(hechoDTO.contribuyente.nombre, hechoDTO.contribuyente.apellido),
-        hechoDTO.titulo,
-        hechoDTO.descripcion,
-        new Categoria(hechoDTO.categoria),
-        hechoDTO.fechaDelHecho,
-        crearUbicacion(hechoDTO.ubicacion.latitud, hechoDTO.ubicacion.longitud),
-        now()
-    );
-  }
+  private boolean eliminado = false;
 
   public static Hecho toHecho(HechoDTO hechoDTO) {
-    return new Hecho(
+    Hecho hecho = new Hecho(
         CONTRIBUYENTE,
         hechoDTO.hechoEstado,
         new Contribuyente(hechoDTO.contribuyente.nombre, hechoDTO.contribuyente.apellido),
@@ -52,6 +38,10 @@ public class HechoDTO {
         crearUbicacion(hechoDTO.ubicacion.latitud, hechoDTO.ubicacion.longitud),
         hechoDTO.fechaDeCarga
     );
+    if (hechoDTO.isEliminado()) {
+      hecho.eliminar();
+    }
+    return hecho;
   }
 
   public static HechoDTO toHechoDTO(Hecho hecho) {
@@ -149,6 +139,14 @@ public class HechoDTO {
 
   public String getDescripcion() {
     return descripcion;
+  }
+
+  public void setEliminado(boolean eliminado) {
+    this.eliminado = eliminado;
+  }
+
+  public boolean isEliminado() {
+    return eliminado;
   }
 
   public class UbicacionDTO {

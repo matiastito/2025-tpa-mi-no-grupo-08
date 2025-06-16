@@ -3,7 +3,9 @@ package ar.edu.utn.frba.dds.unitario;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
+import static org.mockito.Mockito.mock;
 
+import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Categorias;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
@@ -21,7 +23,8 @@ public class SolicitudDeEliminacionDeHechoTest {
         Categorias.categoria("Incendio forestal"),
         of(2025, 3, 12, 10, 0),
         crearUbicacion("-31.4", "-64.2"),
-        now()
+        now(),
+        mock(Fuente.class)
     );
 
   }

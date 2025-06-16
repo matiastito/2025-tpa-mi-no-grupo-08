@@ -46,6 +46,10 @@ public class SolicitudDeEliminacionDeHecho {
     resolver(estado);
   }
 
+  public Hecho getHecho() {
+    return hecho;
+  }
+
   private void resolver(SolicitudDeEliminacionDeHechoEstado estado) {
     this.solicitudDeEliminacionDeHechoEstado = estado;
     this.fechaResolucion = now();

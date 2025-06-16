@@ -16,6 +16,8 @@ import ar.edu.utn.frba.dds.web.dto.PagedResponseDTO;
 import jakarta.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -23,14 +25,20 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
+@ConditionalOnProperty(prefix = "proxy", name = "type", havingValue = "APIDDS")
 public class FuenteProxyAPIdeDDS implements FuenteProxy {
   private Collection<HechoDTO> hechos;
   private LocalDateTime ultimaActualizacion = MIN;
 
-  private final String baseUrl = "https://api-ddsi.disilab.ar/public/api";
+  private String baseUrl;
   private final Integer pageSize = 150;
   private final Integer cantidadDeLlamadasConcurrentes = 10;
+
   private LoginResponseDTO loginResponse;
+
+  public FuenteProxyAPIdeDDS(@Value("${proxy.baseUrl}") String baseUrl) {
+    this.baseUrl = baseUrl;
+  }
 
   @PostConstruct
   public void init() {
@@ -62,7 +70,7 @@ public class FuenteProxyAPIdeDDS implements FuenteProxy {
   public Collection<HechoDTO> hechos() {
     if (MINUTES.between(ultimaActualizacion, now()) < 5)
       return this.hechos;
-    return fetchPage(0, pageSize) // Assuming 0-indexed pages
+    return fetchPage(0, pageSize)
         .flatMapMany(firstPage -> {
           int totalPages = firstPage.getLastPage();
           out.println("Paginas Totales: " + totalPages);
@@ -84,5 +92,10 @@ public class FuenteProxyAPIdeDDS implements FuenteProxy {
           this.ultimaActualizacion = now();
         })
         .block();
+  }
+
+  @Override
+  public void eliminar(HechoDTO hecho) {
+    //Nada que hacer, es una fuente que no manejamos.
   }
 }

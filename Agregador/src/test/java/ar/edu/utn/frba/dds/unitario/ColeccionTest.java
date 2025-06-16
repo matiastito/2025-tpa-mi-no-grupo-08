@@ -26,6 +26,7 @@ public class ColeccionTest {
 
   @BeforeEach
   public void setUp() {
+    fuente = mock(Fuente.class);
     hecho = new Hecho(
         HechoOrigen.MANUAL,
         "Protesta en La Plata",
@@ -33,10 +34,9 @@ public class ColeccionTest {
         categoria("Otro"),
         LocalDateTime.of(2025, 1, 20, 14, 30),
         crearUbicacion("-34.921", "-57.954"),
-        now()
+        now(),
+        fuente
     );
-
-    fuente = mock(Fuente.class);
     when(fuente.hechos()).thenReturn(of(hecho));
 
     coleccion = new Coleccion("Protestas", "Protestas sociales en Argentina", fuente);

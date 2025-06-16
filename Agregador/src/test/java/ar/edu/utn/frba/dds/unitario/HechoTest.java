@@ -6,8 +6,10 @@ import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
+import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Categorias;
 import ar.edu.utn.frba.dds.modelo.hecho.Etiqueta;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
@@ -28,7 +30,8 @@ public class HechoTest {
         Categorias.categoria("Incendio forestal"),
         of(2025, 3, 12, 10, 0),
         crearUbicacion("-31.4", "-64.2"),
-        now()
+        now(),
+        mock(Fuente.class)
     );
   }
 
@@ -65,7 +68,8 @@ public class HechoTest {
         Categorias.categoria("Otro"),
         now(),
         crearUbicacion("0.0", "0.0"),
-        now()
+        now(),
+        mock(Fuente.class)
     );
     assertEquals(hecho, otroHecho);
   }

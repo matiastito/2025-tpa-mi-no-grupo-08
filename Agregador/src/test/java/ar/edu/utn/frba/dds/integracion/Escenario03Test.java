@@ -21,6 +21,7 @@ import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +34,7 @@ public class Escenario03Test {
     Fuente fuente = mock(Fuente.class);
     when(fuente.getTipoFuente()).thenReturn(DINAMICA);
     coleccionManual = new Coleccion("Colección prueba", "Esto es una prueba", fuente);
-    coleccionManual.agregarHecho(
+    when(fuente.hechos()).thenReturn(Set.of(
         new Hecho(
             MANUAL,
             "Brote de enfermedad contagiosa causa estragos en San Lorenzo, Santa Fe",
@@ -41,8 +42,10 @@ public class Escenario03Test {
             categoria("Evento sanitario"),
             formatearFecha("05/07/2005"),
             crearUbicacion("-32.786098", "-60.741543"),
-            now()
-        ));
+            now(),
+            fuente
+        )));
+    coleccionManual.colectarHechos();
   }
 
   @Test
