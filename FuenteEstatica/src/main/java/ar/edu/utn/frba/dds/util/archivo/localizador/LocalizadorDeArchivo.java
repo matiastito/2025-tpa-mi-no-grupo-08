@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.archivo.localizador;
+package ar.edu.utn.frba.dds.util.archivo.localizador;
 
 import java.net.URI;
 

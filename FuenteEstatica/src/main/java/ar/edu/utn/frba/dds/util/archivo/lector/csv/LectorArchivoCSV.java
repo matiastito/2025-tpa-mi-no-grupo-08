@@ -1,8 +1,9 @@
-package ar.edu.utn.frba.dds.archivo.lector.csv;
+package ar.edu.utn.frba.dds.util.archivo.lector.csv;
 
 import static java.nio.file.Files.lines;
 import static java.nio.file.Paths.get;
-import ar.edu.utn.frba.dds.archivo.lector.LectorDeArchivo;
+import ar.edu.utn.frba.dds.util.archivo.lector.LectorDeArchivo;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+@Component
 public class LectorArchivoCSV implements LectorDeArchivo {
 
   public List<List<String>> getRegistros(URI uri) {
@@ -20,7 +22,7 @@ public class LectorArchivoCSV implements LectorDeArchivo {
       return registros;
     } catch (
         IOException e) {
-      throw new RuntimeException("Ocurrió un error al parsear el archivo CSV de Hechos.");
+      throw new RuntimeException("Ocurrió un error al parsear el archivo CSV.");
     }
   }
 

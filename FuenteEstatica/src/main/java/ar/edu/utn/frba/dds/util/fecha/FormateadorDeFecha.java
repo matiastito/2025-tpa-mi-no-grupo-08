@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.util;
+package ar.edu.utn.frba.dds.util.fecha;
 
 import static java.time.LocalDate.parse;
 import static java.time.format.DateTimeFormatter.ofPattern;

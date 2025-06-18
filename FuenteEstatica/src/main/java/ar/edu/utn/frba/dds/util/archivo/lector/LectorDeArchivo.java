@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.archivo.lector;
+package ar.edu.utn.frba.dds.util.archivo.lector;
 
 import java.net.URI;
 import java.util.List;

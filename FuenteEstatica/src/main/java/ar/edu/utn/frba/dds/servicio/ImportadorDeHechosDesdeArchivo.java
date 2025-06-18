@@ -1,24 +1,24 @@
-package ar.edu.utn.frba.dds.modelo.fuente;
+package ar.edu.utn.frba.dds.servicio;
 
 import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.EXTERNO;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
-import static ar.edu.utn.frba.dds.util.FormateadorDeFecha.formatearFecha;
+import static ar.edu.utn.frba.dds.util.fecha.FormateadorDeFecha.formatearFecha;
 import static java.time.LocalDateTime.now;
-import ar.edu.utn.frba.dds.archivo.lector.LectorDeArchivo;
-import ar.edu.utn.frba.dds.archivo.localizador.LocalizadorDeArchivo;
 import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+import ar.edu.utn.frba.dds.util.archivo.lector.LectorDeArchivo;
+import ar.edu.utn.frba.dds.util.archivo.localizador.LocalizadorDeArchivo;
 
 import java.net.URI;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-public class FuenteEstatica {
+public class ImportadorDeHechosDesdeArchivo {
   private LectorDeArchivo lectorDeArchivoDeHechos;
   private LocalizadorDeArchivo localizadorDeArchivo;
 
-  public FuenteEstatica(LectorDeArchivo lectorDeArchivoDeHechos, LocalizadorDeArchivo localizadorDeArchivo) {
+  public ImportadorDeHechosDesdeArchivo(LectorDeArchivo lectorDeArchivoDeHechos, LocalizadorDeArchivo localizadorDeArchivo) {
     this.lectorDeArchivoDeHechos = lectorDeArchivoDeHechos;
     this.localizadorDeArchivo = localizadorDeArchivo;
   }
@@ -44,7 +44,8 @@ public class FuenteEstatica {
         titulo, descripcion, new Categoria(categoria),
         formatearFecha(fechaDelHecho),
         crearUbicacion(latitud, longitud),
-        now()
+        now(),
+        false
     );
     if (hechos.contains(hecho)) {
       hechos.remove(hecho);

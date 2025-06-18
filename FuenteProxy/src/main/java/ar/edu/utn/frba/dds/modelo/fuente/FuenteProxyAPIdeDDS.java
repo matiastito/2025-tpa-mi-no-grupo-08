@@ -2,20 +2,15 @@ package ar.edu.utn.frba.dds.modelo.fuente;
 
 import static java.lang.System.err;
 import static java.lang.System.out;
-import static java.time.LocalDateTime.MIN;
-import static java.time.LocalDateTime.now;
-import static java.time.temporal.ChronoUnit.MINUTES;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.client.RestClient.create;
 import static reactor.core.publisher.Flux.empty;
 import static reactor.core.publisher.Flux.range;
-
 import ar.edu.utn.frba.dds.web.dto.HechoDTO;
 import ar.edu.utn.frba.dds.web.dto.LoginResponseDTO;
 import ar.edu.utn.frba.dds.web.dto.PagedResponseDTO;
 import jakarta.annotation.PostConstruct;
-import java.time.LocalDateTime;
-import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.ParameterizedTypeReference;
@@ -24,19 +19,21 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Collection;
+
 @Component
 @ConditionalOnProperty(prefix = "proxy", name = "type", havingValue = "APIDDS")
 public class FuenteProxyAPIdeDDS implements FuenteProxy {
-  private Collection<HechoDTO> hechos;
-  private LocalDateTime ultimaActualizacion = MIN;
-
+  private FuenteProxyEnMemoria fuenteProxyEnMemoria;
   private String baseUrl;
-  private final Integer pageSize = 150;
-  private final Integer cantidadDeLlamadasConcurrentes = 10;
+  private static final Integer pageSize = 150;
+  private static final Integer cantidadDeLlamadasConcurrentes = 10;
 
   private LoginResponseDTO loginResponse;
 
-  public FuenteProxyAPIdeDDS(@Value("${proxy.baseUrl}") String baseUrl) {
+  @Autowired
+  public FuenteProxyAPIdeDDS(FuenteProxyEnMemoria fuenteProxyEnMemoria, @Value("${proxy.baseUrl}") String baseUrl) {
+    this.fuenteProxyEnMemoria = fuenteProxyEnMemoria;
     this.baseUrl = baseUrl;
   }
 
@@ -68,8 +65,8 @@ public class FuenteProxyAPIdeDDS implements FuenteProxy {
   }
 
   public Collection<HechoDTO> hechos() {
-    if (MINUTES.between(ultimaActualizacion, now()) < 5)
-      return this.hechos;
+    if (fuenteProxyEnMemoria.isRecent())
+      return this.fuenteProxyEnMemoria.hechos();
     return fetchPage(0, pageSize)
         .flatMapMany(firstPage -> {
           int totalPages = firstPage.getLastPage();
@@ -88,8 +85,7 @@ public class FuenteProxyAPIdeDDS implements FuenteProxy {
         })
         .collectList()
         .doOnSuccess(hechos -> {
-          this.hechos = hechos;
-          this.ultimaActualizacion = now();
+          this.fuenteProxyEnMemoria.actualizar(hechos);
         })
         .block();
   }

@@ -1,7 +1,7 @@
-package ar.edu.utn.frba.dds.archivo.localizador;
+package ar.edu.utn.frba.dds.util.archivo.localizador;
 
 import static java.util.Objects.requireNonNull;
-import ar.edu.utn.frba.dds.archivo.TipoArchivo;
+import ar.edu.utn.frba.dds.util.archivo.TipoArchivo;
 
 import java.net.URI;
 import java.net.URISyntaxException;

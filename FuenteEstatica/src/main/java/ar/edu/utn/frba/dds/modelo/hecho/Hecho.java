@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.modelo.hecho;
 
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.ContenidoMultimedia;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.TipoContenidoMultimedia;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -25,7 +26,8 @@ public class Hecho {
                Categoria categoria,
                LocalDateTime fechaDelHecho,
                Ubicacion ubicacion,
-               LocalDateTime fechaDeCarga) {
+               LocalDateTime fechaDeCarga,
+               boolean eliminado) {
     this.hechoOrigen = hechoOrigen;
     this.titulo = titulo;
     this.descripcion = descripcion;
@@ -33,6 +35,7 @@ public class Hecho {
     this.fechaDelHecho = fechaDelHecho;
     this.ubicacion = ubicacion;
     this.fechaDeCarga = fechaDeCarga;
+    this.eliminado = eliminado;
     this.etiquetas = new HashSet<>();
   }
 

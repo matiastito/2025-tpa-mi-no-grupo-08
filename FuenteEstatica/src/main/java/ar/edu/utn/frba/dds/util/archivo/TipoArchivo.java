@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.archivo;
+package ar.edu.utn.frba.dds.util.archivo;
 
 public enum TipoArchivo {
   CSV(".csv"), JSON(".json"), TXT(".txt");

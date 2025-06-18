@@ -18,6 +18,7 @@ public class HechoDTO {
   private LocalDateTime fechaDelHecho;
   private UbicacionDTO ubicacion;
   private LocalDateTime fechaDeCarga;
+  private boolean eliminado;
 
   public HechoDTO() {
   }
@@ -50,6 +51,10 @@ public class HechoDTO {
     this.hechoOrigen = hechoOrigen;
   }
 
+  public void setEliminado(boolean eliminado) {
+    this.eliminado = eliminado;
+  }
+
   public HechoOrigen getHechoOrigen() {
     return hechoOrigen;
   }
@@ -78,6 +83,10 @@ public class HechoDTO {
     return fechaDelHecho;
   }
 
+  public boolean isEliminado() {
+    return eliminado;
+  }
+
   public static HechoDTO toDTO(Hecho hecho) {
     HechoDTO hechoDTO = new HechoDTO();
     hechoDTO.hechoOrigen = EXTERNO;
@@ -87,6 +96,7 @@ public class HechoDTO {
     hechoDTO.fechaDelHecho = hecho.getFechaDelHecho();
     hechoDTO.categoria = hecho.getCategoria().getNombre();
     hechoDTO.fechaDeCarga = hecho.getFechaDeCarga();
+    hechoDTO.eliminado = hecho.estaEliminado();
     hechoDTO.ubicacion = hechoDTO.
         new UbicacionDTO(hecho.getUbicacion().getLatitud(), hecho.getUbicacion().getLongitud());
     return hechoDTO;
@@ -100,7 +110,8 @@ public class HechoDTO {
         new Categoria(hechoDTO.categoria),
         hechoDTO.fechaDeCarga,
         crearUbicacion(hechoDTO.ubicacion.getLatitud(), hechoDTO.ubicacion.getLongitud()),
-        hechoDTO.fechaDelHecho
+        hechoDTO.fechaDelHecho,
+        false
     );
     return hecho;
   }
