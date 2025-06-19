@@ -6,10 +6,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.client.RestClient.create;
 import static reactor.core.publisher.Flux.empty;
 import static reactor.core.publisher.Flux.range;
+
 import ar.edu.utn.frba.dds.web.dto.HechoDTO;
 import ar.edu.utn.frba.dds.web.dto.LoginResponseDTO;
 import ar.edu.utn.frba.dds.web.dto.PagedResponseDTO;
 import jakarta.annotation.PostConstruct;
+import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,12 +21,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Collection;
-
 @Component
 @ConditionalOnProperty(prefix = "proxy", name = "type", havingValue = "APIDDS")
 public class FuenteProxyAPIdeDDS implements FuenteProxy {
-  private FuenteProxyEnMemoria fuenteProxyEnMemoria;
+  private CacheParaFuenteProxyAPIdeDDS cacheParaFuenteProxyAPIdeDDS;
   private String baseUrl;
   private static final Integer pageSize = 150;
   private static final Integer cantidadDeLlamadasConcurrentes = 10;
@@ -32,8 +32,8 @@ public class FuenteProxyAPIdeDDS implements FuenteProxy {
   private LoginResponseDTO loginResponse;
 
   @Autowired
-  public FuenteProxyAPIdeDDS(FuenteProxyEnMemoria fuenteProxyEnMemoria, @Value("${proxy.baseUrl}") String baseUrl) {
-    this.fuenteProxyEnMemoria = fuenteProxyEnMemoria;
+  public FuenteProxyAPIdeDDS(CacheParaFuenteProxyAPIdeDDS cacheParaFuenteProxyAPIdeDDS, @Value("${proxy.baseUrl}") String baseUrl) {
+    this.cacheParaFuenteProxyAPIdeDDS = cacheParaFuenteProxyAPIdeDDS;
     this.baseUrl = baseUrl;
   }
 
@@ -65,8 +65,8 @@ public class FuenteProxyAPIdeDDS implements FuenteProxy {
   }
 
   public Collection<HechoDTO> hechos() {
-    if (fuenteProxyEnMemoria.isRecent())
-      return this.fuenteProxyEnMemoria.hechos();
+    if (cacheParaFuenteProxyAPIdeDDS.isRecent())
+      return this.cacheParaFuenteProxyAPIdeDDS.hechos();
     return fetchPage(0, pageSize)
         .flatMapMany(firstPage -> {
           int totalPages = firstPage.getLastPage();
@@ -85,7 +85,7 @@ public class FuenteProxyAPIdeDDS implements FuenteProxy {
         })
         .collectList()
         .doOnSuccess(hechos -> {
-          this.fuenteProxyEnMemoria.actualizar(hechos);
+          this.cacheParaFuenteProxyAPIdeDDS.actualizar(hechos);
         })
         .block();
   }
