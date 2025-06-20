@@ -13,7 +13,7 @@ public class SolicitudEliminacionServicio {
   @Autowired
   private SolicitudEliminacionRepositorio solicitudEliminacionRepositorio;
   @Autowired
-  private DetectorDeSpamServicio detectorDeSpamServicio;
+  private DetectorDeSpamServicio detectorDeSpamServicioTFIDF;
 
   public Collection<SolicitudDeEliminacionDeHecho> solicitudesDeEliminacionDeHecho() {
     return solicitudEliminacionRepositorio.solicitudesDeEliminacionDeHecho();
@@ -26,7 +26,7 @@ public class SolicitudEliminacionServicio {
 
   public void guardarSolicitudDeEliminacionDeHecho(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho) {
     solicitudEliminacionRepositorio.guardar(solicitudDeEliminacionDeHecho);
-    detectorDeSpamServicio.rechazaSpam(solicitudDeEliminacionDeHecho);
+    detectorDeSpamServicioTFIDF.rechazaSpam(solicitudDeEliminacionDeHecho);
   }
 
   public SolicitudDeEliminacionDeHecho buscarSolicitudDeEliminacionDeHecho(Hecho hecho) {
