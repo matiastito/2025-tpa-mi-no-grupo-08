@@ -14,7 +14,7 @@ public class HechosControlador {
   private FuenteProxy fuenteProxy;
 
   @GetMapping("/hechos")
-  public Collection<HechoDTO> hechos(String coleccionId) {
+  public Collection<HechoDTO> hechos() {
     return fuenteProxy.hechos();
   }
 }

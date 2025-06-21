@@ -20,6 +20,7 @@ public class Hecho {
   private Collection<Etiqueta> etiquetas;
   private Fuente fuente;
   private boolean eliminado = false;
+  private boolean consensuado = true;
 
   public Hecho(HechoOrigen hechoOrigen,
                String titulo,
@@ -104,6 +105,14 @@ public class Hecho {
     return this;
   }
 
+  public boolean isConsensuado() {
+    return consensuado;
+  }
+
+  public void setConsensuado(boolean consensuado) {
+    this.consensuado = consensuado;
+  }
+
   public Fuente getFuente() {
     return this.fuente;
   }
@@ -112,11 +121,11 @@ public class Hecho {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof Hecho hecho)) return false;
-    return Objects.equals(titulo, hecho.titulo);
+    return Objects.equals(titulo, hecho.titulo) && Objects.equals(categoria, hecho.categoria) && Objects.equals(fechaDelHecho, hecho.fechaDelHecho);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(titulo);
+    return Objects.hash(titulo, categoria, fechaDelHecho);
   }
 }

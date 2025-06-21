@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.modelo.fuente;
 import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.DINAMICA;
 import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.METAMAPA;
 import static ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO.toDTO;
+import static ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO.toHecho;
 import static java.util.stream.Collectors.toSet;
 import static org.springframework.web.client.RestClient.create;
 
@@ -40,8 +41,7 @@ public class Fuente {
     return result
         .getBody()
         .stream()
-        .map(h -> HechoDTO.toHecho(h, this))
-        //.map(hecho -> hecho.setFuente(this))
+        .map(h -> toHecho(h, this))
         .collect(toSet());
   }
 

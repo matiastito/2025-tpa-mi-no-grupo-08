@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.servicio;
 
+import ar.edu.utn.frba.dds.modelo.administrador.Administrador;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import ar.edu.utn.frba.dds.repositorio.SolicitudEliminacionRepositorio;
@@ -32,5 +33,13 @@ public class SolicitudEliminacionServicio {
     return solicitudEliminacionRepositorio.solicitudesDeEliminacionDeHecho().stream().filter(
         s -> s.getHecho().equals(hecho)
     ).findFirst().get();
+  }
+
+  public void aprobar(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho, Administrador administrador) {
+    solicitudDeEliminacionDeHecho.aprobar(administrador);
+  }
+
+  public void rechazar(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho, Administrador administrador) {
+    solicitudDeEliminacionDeHecho.rechazar(administrador);
   }
 }

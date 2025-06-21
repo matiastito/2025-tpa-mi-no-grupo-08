@@ -1,12 +1,13 @@
 package ar.edu.utn.frba.dds.modelo.coleccion;
 
 import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.METAMAPA;
+import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toSet;
 
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
-import java.util.Arrays;
+import ar.edu.utn.frba.dds.navegacion.TipoConsenso;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -17,6 +18,7 @@ public class Coleccion {
   private String handle;
   private String titulo;
   private String descripcion;
+  private TipoConsenso tipoConsenso;
   private Map<Fuente, Collection<Hecho>> fuentes;
   private FiltrosParaHecho criteriosDePertenencia;
 
@@ -24,7 +26,7 @@ public class Coleccion {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.fuentes = new HashMap<>();
-    Arrays.stream(fuentes).sequential().forEach(
+    stream(fuentes).sequential().forEach(
         f -> this.fuentes.put(f, new LinkedHashSet<>()));
     this.criteriosDePertenencia = new FiltrosParaHecho();
   }
@@ -41,6 +43,10 @@ public class Coleccion {
     return fuentes.keySet();
   }
 
+  public void setTipoConsenso(TipoConsenso tipoConsenso) {
+    this.tipoConsenso = tipoConsenso;
+  }
+
   public void agregarFiltro(FiltroDeHecho filtro) {
     this.criteriosDePertenencia.agregarFiltro(filtro);
   }
@@ -51,6 +57,10 @@ public class Coleccion {
         actualizarLosNoEliminados(f, hechosExistentes);
       }
     });
+  }
+
+  public Collection<Collection<Hecho>> hechoss() {
+    return this.fuentes.values();
   }
 
   public Collection<Hecho> hechos() {
@@ -74,4 +84,7 @@ public class Coleccion {
     hechosExistentes.addAll(f.hechos().stream().filter(h -> !h.estaEliminado()).collect(toSet()));
   }
 
+  public TipoConsenso getTipoConsenso() {
+    return tipoConsenso;
+  }
 }
