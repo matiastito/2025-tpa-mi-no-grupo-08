@@ -5,7 +5,7 @@ import static java.lang.System.out;
 import static reactor.core.publisher.Flux.fromIterable;
 import static reactor.core.scheduler.Schedulers.parallel;
 
-import ar.edu.utn.frba.dds.navegacion.Consensos;
+import ar.edu.utn.frba.dds.consenso.Consensos;
 import ar.edu.utn.frba.dds.repositorio.ColeccionRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

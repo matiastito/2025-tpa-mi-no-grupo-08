@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.navegacion;
+package ar.edu.utn.frba.dds.consenso;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import java.util.Collection;

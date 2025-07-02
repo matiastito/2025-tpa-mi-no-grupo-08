@@ -4,10 +4,10 @@ import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.METAMAPA;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toSet;
 
+import ar.edu.utn.frba.dds.consenso.TipoConsenso;
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
-import ar.edu.utn.frba.dds.navegacion.TipoConsenso;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;

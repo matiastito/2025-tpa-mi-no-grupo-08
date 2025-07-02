@@ -1,8 +1,8 @@
-package ar.edu.utn.frba.dds.navegacion;
+package ar.edu.utn.frba.dds.consenso;
 
-import static ar.edu.utn.frba.dds.navegacion.TipoConsenso.ABSOLUTO;
-import static ar.edu.utn.frba.dds.navegacion.TipoConsenso.MAYORIA_SIMPLE;
-import static ar.edu.utn.frba.dds.navegacion.TipoConsenso.MULTIPLES_MENCIONES;
+import static ar.edu.utn.frba.dds.consenso.TipoConsenso.ABSOLUTO;
+import static ar.edu.utn.frba.dds.consenso.TipoConsenso.MAYORIA_SIMPLE;
+import static ar.edu.utn.frba.dds.consenso.TipoConsenso.MULTIPLES_MENCIONES;
 import static java.util.Map.of;
 
 import java.util.Map;

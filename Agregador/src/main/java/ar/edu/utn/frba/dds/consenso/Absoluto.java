@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.navegacion;
+package ar.edu.utn.frba.dds.consenso;
 
 import static java.util.List.of;
 
@@ -6,7 +6,7 @@ import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import java.util.Collection;
 import java.util.List;
 
-public class MayoriaSimple implements Consenso {
+public class Absoluto implements Consenso {
   @Override
   public List<Boolean> analizarHechoEnFuente(Collection<Hecho> hechos, Hecho hecho) {
     return of(hechos.contains(hecho));
@@ -14,6 +14,6 @@ public class MayoriaSimple implements Consenso {
 
   @Override
   public boolean hayConsenso(List<List<Boolean>> resultList) {
-    return resultList.stream().filter(b -> b.get(0)).count() > (resultList.size() / 2);
+    return resultList.stream().allMatch(b -> b.get(0));
   }
 }

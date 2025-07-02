@@ -1,10 +1,10 @@
-package ar.edu.utn.frba.dds.navegacion;
+package ar.edu.utn.frba.dds.consenso;
 
-import java.util.Collection;
-import java.util.List;
 import static java.util.List.of;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+import java.util.Collection;
+import java.util.List;
 
 public class MultiplesMenciones implements Consenso {
 
