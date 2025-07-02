@@ -195,12 +195,8 @@ package Agregador <<Folder>> {
     TipoContenidoMultimediaFiltroDeHecho --> TipoContenidoMultimedia
     UbicacionFiltroDeHecho --> Ubicacion
 
-    Absoluto --> Hecho  
     Consensos --> Consenso
     Consensos --> TipoConsenso
-    MayoriaSimple --> Hecho 
-    MultiplesMenciones --> Hecho
-
 }
 
 package Fuente_Dinamica <<Folder>> {
