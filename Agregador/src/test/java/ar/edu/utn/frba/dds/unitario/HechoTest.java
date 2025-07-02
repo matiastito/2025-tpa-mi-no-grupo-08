@@ -1,22 +1,26 @@
 package ar.edu.utn.frba.dds.unitario;
 
-import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.PENDIENTE;
-import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
+import java.time.LocalDateTime;
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
+import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Categorias;
 import ar.edu.utn.frba.dds.modelo.hecho.Etiqueta;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.PENDIENTE;
+import ar.edu.utn.frba.dds.modelo.hecho.Ubicacion;
+import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 
 public class HechoTest {
   private Hecho hecho;
@@ -61,16 +65,32 @@ public class HechoTest {
 
   @Test
   public void dosHechosConElMismoTituloSonIguales() {
-    Hecho otroHecho = new Hecho(
-        HechoOrigen.MANUAL,
-        "Incendio en Córdoba",
-        "Otro contenido",
-        Categorias.categoria("Otro"),
-        now(),
-        crearUbicacion("0.0", "0.0"),
-        now(),
-        mock(Fuente.class)
-    );
-    assertEquals(hecho, otroHecho);
+      Categoria categoria = new Categoria("Incendio");
+      LocalDateTime fecha = now();
+      Ubicacion ubicacion = crearUbicacion("0.0", "0.0");
+  
+      Hecho hechoOriginal = new Hecho(
+          HechoOrigen.MANUAL,
+          "Incendio en Córdoba",
+          "Descripción original",
+          categoria,
+          fecha,
+          ubicacion,
+          now(),
+          mock(Fuente.class)
+      );
+  
+      Hecho otroHecho = new Hecho(
+          HechoOrigen.MANUAL,
+          "Incendio en Córdoba",
+          "Otro contenido",
+          categoria,
+          fecha,
+          ubicacion,
+          now(),
+          mock(Fuente.class)
+      );
+  
+      assertEquals(hechoOriginal, otroHecho);
   }
 }

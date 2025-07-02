@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.navegacion;
 
+import java.util.Collection;
+import java.util.List;
 import static java.util.List.of;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
-import java.util.Collection;
-import java.util.List;
 
 public class MultiplesMenciones implements Consenso {
 
@@ -23,7 +23,7 @@ public class MultiplesMenciones implements Consenso {
 
   @Override
   public boolean hayConsenso(List<List<Boolean>> resultList) {
-    return resultList.stream().anyMatch(r -> r.get(1))
+    return resultList.stream().allMatch(r -> r.get(1))
         && resultList.stream().filter(r -> r.get(0)).count() > 1;
   }
 }
