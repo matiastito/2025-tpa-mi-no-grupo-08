@@ -2,12 +2,12 @@ package ar.edu.utn.frba.dds.unitario;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.fuente.TipoFuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
@@ -18,8 +18,8 @@ import ar.edu.utn.frba.dds.navegacion.MultiplesMenciones;
 
 public class AlgoritmoMultiplesMencionesTest {
 
-    //fuente fake para tests
-        class FuenteFake extends Fuente {
+    // Fake de fuente para test
+    class FuenteFake extends Fuente {
         private final Set<Hecho> hechos;
 
         public FuenteFake(String baseUrl, TipoFuente tipoFuente, Set<Hecho> hechos) {
@@ -32,63 +32,65 @@ public class AlgoritmoMultiplesMencionesTest {
             return hechos;
         }
     }
+
     @Test
     public void testHechoEsConsensuadoConMultiplesMenciones() {
         HechoOrigen origen = HechoOrigen.MANUAL;
         Categoria categoria = new Categoria("Categoria Test");
         Ubicacion ubicacion = Ubicacion.crearUbicacion("-34.6037", "-58.3816");
-        LocalDateTime fechaCreacion = LocalDateTime.now();
-        LocalDateTime ultimaModificacion = LocalDateTime.now();
+        LocalDateTime fecha = LocalDateTime.now();
 
-        Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria,
-                fechaCreacion, ubicacion, ultimaModificacion, null);
+        Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria, fecha, ubicacion, fecha, null);
 
         Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));
         Fuente fuente2 = new FuenteFake("Fuente 2", TipoFuente.DINAMICA, Set.of(hechoA));
-
-        Coleccion coleccion = new Coleccion("Coleccion Test", "Descripcion de prueba", fuente1, fuente2);
+        Fuente fuente3 = new FuenteFake("Fuente 3", TipoFuente.DINAMICA, Set.of());
 
         MultiplesMenciones algoritmo = new MultiplesMenciones();
 
-        coleccion.colectarHechos();
-        boolean consensuado = algoritmo.esConsensuado(hechoA, coleccion.hechoss());
+        List<List<Boolean>> resultados = List.of(
+                algoritmo.analizarHechoEnFuente(fuente1.hechos(), hechoA),
+                algoritmo.analizarHechoEnFuente(fuente2.hechos(), hechoA),
+                algoritmo.analizarHechoEnFuente(fuente3.hechos(), hechoA)
+        );
 
-        // Seteamos en el hecho
+        boolean consensuado = algoritmo.hayConsenso(resultados);
         hechoA.setConsensuado(consensuado);
 
-        Assertions.assertTrue(consensuado, "El hecho debería considerarse consensuado con múltiples menciones");
+        Assertions.assertTrue(hechoA.isConsensuado(), "El hecho debería considerarse consensuado con múltiples menciones (sin conflicto)");
     }
 
     @Test
-    public void testHechoNoEsConsensuadoSiHayConflicto() {
+    public void testHechoNoEsConsensuadoConConflicto() {
         HechoOrigen origen = HechoOrigen.MANUAL;
         Categoria categoria = new Categoria("Categoria Test");
         Ubicacion ubicacion = Ubicacion.crearUbicacion("-34.6037", "-58.3816");
-        LocalDateTime fechaCreacion = LocalDateTime.now();
-        LocalDateTime ultimaModificacion = LocalDateTime.now();
+        LocalDateTime fecha = LocalDateTime.now();
 
-        Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria,
-                fechaCreacion, ubicacion, ultimaModificacion, null);
+        Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria, fecha, ubicacion, fecha, null);
 
-        // Hecho conflictivo
-        Categoria categoriaConflictiva = new Categoria("Otra Categoria");
-        Ubicacion ubicacionConflictiva = Ubicacion.crearUbicacion("-31.4167", "-64.1833");
-        Hecho hechoConflictivo = new Hecho(origen, "Título A", "Descripción diferente", categoriaConflictiva,
-                fechaCreacion.minusDays(1), ubicacionConflictiva, ultimaModificacion.minusDays(1), null);
+        // Hecho conflictivo con mismo título, diferente fecha y categoría
+        Hecho hechoConflicto = new Hecho(origen, "Título A", "Otra descripción", new Categoria("Otra Categoria"),
+                fecha.minusDays(1), ubicacion, fecha, null);
 
         Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));
         Fuente fuente2 = new FuenteFake("Fuente 2", TipoFuente.DINAMICA, Set.of(hechoA));
-        Fuente fuenteConflictiva = new FuenteFake("Fuente Conflictiva", TipoFuente.DINAMICA, Set.of(hechoConflictivo));
-
-        Coleccion coleccion = new Coleccion("Coleccion Test Conflictiva", "Descripcion con conflicto", fuente1, fuente2, fuenteConflictiva);
+        Fuente fuente3 = new FuenteFake("Fuente 3", TipoFuente.DINAMICA, Set.of(hechoConflicto));
 
         MultiplesMenciones algoritmo = new MultiplesMenciones();
-        coleccion.colectarHechos();
-        boolean consensuado = algoritmo.esConsensuado(hechoA, coleccion.hechoss());
 
+        List<List<Boolean>> resultados = List.of(
+                algoritmo.analizarHechoEnFuente(fuente1.hechos(), hechoA),
+                algoritmo.analizarHechoEnFuente(fuente2.hechos(), hechoA),
+                algoritmo.analizarHechoEnFuente(fuente3.hechos(), hechoA)
+        );
+
+        boolean consensuado = algoritmo.hayConsenso(resultados);
         hechoA.setConsensuado(consensuado);
-        Assertions.assertFalse(consensuado, "El hecho no debería considerarse consensuado si hay conflicto");
+
+        Assertions.assertFalse(hechoA.isConsensuado(), "El hecho no debería considerarse consensuado si hay conflicto");
     }
 }
+
 
 
