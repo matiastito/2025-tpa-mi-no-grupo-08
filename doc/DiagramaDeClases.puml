@@ -78,7 +78,7 @@ package Agregador <<Folder>> {
       - fechaDeCarga: LocalDateTime
       - hechoOrigen: HechoOrigen
       - etiquetas: Collection<Etiqueta>
-      - fuente: FuenteEstatica
+      - fuente: Fuente
       - eliminado: boolean
       - consensuado: boolean
 
@@ -177,11 +177,9 @@ package Agregador <<Folder>> {
     FiltrosParaHecho o-- FiltroDeHecho
     Coleccion --> FiltrosParaHecho
     Coleccion o-- Hecho
-    Coleccion --> FuenteEstatica
     Coleccion --> TipoConsenso
 
     Hecho --> ContenidoMultimedia
-    Hecho --> Contribuyente
     Hecho --> HechoOrigen
     Hecho --> Categoria
     Hecho --> Ubicacion
@@ -192,22 +190,15 @@ package Agregador <<Folder>> {
     SolicitudDeEliminacionDeHecho --> Contribuyente
     SolicitudDeEliminacionDeHecho --> Administrador
 
-    TituloFiltroDeHecho ..|> FiltroDeHecho
-    CategoriaFiltroDeHecho ..|> FiltroDeHecho
-    UbicacionFiltroDeHecho ..|> FiltroDeHecho
-    FechaDelHechoFiltroDeHecho ..|> FiltroDeHecho
     TipoContenidoMultimediaFiltroDeHecho ..|> FiltroDeHecho
     CategoriaFiltroDeHecho --> Categoria
     TipoContenidoMultimediaFiltroDeHecho --> TipoContenidoMultimedia
     UbicacionFiltroDeHecho --> Ubicacion
 
-    Absoluto ..|> Consenso
     Absoluto --> Hecho  
     Consensos --> Consenso
     Consensos --> TipoConsenso
-    MayoriaSimple ..|> Consenso
     MayoriaSimple --> Hecho 
-    MultiplesMenciones ..|> Consenso
     MultiplesMenciones --> Hecho
 
 }
