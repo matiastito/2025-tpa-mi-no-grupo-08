@@ -4,84 +4,99 @@
 
 package Agregador <<Folder>> {
     class Administrador {
-        nombre: String
+        - nombre: String
     }
     class Contribuyente {
-      nombre: String
-      apellido: String
-      edad: String
+      - nombre: String
+      - apellido: String
+      - edad: LocalDate
     }
     interface FiltroDeHecho {
-        boolean filtrar(Hecho hecho)
+      + filtrar(hecho: Hecho): boolean
     }
 
     class TituloFiltroDeHecho implements FiltroDeHecho {
-
+      - titulo: String
     }
 
     class CategoriaFiltroDeHecho implements FiltroDeHecho {
-
+      - categoria: Categoria
     }
 
     class FechaDelHechoFiltroDeHecho implements FiltroDeHecho {
-
+      - fechaDelHechoDesde: LocalDateTime
+      - fechaDelHechoHasta: LocalDateTime
     }
 
     class TipoContenidoMulitmediaFiltroDeHecho implements FiltroDeHecho {
+      - tipoContenidoMultimedia: TipoContenidoMultimedia
+    }
 
+    class UbicacionFiltroDeHecho implements FiltroDeHecho {
+      - ubicacion: Ubicacion
     }
 
     class Coleccion {
-        handle: String
-        titulo: String
-        descripcion: String
-        hechos: Set<Hecho>
-        fuente: Fuente
-        criteriosDePertenencia: FiltrosParaHecho
+      - handle: String
+      - titulo: String
+      - descripcion: String
+      - tipoConsenso: TipoConsenso
+      - fuentes: Map<Fuente, Collection<Hecho>>
+      - criteriosDePertenencia: FiltrosParaHecho
 
-        void agregarFiltro(FiltroDeHecho filtro)
-        void colectarHechos()
-        void agregarHecho(Hecho hecho)
+      + agregarFiltro(filtro: FiltroDeHecho): void
+      + colectarHechos(): void
+      + hechos(): Collection<Hecho>
     }
 
     class FiltrosParaHecho {
-        filtros: List<FiltroDeHecho>
-        boolean aplicarFiltros(Hecho hecho)
-        void agregarFiltro(FiltroDeHecho filtro)
+      - filtros: List<FiltroDeHecho>
+
+      + aplicarFiltros(hecho: Hecho): boolean
+      + agregarFiltro(filtro: FiltroDeHecho): void
     }
 
     class Fuente {
-        baseUrl: String
-        tipoFuente: TipoFuente
+      - baseUrl: String
+      - tipoFuente: TipoFuente
+
+      + hechos(): Collection<Hecho>
+      + eliminar(hecho: Hecho): void
     }
 
     enum TipoFuente {
-        DINAMICA, PROXY, ESTATICA
+        DINAMICA, PROXY, METAMAPA, ESTATICA
     }
 
     class Hecho {
-        titulo: String
-        descripcion: String
-        categoria: Categoria
-        contenidoMultimedia: ContenidoMultimedia
-        ubicacion: Ubicacion
-        fechaDelHecho: LocalDateTime
-        fechaDeCarga: LocalDateTime
-        hechoOrigen: HechoOrigen
-        etiquetas: Collection<Etiqueta>
-        eliminado: boolean
+      - titulo: String
+      - descripcion: String
+      - categoria: Categoria
+      - contenidoMultimedia: ContenidoMultimedia
+      - ubicacion: Ubicacion
+      - fechaDelHecho: LocalDateTime
+      - fechaDeCarga: LocalDateTime
+      - hechoOrigen: HechoOrigen
+      - etiquetas: Collection<Etiqueta>
+      - fuente: FuenteEstatica
+      - eliminado: boolean
+      - consensuado: boolean
 
-        boolean estaEliminado()
-        void eliminar()
-        void etiquetar(String etiqueta)
+      + estaEliminado(): boolean
+      + eliminar(): void
+      + etiquetar(etiqueta: Etiqueta): void
+      + getTipoContenidoMultimedia(): TipoContenidoMultimedia
+      + setFuente(fuente: Fuente): Hecho
+      + isConsensuado(): boolean
+      + setConsensuado(consensuado: boolean): void
     }
 
     class Categoria {
-      nombre: String
+      - nombre: String
     }
 
     class Etiqueta {
-      nombre: String
+      - nombre: String
     }
 
     enum HechoOrigen {
@@ -91,16 +106,17 @@ package Agregador <<Folder>> {
     }
 
     class SolicitudDeEliminacionDeHecho {
-      solicitudDeEliminacionDeHechoEstado: SolicitudDeEliminacionDeHechoEstado
-      fechaCreacion: LocalDateTime
-      hecho: Hecho
-      motivo: String
-      reportador: Contribuyente
-      aprobador: Administrador
-      fechaResolucion: LocalDateTime
+      - solicitudDeEliminacionDeHechoEstado: SolicitudDeEliminacionDeHechoEstado
+      - fechaCreacion: LocalDateTime
+      - hecho: Hecho
+      - motivo: String
+      - reportador: Contribuyente
+      - aprobador: Administrador
+      - fechaResolucion: LocalDateTime
 
-      void rechazar()
-      void aprobar()
+      + aprobar(aprobador: Administrador): void
+      + rechazar(aprobador: Administrador): void
+      + rechazar(): void
     }
 
     enum SolicitudDeEliminacionDeHechoEstado {
@@ -108,102 +124,163 @@ package Agregador <<Folder>> {
     }
 
     class Ubicacion {
-        latitud: String
-        longitud: String
+      - latitud: String
+      - longitud: String
+
+      + crearUbicacion(latitud: String, longitud: String): Ubicacion
     }
 
-    class ContenidoMulitmedia {
-        tipoContenidoMultimedia: TipoContenidoMultimedia
-        uri: String
+    class ContenidoMultimedia {
+      - tipoContenidoMultimedia: TipoContenidoMultimedia
+      - uri: String
+
     }
 
-    enum TipoContenidoMulitmedia {
-        FOTO
-        VIDEO
-        AUDIO
+    enum TipoContenidoMultimedia {
+        FOTO,
+        VIDEO,
+        AUDIO,
+    }
+
+    class Absoluto implements Consenso {
+    }
+
+    interface Consenso {
+      + analizarHechoEnFuente(hechos: Collection<Hecho>, hecho: Hecho): List<Boolean>
+      + hayConsenso(resultList: List<List<Boolean>>): boolean
+    }
+
+    class Consensos {
+      - consensos: Map<TipoConsenso, Consenso>
+    }
+
+    enum TipoConsenso {
+      ABSOLUTO,
+      MAYORIA_SIMPLE,
+      MULTIPLES_MENCIONES,
+    }
+
+    class MayoriaSimple implements Consenso {
+
+    }
+
+    class MultiplesMenciones implements Consenso {
+
     }
 
     Coleccion --> Fuente
     Fuente --> TipoFuente
+    Fuente --> Hecho
 
-    ContenidoMulitmedia --> TipoContenidoMulitmedia
+    ContenidoMultimedia --> TipoContenidoMultimedia
 
     FiltrosParaHecho o-- FiltroDeHecho
     Coleccion --> FiltrosParaHecho
     Coleccion o-- Hecho
     Coleccion --> FuenteEstatica
+    Coleccion --> TipoConsenso
 
-    Hecho --> ContenidoMulitmedia
+    Hecho --> ContenidoMultimedia
     Hecho --> Contribuyente
     Hecho --> HechoOrigen
     Hecho --> Categoria
     Hecho --> Ubicacion
     Hecho *-- Etiqueta
+    Hecho --> Fuente
 
     SolicitudDeEliminacionDeHecho --> SolicitudDeEliminacionDeHechoEstado
     SolicitudDeEliminacionDeHecho --> Contribuyente
     SolicitudDeEliminacionDeHecho --> Administrador
+
+    TituloFiltroDeHecho ..|> FiltroDeHecho
+    CategoriaFiltroDeHecho ..|> FiltroDeHecho
+    UbicacionFiltroDeHecho ..|> FiltroDeHecho
+    FechaDelHechoFiltroDeHecho ..|> FiltroDeHecho
+    TipoContenidoMultimediaFiltroDeHecho ..|> FiltroDeHecho
+    CategoriaFiltroDeHecho --> Categoria
+    TipoContenidoMultimediaFiltroDeHecho --> TipoContenidoMultimedia
+    UbicacionFiltroDeHecho --> Ubicacion
+
+    Absoluto ..|> Consenso
+    Absoluto --> Hecho  
+    Consensos --> Consenso
+    Consensos --> TipoConsenso
+    MayoriaSimple ..|> Consenso
+    MayoriaSimple --> Hecho 
+    MultiplesMenciones ..|> Consenso
+    MultiplesMenciones --> Hecho
 
 }
 
 package Fuente_Dinamica <<Folder>> {
 
     class Administrador {
-        nombre: String
+      - nombre: String
     }
     note left: Se usará cunado se registren\nSolicitudes de Modificación.
 
     class Contribuyente {
-      nombre: String
-      apellido: String
-      edad: String
+      - nombre: String
+      - apellido: String
+      - fechaNacimiento: LocalDate
     }
 
     class ContenidoMulitmedia {
-        tipoContenidoMultimedia: TipoContenidoMultimedia
-        uri: String
+      - tipoContenidoMultimedia: TipoContenidoMultimedia
+      - uri: String
     }
 
     enum TipoContenidoMulitmedia {
-        FOTO
-        VIDEO
-        AUDIO
+        FOTO,
+        VIDEO,
+        AUDIO,
     }
 
     class Hecho {
-        titulo: String
-        descripcion: String
-        categoria: Categoria
-        contenidoMultimedia: ContenidoMultimedia
-        ubicacion: Ubicacion
-        fechaDelHecho: LocalDateTime
-        fechaDeCarga: LocalDateTime
-        hechoOrigen: HechoOrigen
-        etiquetas: Collection<Etiqueta>
-        eliminado: boolean
+      - contribuyente: Contribuyente
+      - titulo: String
+      - descripcion: String
+      - categoria: Categoria
+      - contenidoMultimedia: ContenidoMultimedia
+      - ubicacion: Ubicacion
+      - fechaDelHecho: LocalDateTime
+      - fechaDeCarga: LocalDateTime
+      - hechoOrigen: HechoOrigen
+      - hechoEstado: HechoEstado
+      - etiquetas: Collection<Etiqueta>
+      - eliminado: boolean
 
-        boolean estaEliminado()
-        void eliminar()
-        void etiquetar(String etiqueta)
+      + estaEliminado(): boolean
+      + eliminar(): void
+      + etiquetar(etiqueta: Etiqueta): void
+    }
+
+    enum HechoEstado {
+      PENDIENTE,
+      ACEPTADO,
+      ACEPTADO_CON_SUGUERENCIAS,
+      RECHAZADO,
     }
 
     class Categoria {
-      nombre: String
+      - nombre: String
     }
 
     class Etiqueta {
-      nombre: String
+      - nombre: String
     }
 
     enum HechoOrigen {
-        CONTRIBUYENTE
-        MANUAL
-        EXTERNO
+        CONTRIBUYENTE,
+        MANUAL,
+        EXTERNO,
     }
 
     class Ubicacion {
-        latitud: String
-        longitud: String
+      - latitud: String
+      - longitud: String
+
+      + crearUbicacion(latitud: String, longitud: String): Ubicacion
     }
 
     ContenidoMulitmedia --> TipoContenidoMulitmedia
@@ -214,73 +291,78 @@ package Fuente_Dinamica <<Folder>> {
     Hecho --> Categoria
     Hecho --> Ubicacion
     Hecho *-- Etiqueta
+    Hecho --> HechoEstado
 }
 
 package Fuente_Estatica <<Folder>> {
     interface LectorDeArchivo {
-      List<List<String>> getRegistros(URI uri)
+      + getRegistros(uri: URI): List<List<String>>
     }
 
     class LectorArchivoCSV implements LectorDeArchivo {
-      List<List<String>> getRegistros(URI uri)
+
     }
 
     interface LocalizadorDeArchivo {
-      URI getURI()
+      + getURI(): URI
     }
 
     class LocalizadorDeArchivoDelClassPathLocal implements LocalizadorDeArchivo {
-      nombreArchivo: String
-      tipoArchivo: TipoArchivo
-
-      URI getURI()
+      - nombreArchivo: String
+      - tipoArchivo: TipoArchivo
     }
 
     enum TipoArchivo {
       CSV, JSON, TXT
+      - extension: String
+
+      + getExtension(): String
     }
 
     class FuenteEstatica {
-      lectorDeArchivoDeHechos: LectorDeArchivo
-      localizadorDeArchivo: LocalizadorDeArchivo
-      Collection<Hecho>: traerHechos()
+      - lectorDeArchivoDeHechos: LectorDeArchivo
+      - localizadorDeArchivo: LocalizadorDeArchivo
+      
+      + traerHechos(): Collection<Hecho>
     }
 
 
     class Hecho {
-        titulo: String
-        descripcion: String
-        categoria: Categoria
-        contenidoMultimedia: ContenidoMultimedia
-        ubicacion: Ubicacion
-        fechaDelHecho: LocalDateTime
-        fechaDeCarga: LocalDateTime
-        hechoOrigen: HechoOrigen
-        etiquetas: Collection<Etiqueta>
-        eliminado: boolean
+      - titulo: String
+      - descripcion: String
+      - categoria: Categoria
+      - contenidoMultimedia: ContenidoMultimedia
+      - ubicacion: Ubicacion
+      - fechaDelHecho: LocalDateTime
+      - fechaDeCarga: LocalDateTime
+      - hechoOrigen: HechoOrigen
+      - etiquetas: Collection<Etiqueta>
+      - eliminado: boolean
 
-        boolean estaEliminado()
-        void eliminar()
-        void etiquetar(String etiqueta)
+      + estaEliminado(): boolean
+      + eliminar(): void
+      + etiquetar(etiqueta: Etiqueta): void
     }
 
     class Categoria {
-      nombre: String
+      - nombre: String
     }
 
     class Etiqueta {
-      nombre: String
+      - nombre: String
     }
 
     enum HechoOrigen {
-        CONTRIBUYENTE
-        MANUAL
-        EXTERNO
+        CONTRIBUYENTE,
+        MANUAL,
+        EXTERNO,
     }
 
     class Ubicacion {
-        latitud: String
-        longitud: String
+      - latitud: String
+      - longitud: String
+
+      + crearUbicacion(latitud: String, longitud: String): Ubicacion
     }
 
     FuenteEstatica .. Hecho
@@ -302,7 +384,10 @@ package Fuente_Estatica <<Folder>> {
 
 package Fuente_Proxy <<Folder>> {
     class FuenteProxy {
-        Collection<DesastreDTO> hechos()
+      + hechos(): Collection<HechoDTO>
+      + eliminar(hecho: HechoDTO): void
     }
+
+
 }
 @enduml

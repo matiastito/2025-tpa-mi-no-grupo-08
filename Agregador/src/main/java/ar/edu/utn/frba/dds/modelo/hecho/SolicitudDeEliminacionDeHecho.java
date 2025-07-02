@@ -1,13 +1,13 @@
 package ar.edu.utn.frba.dds.modelo.hecho;
 
-import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.ACEPTADA;
-import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.PENDIENTE;
-import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.RECHAZADA;
+import java.time.LocalDateTime;
 import static java.time.LocalDateTime.now;
 
 import ar.edu.utn.frba.dds.modelo.administrador.Administrador;
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
-import java.time.LocalDateTime;
+import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.ACEPTADA;
+import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.PENDIENTE;
+import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.RECHAZADA;
 
 public class SolicitudDeEliminacionDeHecho {
   private SolicitudDeEliminacionDeHechoEstado solicitudDeEliminacionDeHechoEstado;

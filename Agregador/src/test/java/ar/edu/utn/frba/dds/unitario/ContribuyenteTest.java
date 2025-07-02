@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.unitario;
 
-import static ar.edu.utn.frba.dds.util.FormateadorDeFecha.formatearFecha;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
-import org.junit.jupiter.api.Test;
+import static ar.edu.utn.frba.dds.util.FormateadorDeFecha.formatearFecha;
 
 public class ContribuyenteTest {
 

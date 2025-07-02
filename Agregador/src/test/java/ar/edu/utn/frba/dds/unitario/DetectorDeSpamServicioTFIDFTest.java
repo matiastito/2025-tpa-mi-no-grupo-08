@@ -1,15 +1,18 @@
 package ar.edu.utn.frba.dds.unitario;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado;
 import ar.edu.utn.frba.dds.repositorio.SolicitudEliminacionRepositorio;
 import ar.edu.utn.frba.dds.servicio.DetectorDeSpamServicioTFIDF;
-import org.junit.jupiter.api.Test;
-import java.util.List;
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class DetectorDeSpamServicioTFIDFTest {
     @Test

@@ -1,10 +1,15 @@
 package ar.edu.utn.frba.dds.servicio;
 
-import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
-import ar.edu.utn.frba.dds.repositorio.SolicitudEliminacionRepositorio;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.*;
+
+import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
+import ar.edu.utn.frba.dds.repositorio.SolicitudEliminacionRepositorio;
 
 @Service
 public class DetectorDeSpamServicioTFIDF implements DetectorDeSpamServicio {
