@@ -19,6 +19,7 @@ public class Coleccion {
   private String titulo;
   private String descripcion;
   private TipoConsenso tipoConsenso;
+  //FIXME que no sea un mapa, considerar la bidereccionalidad en fuente
   private Map<Fuente, Collection<Hecho>> fuentes;
   private FiltrosParaHecho criteriosDePertenencia;
 

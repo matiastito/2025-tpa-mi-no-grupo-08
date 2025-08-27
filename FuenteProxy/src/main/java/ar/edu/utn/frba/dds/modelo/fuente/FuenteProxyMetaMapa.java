@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConditionalOnProperty(prefix = "proxy", name = "type", havingValue = "MetaMapa")
+//FIXME separar dos interfaces
 public class FuenteProxyMetaMapa implements FuenteProxy {
   private String baseUrl;
 

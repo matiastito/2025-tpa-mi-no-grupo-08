@@ -46,6 +46,7 @@ public class Fuente {
   }
 
   public void eliminar(Hecho hecho) {
+    //FIXME Agregar la estatica
     if (DINAMICA.equals(tipoFuente) || METAMAPA.equals(tipoFuente)) {
       create("http://" + baseUrl + "/hechos")
           .put()

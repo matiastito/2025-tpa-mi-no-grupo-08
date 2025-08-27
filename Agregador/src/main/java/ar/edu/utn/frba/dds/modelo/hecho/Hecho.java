@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
+//FIXME cambiar el equal's, comenzar a inducir la idea de ID
 public class Hecho {
   private String titulo;
   private String descripcion;
@@ -117,11 +118,14 @@ public class Hecho {
     return this.fuente;
   }
 
+  //FIXME reescribir el equals (ID's VS Semáantica)
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof Hecho hecho)) return false;
-    return Objects.equals(titulo, hecho.titulo) && Objects.equals(categoria, hecho.categoria) && Objects.equals(fechaDelHecho, hecho.fechaDelHecho);
+    return Objects.equals(titulo, hecho.titulo)
+        && Objects.equals(categoria, hecho.categoria)
+        && Objects.equals(fechaDelHecho, hecho.fechaDelHecho);
   }
 
   @Override
