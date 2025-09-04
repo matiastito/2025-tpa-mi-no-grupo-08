@@ -1,17 +1,16 @@
 package ar.edu.utn.frba.dds.modelo.coleccion;
 
 import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.METAMAPA;
-import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toSet;
 
 import ar.edu.utn.frba.dds.consenso.TipoConsenso;
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
+import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltrosParaHecho;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 public class Coleccion {
@@ -19,16 +18,14 @@ public class Coleccion {
   private String titulo;
   private String descripcion;
   private TipoConsenso tipoConsenso;
-  //FIXME que no sea un mapa, considerar la bidereccionalidad en fuente
-  private Map<Fuente, Collection<Hecho>> fuentes;
+  //TODO considerar la bidereccionalidad en fuente
+  private List<FuenteConHechos> fuentesConHechos;
   private FiltrosParaHecho criteriosDePertenencia;
 
   public Coleccion(String titulo, String descripcion, Fuente... fuentes) {
     this.titulo = titulo;
     this.descripcion = descripcion;
-    this.fuentes = new HashMap<>();
-    stream(fuentes).sequential().forEach(
-        f -> this.fuentes.put(f, new LinkedHashSet<>()));
+    this.fuentesConHechos = new ArrayList<>();
     this.criteriosDePertenencia = new FiltrosParaHecho();
   }
 
@@ -41,7 +38,7 @@ public class Coleccion {
   }
 
   public Set<Fuente> getFuentes() {
-    return fuentes.keySet();
+    return fuentesConHechos.stream().map(FuenteConHechos::getFuente).collect(toSet());
   }
 
   public void setTipoConsenso(TipoConsenso tipoConsenso) {
@@ -52,37 +49,30 @@ public class Coleccion {
     this.criteriosDePertenencia.agregarFiltro(filtro);
   }
 
-  public void colectarHechos() {
-    fuentes.forEach((f, hechosExistentes) -> {
-      if (!METAMAPA.equals(f.getTipoFuente())) {
-        actualizarLosNoEliminados(f, hechosExistentes);
-      }
-    });
+  public void refrescar() {
+    fuentesConHechos.forEach(FuenteConHechos::refrescar);
   }
 
-  public Collection<Collection<Hecho>> hechoss() {
-    return this.fuentes.values();
-  }
-
-  public Collection<Hecho> hechos() {
-    fuentes.forEach((f, hechosExistentes) -> {
-          if (METAMAPA.equals(f.getTipoFuente())) {
-            actualizarLosNoEliminados(f, hechosExistentes);
-          }
-        }
-    );
-    return this.fuentes.values()
-        .stream()
-        .flatMap(Collection::stream)
-        .collect(toSet())
-        .stream()
-        .filter(hecho -> !hecho.estaEliminado())
-        .filter(criteriosDePertenencia::aplicarFiltros)
+  public Collection<Collection<Hecho>> hechosAgrupadosPorFuente() {
+    return fuentesConHechos.stream()
+        .map(fuenteConHechos -> fuenteConHechos.getHechos())
         .collect(toSet());
   }
 
-  private void actualizarLosNoEliminados(Fuente f, Collection<Hecho> hechosExistentes) {
-    hechosExistentes.addAll(f.hechos().stream().filter(h -> !h.estaEliminado()).collect(toSet()));
+  public Collection<Hecho> hechos() {
+    fuentesConHechos.forEach(f -> {
+          if (METAMAPA.equals(f.getFuente().getTipoFuente())) {
+            f.actualizarLosNoEliminados();
+          }
+        }
+    );
+    return this.fuentesConHechos
+        .stream()
+        .map(FuenteConHechos::getHechos)
+        .flatMap(Collection::stream)
+        .filter(hecho -> !hecho.estaEliminado())
+        .filter(criteriosDePertenencia::aplicarFiltros)
+        .collect(toSet());
   }
 
   public TipoConsenso getTipoConsenso() {

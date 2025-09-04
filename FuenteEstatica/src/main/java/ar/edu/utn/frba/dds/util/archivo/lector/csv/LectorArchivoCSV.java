@@ -2,16 +2,14 @@ package ar.edu.utn.frba.dds.util.archivo.lector.csv;
 
 import static java.nio.file.Files.lines;
 import static java.nio.file.Paths.get;
-import ar.edu.utn.frba.dds.util.archivo.lector.LectorDeArchivo;
-import org.springframework.stereotype.Component;
 
+import ar.edu.utn.frba.dds.util.archivo.lector.LectorDeArchivo;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-@Component
 public class LectorArchivoCSV implements LectorDeArchivo {
 
   public List<List<String>> getRegistros(URI uri) {

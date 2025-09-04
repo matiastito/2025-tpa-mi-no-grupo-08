@@ -89,9 +89,4 @@ public class FuenteProxyAPIdeDDS implements FuenteProxy {
         })
         .block();
   }
-
-  @Override
-  public void eliminar(HechoDTO hecho) {
-    //Nada que hacer, es una fuente que no manejamos.
-  }
 }

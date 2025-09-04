@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.integracion;
 
+import static ar.edu.utn.frba.dds.Categorias.categoria;
 import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.DINAMICA;
-import static ar.edu.utn.frba.dds.modelo.hecho.Categorias.categoria;
 import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.MANUAL;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 import static ar.edu.utn.frba.dds.util.FormateadorDeFecha.formatearFecha;
@@ -81,7 +81,7 @@ public class Escenario01Test {
             now(),
             fuente
         )));
-    coleccionManual.colectarHechos();
+    coleccionManual.refrescar();
   }
 
   @Test

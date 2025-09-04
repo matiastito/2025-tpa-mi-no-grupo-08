@@ -8,7 +8,6 @@ import static java.util.Map.of;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 
-//FIXME rename Factory
 @Component
 public class Consensos {
   private final Map<TipoConsenso, Consenso> consensos = of(

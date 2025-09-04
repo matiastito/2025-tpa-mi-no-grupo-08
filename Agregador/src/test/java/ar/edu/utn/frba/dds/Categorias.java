@@ -1,10 +1,10 @@
-package ar.edu.utn.frba.dds.modelo.hecho;
+package ar.edu.utn.frba.dds;
 
+import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 
-//TODO Mover a Test
 public class Categorias {
   private static Collection<Categoria> categorias = new HashSet<>();
 

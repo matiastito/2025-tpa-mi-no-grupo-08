@@ -1,8 +1,6 @@
-package ar.edu.utn.frba.dds.modelo.coleccion;
+package ar.edu.utn.frba.dds.modelo.coleccion.filtro;
 
-import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
-
 import java.util.ArrayList;
 import java.util.List;
 

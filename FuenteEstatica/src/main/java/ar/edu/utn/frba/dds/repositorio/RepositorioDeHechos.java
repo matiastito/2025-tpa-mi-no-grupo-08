@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.repositorio;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
-
 import java.util.Collection;
 
 public interface RepositorioDeHechos {

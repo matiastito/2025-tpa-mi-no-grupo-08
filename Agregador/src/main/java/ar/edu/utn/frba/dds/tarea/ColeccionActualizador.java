@@ -20,7 +20,7 @@ public class ColeccionActualizador {
     out.println("Ejecutando Actualizador.");
     fromIterable(coleccionRepositorio.colleciones())
         .flatMap(c -> {
-          c.colectarHechos();
+          c.refrescar();
           return empty();
         }, 5)
         .subscribeOn(Schedulers.boundedElastic())

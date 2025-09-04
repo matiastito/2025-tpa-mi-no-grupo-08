@@ -25,7 +25,7 @@ public class Consensuador {
         coleccion -> {
           coleccion.hechos().forEach(
               hecho -> {
-                fromIterable(coleccion.hechoss())
+                fromIterable(coleccion.hechosAgrupadosPorFuente())
                     .parallel()
                     .runOn(parallel())
                     .map(hechos ->

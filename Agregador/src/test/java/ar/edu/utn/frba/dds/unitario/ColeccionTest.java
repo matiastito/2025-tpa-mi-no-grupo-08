@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.unitario;
 
-import static ar.edu.utn.frba.dds.modelo.hecho.Categorias.categoria;
+import static ar.edu.utn.frba.dds.Categorias.categoria;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
 import static java.util.List.of;
@@ -43,15 +43,15 @@ public class ColeccionTest {
   }
 
   @Test
-  public void coleccionPuedeColectarHechosDesdeFuente() {
-    coleccion.colectarHechos();
+  public void coleccionPuedeRefrescarDesdeFuente() {
+    coleccion.refrescar();
     assertTrue(coleccion.hechos().contains(hecho));
   }
 
   @Test
   public void noIncluyeHechosEliminados() {
     hecho.eliminar();
-    coleccion.colectarHechos();
+    coleccion.refrescar();
     assertTrue(coleccion.hechos().isEmpty());
   }
 
@@ -66,7 +66,7 @@ public class ColeccionTest {
     };
 
     coleccion.agregarFiltro(filtroFalso);
-    coleccion.colectarHechos();
+    coleccion.refrescar();
 
     assertFalse(coleccion.hechos().contains(hecho));
   }

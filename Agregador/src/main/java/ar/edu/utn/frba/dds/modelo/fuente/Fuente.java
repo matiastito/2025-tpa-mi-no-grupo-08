@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.modelo.fuente;
 
-import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.DINAMICA;
-import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.METAMAPA;
+import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.PROXY;
 import static ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO.toDTO;
 import static ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO.toHecho;
 import static java.util.stream.Collectors.toSet;
@@ -46,8 +45,7 @@ public class Fuente {
   }
 
   public void eliminar(Hecho hecho) {
-    //FIXME Agregar la estatica
-    if (DINAMICA.equals(tipoFuente) || METAMAPA.equals(tipoFuente)) {
+    if (!PROXY.equals(tipoFuente)) {
       create("http://" + baseUrl + "/hechos")
           .put()
           .body(toDTO(hecho))
