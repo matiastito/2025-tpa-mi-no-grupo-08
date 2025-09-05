@@ -4,8 +4,8 @@ import static ar.edu.utn.frba.dds.util.archivo.TipoArchivo.CSV;
 import static java.util.stream.Collectors.toSet;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
-import ar.edu.utn.frba.dds.repositorio.RepositorioDeArchivosCSV;
 import ar.edu.utn.frba.dds.repositorio.RepositorioDeHechos;
+import ar.edu.utn.frba.dds.repositorio.RepositorioFuenteArchivosCSV;
 import ar.edu.utn.frba.dds.util.archivo.lector.csv.LectorArchivoCSV;
 import ar.edu.utn.frba.dds.util.archivo.localizador.LocalizadorDeArchivoLocal;
 import java.util.Collection;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class HechoServicio {
 
   @Autowired
-  private RepositorioDeArchivosCSV repositorioDeArchivosCSV;
+  private RepositorioFuenteArchivosCSV repositorioDeArchivosCSV;
   @Autowired
   private RepositorioDeHechos repositorioDeHechos;
   @Autowired

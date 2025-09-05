@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.web.dto;
 import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.EXTERNO;
 import static java.lang.String.valueOf;
 
-import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -91,10 +90,6 @@ public class HechoDTO {
 
   public String getDescripcion() {
     return descripcion;
-  }
-
-  public Hecho toHecho() {
-    return new Hecho("ToFO");
   }
 
   public class UbicacionDTO {

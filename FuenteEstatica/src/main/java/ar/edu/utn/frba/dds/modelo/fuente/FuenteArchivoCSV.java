@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.modelo.fuente;
 
-public class ArchivoCSV {
+public class FuenteArchivoCSV {
   private final String uri;
   private boolean procesado;
 
-  public ArchivoCSV(String uri) {
+  public FuenteArchivoCSV(String uri) {
     this.uri = uri;
     this.procesado = false;
   }

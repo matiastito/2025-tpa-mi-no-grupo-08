@@ -9,17 +9,16 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class CacheParaFuenteProxyAPIdeDDS {
+public class CacheHechos {
   private Collection<HechoDTO> hechos = new HashSet<>();
   private LocalDateTime ultimaActualizacion = MIN;
 
-  public Collection<HechoDTO> hechos() {
-    return hechos;
-  }
-
-
   public boolean isRecent() {
     return MINUTES.between(ultimaActualizacion, now()) < 5;
+  }
+
+  public Collection<HechoDTO> getHechos() {
+    return hechos;
   }
 
   public void actualizar(Collection<HechoDTO> hechos) {

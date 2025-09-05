@@ -1,7 +1,7 @@
-package ar.edu.utn.frba.dds.web.controlador;
+package ar.edu.utn.frba.dds.servicio;
 
-import ar.edu.utn.frba.dds.modelo.fuente.ArchivoCSV;
-import ar.edu.utn.frba.dds.repositorio.RepositorioDeArchivosCSV;
+import ar.edu.utn.frba.dds.modelo.fuente.FuenteArchivoCSV;
+import ar.edu.utn.frba.dds.repositorio.RepositorioFuenteArchivosCSV;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class ArchivosCSVServicio {
+public class FuenteArchivosCSVServicio {
 
   @Autowired
-  private RepositorioDeArchivosCSV repositorioDeArchivosCSV;
+  private RepositorioFuenteArchivosCSV repositorioDeArchivosCSV;
 
   @Value("${app.directorio.fuente}")
   public String UPLOAD_DIR;
@@ -38,6 +38,6 @@ public class ArchivosCSVServicio {
     } catch (IOException e) {
       throw new RuntimeException("Ocurrió un error al copiar el archivo.");
     }
-    repositorioDeArchivosCSV.agregar(new ArchivoCSV(filePath.getAbsolutePath()));
+    repositorioDeArchivosCSV.agregar(new FuenteArchivoCSV(filePath.getAbsolutePath()));
   }
 }
