@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MetaMapa — Visualizador (Lista)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../html/css/viewer.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Inicio">
+        <img src="../img/logo-metamapa.png" alt="MetaMapa" class="brand-logo" />
+        <span class="brand-text">MetaMapa</span>
+      </a>
+      <nav class="auth-nav">
+        <a class="btn btn-ghost" href="register.html">Registrarse</a>
+        <a class="btn btn-ghost" href="login.html">Iniciar sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container grid">
+      <!-- SIDEBAR -->
+      <aside class="sidebar" aria-label="Controles y filtros">
+        <!-- Colección + modo -->
+        <section class="panel">
+          <header class="panel-head">
+            <div class="panel-icon">🗄️</div>
+            <h2 class="panel-title">Colección</h2>
+          </header>
+
+          <label class="label" for="coleccion">Seleccione</label>
+          <select id="coleccion" class="select">
+            <option>Colección_1</option>
+            <option selected>Colección_2</option>
+            <option>Colección_3</option>
+          </select>
+
+          <h3 class="subhead">Modo de navegación</h3>
+          <div class="radio-row" role="radiogroup" aria-label="Modo de navegación">
+            <label class="radio"><input type="radio" name="mode" value="CURADO" checked /> Curado</label>
+            <label class="radio"><input type="radio" name="mode" value="IRRESTRICTO" /> Irrestrictio</label>
+          </div>
+
+          <label class="switch">
+            <input type="checkbox" id="onlyVerified" />
+            <span class="slider" aria-hidden="true"></span>
+            <span class="switch-text">Sólo hechos verificados</span>
+          </label>
+        </section>
+
+        <!-- Filtros (front-only) -->
+        <form class="panel" action="viewer-list.html" method="get">
+          <header class="panel-head">
+            <div class="panel-icon">🧰</div>
+            <h2 class="panel-title">Filtros</h2>
+          </header>
+
+          <label class="label" for="desde">Fecha desde</label>
+          <input id="desde" name="from" type="text" placeholder="DD/MM/AAAA" class="select" />
+
+          <label class="label" for="hasta">Fecha hasta</label>
+          <input id="hasta" name="to" type="text" placeholder="DD/MM/AAAA" class="select" />
+
+          <label class="label" for="categoria">Categoría</label>
+          <select id="categoria" name="category" class="select">
+            <option value="">Todas las categorías</option>
+            <option>Clima</option>
+            <option>Infraestructura</option>
+            <option>Salud</option>
+          </select>
+
+          <label class="label" for="fuente">Fuente</label>
+          <select id="fuente" name="source" class="select">
+            <option value="">Todas las fuentes</option>
+            <option>Archivo CSV</option>
+            <option>GCBA</option>
+            <option>Universidades</option>
+          </select>
+
+          <label class="label" for="ubicacion">Ubicación</label>
+          <input id="ubicacion" name="q" type="text" placeholder="Buscar por ubicación…" class="select" />
+
+          <div class="btn-col">
+            <a class="btn btn-light" href="viewer-list.html">Limpiar filtros</a>
+            <button class="btn btn-primary" type="submit">Buscar</button>
+          </div>
+        </form>
+
+        <!-- Lista de resultados -->
+        <section class="panel results">
+          <header class="panel-head">
+            <div class="panel-icon">🧾</div>
+            <h2 class="panel-title">Hechos encontrados</h2>
+          </header>
+
+          <ul class="results-list">
+            <!-- CARD 1 -->
+            <li class="result-card">
+              <a class="result-link" href="viewer-detail.html?id=1">
+                <h4 class="result-title">Temporal de viento en Bragado</h4>
+                <p class="result-meta">Ubicación: <strong>Bragado, BA</strong></p>
+                <div class="result-badges">
+                  <span class="badge badge--cat">Clima</span>
+                  <span class="badge badge--status">Verificado</span>
+                </div>
+                <div class="result-counters">
+                  <span>📅 16/10/2023</span>
+                  <span>💬 2</span>
+                </div>
+              </a>
+            </li>
+
+            <!-- CARD 2 -->
+            <li class="result-card">
+              <a class="result-link" href="viewer-detail.html?id=2">
+                <h4 class="result-title">Temporal en Pergamino</h4>
+                <p class="result-meta">Ubicación: <strong>Pergamino, BA</strong></p>
+                <div class="result-badges">
+                  <span class="badge badge--cat">Clima</span>
+                </div>
+                <div class="result-counters">
+                  <span>📅 16/10/2023</span>
+                  <span>💬 3</span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </section>
+      </aside>
+
+      <!-- MAPA -->
+      <section class="map-wrap">
+        <iframe
+          class="map"
+          title="Mapa"
+          loading="lazy"
+          src="https://www.google.com/maps?ll=-34.6037,-58.3816&z=8&t=m&output=embed"
+        ></iframe>
+
+        <!-- Pins ilustrativos -->
+        <div class="pin pin--lg" style="top:30%; left:50%"></div>
+        <div class="pin" style="top:18%; left:28%"></div>
+        <div class="pin" style="top:72%; left:58%"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <small>© 2025 MetaMapa</small>
+    </div>
+  </footer>
+</body>
+</html>
+
+

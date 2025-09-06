@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Resumen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../html/css/admin.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="admin-dashboard.html"><img src="../img/logo-metamapa.png" class="brand-logo" alt="" /><span class="brand-text">MetaMapa — Admin</span></a>
+    <div class="head-actions">
+      <a class="btn btn-ghost btn-small" href="../html/profile.html">Ver perfil</a>
+      <a class="btn btn-ghost btn-small" href="../html/login.html">Cerrar sesión</a>
+    </div>
+  </div>
+</header>
+
+<main class="main container">
+  <nav class="tabs" style="margin-bottom:10px">
+    <a class="is-active" href="admin-dashboard.html">Resumen</a>
+    <a href="admin-moderation.html">Moderación</a>
+    <a href="admin-collections.html">Colecciones</a>
+    <a href="admin-sources.html">Fuentes</a>
+    <a href="admin-eliminations.html">Eliminaciones</a>
+  </nav>
+
+  <section class="grid kpis">
+    <article class="card kpi">
+      <div class="kpi-title">Hechos totales</div>
+      <div class="kpi-num">2.847</div>
+      <div class="kpi-note">Cantidad de hechos en la plataforma</div>
+    </article>
+    <article class="card kpi">
+      <div class="kpi-title">Pendientes de moderación</div>
+      <div class="kpi-num">23</div>
+      <div class="kpi-note">Requieren atención</div>
+    </article>
+    <article class="card kpi">
+      <div class="kpi-title">Solicitudes de eliminación</div>
+      <div class="kpi-num">8</div>
+      <div class="kpi-note">Pendientes de revisión</div>
+    </article>
+    <article class="card kpi">
+      <div class="kpi-title">Contribuyentes activos</div>
+      <div class="kpi-num">134</div>
+      <div class="kpi-note">En la plataforma</div>
+    </article>
+  </section>
+
+  <section class="grid two" style="margin-top:12px">
+    <article class="card">
+      <h3 class="card-title" style="color:#185C22">Actividad reciente</h3>
+      <p class="muted">Últimas acciones en el sistema</p>
+      <ul style="margin:6px 0 0 18px;color:#4f5b4f">
+        <li>Hecho aprobado — hace 2 horas</li>
+        <li>Solicitud de eliminación recibida — hace 4 horas</li>
+        <li>Nueva colección creada — hace 1 día</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h3 class="card-title" style="color:#185C22">Acciones rápidas</h3>
+      <div class="grid">
+        <a class="btn btn-light" href="admin-sources.html">Configurar fuentes de una colección</a>
+        <a class="btn btn-light" href="admin-collections.html">Gestionar colecciones</a>
+        <a class="btn btn-light" href="admin-moderation.html">Moderar hechos</a>
+        <a class="btn btn-light" href="admin-eliminations.html">Administrar solicitudes de eliminación</a>
+      </div>
+    </article>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!-- =============================
+File: remove.html
+Purpose: Solicitud de eliminación (mínimo 500 caracteres de justificación).
+============================== -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Solicitar eliminación — MetaMapa</title>
+<!-- <link rel="stylesheet" href="./styles.css" /> -->
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<header class="site-header">
+<div class="container header-inner">
+<a class="brand" href="./index.html">MetaMapa</a>
+<nav class="nav" aria-label="Principal">
+<ul>
+<li><a href="./viewer.html">Explorar</a></li>
+<li><a href="./collections.html">Colecciones</a></li>
+</ul>
+</nav>
+</div>
+</header>
+
+
+<main id="contenido" class="container section form-page">
+<h1>Solicitud de eliminación</h1>
+<form class="form" aria-describedby="req">
+<p id="req" class="form-hint">Explicá claramente el motivo de tu solicitud. Mínimo 500 caracteres.</p>
+
+
+<label for="hecho">ID o URL del hecho *</label>
+<input id="hecho" name="hecho" required />
+
+
+<label for="justificacion">Justificación *</label>
+<textarea id="justificacion" name="justificacion" rows="8" minlength="500" required></textarea>
+<div class="char-counter" aria-live="polite">0 / 500</div>
+
+
+<div class="form-actions">
+<button class="btn btn-primary" type="submit">Enviar solicitud</button>
+<a class="btn btn-ghost" href="./fact.html">Volver</a>
+</div>
+</form>
+</main>
+
+
+<footer class="site-footer">
+<div class="container footer-inner">
+<small>© 2025 MetaMapa</small>
+</div>
+</footer>
+
+
+<script>
+// Contador accesible para la justificación (mín 500)
+const area = document.getElementById('justificacion');
+const counter = document.querySelector('.char-counter');
+if (area && counter) {
+const update = () => {
+const len = area.value.length;
+counter.textContent = `${len} / 500`;
+area.setCustomValidity(len < 500 ? 'Se requieren al menos 500 caracteres.' : '');
+};
+area.addEventListener('input', update);
+update();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MetaMapa — Mi perfil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../html/css/contribuyente.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html"><img src="../img/logo-metamapa.png" class="brand-logo" alt="" /><span class="brand-text">MetaMapa</span></a>
+    <nav class="auth-nav"><a class="btn btn-ghost" href="my-submissions.html">Mis hechos</a><a class="btn btn-ghost" href="viewer-list.html">Explorar mapa</a></nav>
+  </div>
+</header>
+
+<main class="main">
+  <div class="container grid two">
+    <section class="card">
+      <h2 class="card-title">Información personal</h2>
+      <form class="form" action="#">
+        <div class="row">
+          <div><label>Nombre</label><input placeholder="Nombre" /></div>
+          <div><label>Apellido</label><input placeholder="Apellido" /></div>
+        </div>
+        <div class="row">
+          <div><label>Email</label><input type="email" placeholder="email@ejemplo.com" /></div>
+          <div><label>Apodo (opcional)</label><input placeholder="Tu alias público" /></div>
+        </div>
+        <div class="row">
+          <div><label>Nueva contraseña</label><input type="text" placeholder="********" /></div>
+          <div><label>Repetir contraseña</label><input type="text" placeholder="********" /></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-primary" type="button">Guardar cambios</button>
+          <a class="btn btn-light" href="my-submissions.html">Ir a mis hechos</a>
+        </div>
+      </form>
+    </section>
+
+    <aside class="side">
+      <div class="card quick">
+        <h3 class="card-title">Accesos rápidos</h3>
+        <a class="btn btn-primary" href="submit.html">Cargar hecho</a>
+        <a class="btn btn-light" href="my-submissions.html">Gestionar mis hechos</a>
+      </div>
+
+      <div class="card box">
+        <h3 class="card-title">Estado de tu cuenta</h3>
+        <p class="muted">Cuenta verificada. 2 hechos visibles / 1 pendiente de revisión.</p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="container" style="padding:16px 0;text-align:center"><small>© 2025 MetaMapa</small></div></footer>
+</body>
+</html>
