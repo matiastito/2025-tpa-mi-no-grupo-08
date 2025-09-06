@@ -98,7 +98,7 @@
   .passbar{ height:8px; background:#edf3ed; border-radius:999px; overflow:hidden; margin-top:6px }
   .passbar span{ display:block; width:40%; height:100%; background:#9bd3a5 }
   
-  /* ===== Centrado que pediste ===== */
+  /* ===== Centrado ===== */
   .auth .form-card,
   .auth .highlight{
     max-width: 520px;

@@ -123,4 +123,11 @@
   @media (max-width: 900px){
     .features{grid-template-columns:1fr}
   }
-  
+
+/* Imágenes */
+.feature-img {
+  width: auto;
+  height: 200px;
+  display: block;
+  margin: 0 auto 10px; /* centrada con espacio abajo */
+}
