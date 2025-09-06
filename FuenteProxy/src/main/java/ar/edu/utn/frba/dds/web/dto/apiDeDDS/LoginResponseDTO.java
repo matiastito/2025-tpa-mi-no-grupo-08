@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.web.dto;
+package ar.edu.utn.frba.dds.web.dto.apiDeDDS;
 
 public class LoginResponseDTO {
   private boolean error;

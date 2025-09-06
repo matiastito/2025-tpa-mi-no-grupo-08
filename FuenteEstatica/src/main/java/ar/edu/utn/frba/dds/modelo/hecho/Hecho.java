@@ -1,14 +1,15 @@
 package ar.edu.utn.frba.dds.modelo.hecho;
 
+import ar.edu.utn.frba.dds.modelo.fuente.FuenteArchivoCSV;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.ContenidoMultimedia;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.TipoContenidoMultimedia;
-
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
 public class Hecho {
+  private FuenteArchivoCSV fuenteArchivoCSV;
   private String titulo;
   private String descripcion;
   private Categoria categoria;
@@ -20,7 +21,8 @@ public class Hecho {
   private Collection<Etiqueta> etiquetas;
   private boolean eliminado = false;
 
-  public Hecho(HechoOrigen hechoOrigen,
+  public Hecho(FuenteArchivoCSV fuenteArchivoCSV,
+               HechoOrigen hechoOrigen,
                String titulo,
                String descripcion,
                Categoria categoria,
@@ -28,6 +30,7 @@ public class Hecho {
                Ubicacion ubicacion,
                LocalDateTime fechaDeCarga,
                boolean eliminado) {
+    this.fuenteArchivoCSV = fuenteArchivoCSV;
     this.hechoOrigen = hechoOrigen;
     this.titulo = titulo;
     this.descripcion = descripcion;
@@ -69,6 +72,10 @@ public class Hecho {
 
   public Collection<Etiqueta> getEtiquetas() {
     return etiquetas;
+  }
+
+  public FuenteArchivoCSV getFuenteArchivoCSV() {
+    return fuenteArchivoCSV;
   }
 
   @Override

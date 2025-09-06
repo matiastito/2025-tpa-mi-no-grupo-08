@@ -36,4 +36,11 @@ public class HechoServicio {
   public Collection<Hecho> dameHechos() {
     return hechoRepositorio.dameHechos().stream().filter(h -> !h.estaEliminado()).collect(toSet());
   }
+
+  public Hecho buscarHechoPorTitulo(String tituloHecho) {
+    return hechoRepositorio.
+        dameHechos().stream()
+        .filter(h -> !h.estaEliminado() && h.getTitulo().equalsIgnoreCase(tituloHecho))
+        .findFirst().get();
+  }
 }

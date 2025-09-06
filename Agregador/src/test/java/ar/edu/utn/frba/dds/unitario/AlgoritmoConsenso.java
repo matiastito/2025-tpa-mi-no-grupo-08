@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 Se crea una colección y se le asigna el enum TipoConsenso.MAYORIA_SIMPLE.
 Luego se verifica que el tipo de consenso guardado sea efectivamente el asignado.*/
 
-public class algoritmoConsenso {
+public class AlgoritmoConsenso {
 
   private Hecho hecho;
   private Coleccion coleccion;

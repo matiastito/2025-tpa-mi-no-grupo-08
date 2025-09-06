@@ -21,7 +21,7 @@ public class FuenteArchivosCSVServicio {
   public String UPLOAD_DIR;
 
   public void guardar(MultipartFile archivoCSV) {
-    File uploadDir = new File(UPLOAD_DIR + "/");
+    File uploadDir = new File(UPLOAD_DIR);
     if (!uploadDir.exists()) {
       uploadDir.mkdirs();
     }

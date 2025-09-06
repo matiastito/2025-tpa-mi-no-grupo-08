@@ -1,14 +1,13 @@
 package ar.edu.utn.frba.dds.web.dto;
 
 import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.EXTERNO;
-import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
-import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
+
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
-
 import java.time.LocalDateTime;
 
 public class HechoDTO {
+  private long fuenteId;
   private HechoOrigen hechoOrigen;
   private String titulo;
   private String descripcion;
@@ -21,6 +20,10 @@ public class HechoDTO {
   private boolean eliminado;
 
   public HechoDTO() {
+  }
+
+  public void setFuenteId(long fuenteId) {
+    this.fuenteId = fuenteId;
   }
 
   public void setTitulo(String titulo) {
@@ -53,6 +56,10 @@ public class HechoDTO {
 
   public void setEliminado(boolean eliminado) {
     this.eliminado = eliminado;
+  }
+
+  public long getFuenteId() {
+    return fuenteId;
   }
 
   public HechoOrigen getHechoOrigen() {
@@ -89,6 +96,7 @@ public class HechoDTO {
 
   public static HechoDTO toDTO(Hecho hecho) {
     HechoDTO hechoDTO = new HechoDTO();
+    hechoDTO.fuenteId = hecho.getFuenteArchivoCSV().getId();
     hechoDTO.hechoOrigen = EXTERNO;
     hechoDTO.titulo = hecho.getTitulo();
     hechoDTO.descripcion = hecho.getDescripcion();
@@ -100,20 +108,6 @@ public class HechoDTO {
     hechoDTO.ubicacion = hechoDTO.
         new UbicacionDTO(hecho.getUbicacion().getLatitud(), hecho.getUbicacion().getLongitud());
     return hechoDTO;
-  }
-
-  public static Hecho toHecho(HechoDTO hechoDTO) {
-    Hecho hecho = new Hecho(
-        EXTERNO,
-        hechoDTO.titulo,
-        hechoDTO.descripcion,
-        new Categoria(hechoDTO.categoria),
-        hechoDTO.fechaDeCarga,
-        crearUbicacion(hechoDTO.ubicacion.getLatitud(), hechoDTO.ubicacion.getLongitud()),
-        hechoDTO.fechaDelHecho,
-        false
-    );
-    return hecho;
   }
 
   private class UbicacionDTO {

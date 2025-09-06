@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.modelo.fuente;
+package ar.edu.utn.frba.dds.modelo.fuente.cache;
 
 import static java.time.LocalDateTime.MIN;
 import static java.time.LocalDateTime.now;

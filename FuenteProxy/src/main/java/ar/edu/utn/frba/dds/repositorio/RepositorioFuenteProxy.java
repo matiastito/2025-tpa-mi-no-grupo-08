@@ -1,12 +1,12 @@
 package ar.edu.utn.frba.dds.repositorio;
 
 import ar.edu.utn.frba.dds.modelo.fuente.FuenteProxy;
-import java.util.Collection;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RepositorioFuenteProxy {
-  Collection<FuenteProxy> fuentes();
+  List<FuenteProxy> fuentes();
 
   void agregar(FuenteProxy fuente);
 }

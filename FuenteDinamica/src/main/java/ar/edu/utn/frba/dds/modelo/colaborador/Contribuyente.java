@@ -32,4 +32,12 @@ public class Contribuyente {
   public Integer getEdad() {
     return between(now(), fechaNacimiento).getYears();
   }
+
+  public String getNombre() {
+    return nombre;
+  }
+
+  public String getApellido() {
+    return apellido;
+  }
 }

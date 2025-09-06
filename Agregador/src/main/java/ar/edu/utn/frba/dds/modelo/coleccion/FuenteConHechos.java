@@ -24,7 +24,9 @@ public class FuenteConHechos {
   }
 
   public void actualizarLosNoEliminados() {
-    hechos.addAll(fuente.hechos().stream().filter(h -> !h.estaEliminado()).collect(toSet()));
+    hechos.addAll(
+        fuente.hechos().stream()
+            .filter(h -> !h.estaEliminado()).collect(toSet()));
   }
 
   public Fuente getFuente() {
@@ -32,6 +34,9 @@ public class FuenteConHechos {
   }
 
   public Collection<Hecho> getHechos() {
+    if (METAMAPA.equals(fuente.getTipoFuente())) {
+      return fuente.hechos();
+    }
     return hechos;
   }
 }

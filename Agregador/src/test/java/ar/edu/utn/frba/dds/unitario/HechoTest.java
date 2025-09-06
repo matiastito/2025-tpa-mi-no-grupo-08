@@ -34,6 +34,7 @@ public class HechoTest {
         of(2025, 3, 12, 10, 0),
         crearUbicacion("-31.4", "-64.2"),
         now(),
+        1,
         mock(Fuente.class)
     );
   }
@@ -76,6 +77,7 @@ public class HechoTest {
         fecha,
         ubicacion,
         now(),
+        1,
         mock(Fuente.class)
     );
 
@@ -87,6 +89,7 @@ public class HechoTest {
         fecha,
         ubicacion,
         now(),
+        1,
         mock(Fuente.class)
     );
 

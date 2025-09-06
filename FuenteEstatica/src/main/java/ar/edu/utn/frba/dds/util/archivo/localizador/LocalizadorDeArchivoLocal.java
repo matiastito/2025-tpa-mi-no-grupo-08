@@ -17,6 +17,6 @@ public class LocalizadorDeArchivoLocal implements LocalizadorDeArchivo {
 
   @Override
   public URI getURI() {
-    return create(fuenteArchivoCSV.getUri());
+    return create("file://" + fuenteArchivoCSV.getUri());
   }
 }

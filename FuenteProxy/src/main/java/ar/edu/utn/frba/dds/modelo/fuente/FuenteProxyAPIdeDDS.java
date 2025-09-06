@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelo.fuente;
 
+import static ar.edu.utn.frba.dds.web.dto.HechoDTO.toHechoDTO;
 import static java.lang.System.err;
 import static java.lang.System.out;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -8,9 +9,9 @@ import static reactor.core.publisher.Flux.empty;
 import static reactor.core.publisher.Flux.range;
 
 import ar.edu.utn.frba.dds.web.dto.HechoDTO;
-import ar.edu.utn.frba.dds.web.dto.LoginResponseDTO;
-import ar.edu.utn.frba.dds.web.dto.PagedResponseDTO;
-import java.util.Collection;
+import ar.edu.utn.frba.dds.web.dto.apiDeDDS.LoginResponseDTO;
+import ar.edu.utn.frba.dds.web.dto.apiDeDDS.PagedResponseDTO;
+import java.util.List;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -22,10 +23,21 @@ public class FuenteProxyAPIdeDDS implements FuenteProxy {
 
   private LoginResponseDTO loginResponse;
 
+  private long id;
   private String baseUrl;
 
   public FuenteProxyAPIdeDDS(String baseUrl) {
     this.baseUrl = baseUrl;
+  }
+
+  @Override
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  @Override
+  public long getId() {
+    return id;
   }
 
   private void login() {
@@ -39,7 +51,8 @@ public class FuenteProxyAPIdeDDS implements FuenteProxy {
         .getBody();
   }
 
-  public Collection<HechoDTO> hechos() {
+  @Override
+  public List<HechoDTO> hechos() {
     return fetchPage(0, pageSize)
         .flatMapMany(firstPage -> {
           int totalPages = firstPage.getLastPage();
@@ -54,7 +67,7 @@ public class FuenteProxyAPIdeDDS implements FuenteProxy {
                     .doOnError(e -> err.println("Ocurrió un error al obtener la pagina " + page + ": " + e.getMessage()));
               }, cantidadDeLlamadasConcurrentes)
               .flatMapIterable(PagedResponseDTO::getData)
-              .map(HechoDTO::toHechoDTO);
+              .map(desastreDTO -> toHechoDTO(desastreDTO, this.id));
         })
         .collectList()
         .block();

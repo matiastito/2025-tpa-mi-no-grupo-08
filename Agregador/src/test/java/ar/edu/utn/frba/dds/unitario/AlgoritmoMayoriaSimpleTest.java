@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.unitario;
 
+import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
+
 import ar.edu.utn.frba.dds.consenso.MayoriaSimple;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.fuente.TipoFuente;
@@ -36,11 +38,11 @@ public class AlgoritmoMayoriaSimpleTest {
     // creo un hecho con sus atributos
     HechoOrigen origen = HechoOrigen.MANUAL;
     Categoria categoria = new Categoria("Categoria Test");
-    Ubicacion ubicacion = Ubicacion.crearUbicacion("-34.6037", "-58.3816");
+    Ubicacion ubicacion = crearUbicacion("-34.6037", "-58.3816");
     LocalDateTime fechaCreacion = LocalDateTime.now();
 
     Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria,
-        fechaCreacion, ubicacion, fechaCreacion, null);
+        fechaCreacion, ubicacion, fechaCreacion, 1, null);
     // Creamos 3 fuentes, dos fuentes contienen el hecho, y otra no
     Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));
     Fuente fuente2 = new FuenteFake("Fuente 2", TipoFuente.DINAMICA, Set.of(hechoA));
@@ -66,11 +68,11 @@ public class AlgoritmoMayoriaSimpleTest {
     // creamos el mismo hecho
     HechoOrigen origen = HechoOrigen.MANUAL;
     Categoria categoria = new Categoria("Categoria Test");
-    Ubicacion ubicacion = Ubicacion.crearUbicacion("-34.6037", "-58.3816");
+    Ubicacion ubicacion = crearUbicacion("-34.6037", "-58.3816");
     LocalDateTime fechaCreacion = LocalDateTime.now();
 
     Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria,
-        fechaCreacion, ubicacion, fechaCreacion, null);
+        fechaCreacion, ubicacion, fechaCreacion, 1, null);
 
     // creamos 4 fuentes, y solo una contiene el hecho
     Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));

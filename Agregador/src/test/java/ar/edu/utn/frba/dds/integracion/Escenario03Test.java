@@ -43,6 +43,7 @@ public class Escenario03Test {
             formatearFecha("05/07/2005"),
             crearUbicacion("-32.786098", "-60.741543"),
             now(),
+            1,
             fuente
         )));
     coleccionManual.refrescar();

@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.web.controlador;
 
-import static ar.edu.utn.frba.dds.web.dto.FuenteDTO.toModel;
+import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.PROXY_DDS;
+import static ar.edu.utn.frba.dds.web.dto.FuenteDTO.toModelAPIdeDDS;
 
 import ar.edu.utn.frba.dds.servicio.FuenteProxyServicio;
 import ar.edu.utn.frba.dds.web.dto.FuenteDTO;
@@ -15,8 +16,12 @@ public class FuenteControlador {
   @Autowired
   private FuenteProxyServicio fuenteProxyServicio;
 
-  @PostMapping("/fuente")
-  public void fuente(@RequestBody FuenteDTO fuenteDTO) {
-    fuenteProxyServicio.guardar(toModel(fuenteDTO));
+  @PostMapping("/fuentes")
+  public void fuentes(@RequestBody FuenteDTO fuenteDTO) {
+    if (PROXY_DDS.equals(fuenteDTO.getTipoFuente())) {
+      fuenteProxyServicio.guardar(toModelAPIdeDDS(fuenteDTO));
+    } else {
+      throw new RuntimeException("Tipo de fuente no reconocida.");
+    }
   }
 }

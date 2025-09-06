@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.web.dto;
+package ar.edu.utn.frba.dds.web.dto.apiDeDDS;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;

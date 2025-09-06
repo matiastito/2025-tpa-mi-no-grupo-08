@@ -9,7 +9,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LectorArchivoCSV implements LectorDeArchivo {
 
   public List<List<String>> getRegistros(URI uri) {

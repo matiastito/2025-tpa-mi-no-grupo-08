@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
-//FIXME cambiar el equal's, comenzar a inducir la idea de ID
 public class Hecho {
   private String titulo;
   private String descripcion;
@@ -20,6 +19,7 @@ public class Hecho {
   private HechoOrigen hechoOrigen;
   private Collection<Etiqueta> etiquetas;
   private Fuente fuente;
+  private long fuenteExternaId;
   private boolean eliminado = false;
   private boolean consensuado = true;
 
@@ -30,8 +30,10 @@ public class Hecho {
                LocalDateTime fechaDelHecho,
                Ubicacion ubicacion,
                LocalDateTime fechaDeCarga,
+               long fuenteExternaId,
                Fuente fuente) {
     this(hechoOrigen, titulo, descripcion, categoria, fechaDelHecho, ubicacion, fechaDeCarga);
+    this.fuenteExternaId = fuenteExternaId;
     this.fuente = fuente;
   }
 
@@ -59,6 +61,10 @@ public class Hecho {
   public void eliminar() {
     this.eliminado = true;
     this.fuente.eliminar(this);
+  }
+
+  public long getFuenteExternaId() {
+    return fuenteExternaId;
   }
 
   public LocalDateTime getFechaDelHecho() {

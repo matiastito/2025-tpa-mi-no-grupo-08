@@ -35,6 +35,7 @@ public class ColeccionTest {
         LocalDateTime.of(2025, 1, 20, 14, 30),
         crearUbicacion("-34.921", "-57.954"),
         now(),
+        1,
         fuente
     );
     when(fuente.hechos()).thenReturn(of(hecho));
