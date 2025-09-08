@@ -38,7 +38,7 @@ public class AlgoritmoMultiplesMencionesTest {
     Ubicacion ubicacion = Ubicacion.crearUbicacion("-34.6037", "-58.3816");
     LocalDateTime fecha = LocalDateTime.now();
 
-    Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria, fecha, ubicacion, fecha, 1, null);
+    Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria, fecha, ubicacion, fecha, null);
 
     Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));
     Fuente fuente2 = new FuenteFake("Fuente 2", TipoFuente.DINAMICA, Set.of(hechoA));
@@ -65,11 +65,11 @@ public class AlgoritmoMultiplesMencionesTest {
     Ubicacion ubicacion = Ubicacion.crearUbicacion("-34.6037", "-58.3816");
     LocalDateTime fecha = LocalDateTime.now();
 
-    Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria, fecha, ubicacion, fecha, 1, null);
+    Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria, fecha, ubicacion, fecha, null);
 
     // Hecho conflictivo con mismo título, diferente fecha y categoría
     Hecho hechoConflicto = new Hecho(origen, "Título A", "Otra descripción", new Categoria("Otra Categoria"),
-        fecha.minusDays(1), ubicacion, fecha, 1, null);
+        fecha.minusDays(1), ubicacion, fecha, null);
 
     Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));
     Fuente fuente2 = new FuenteFake("Fuente 2", TipoFuente.DINAMICA, Set.of(hechoA));

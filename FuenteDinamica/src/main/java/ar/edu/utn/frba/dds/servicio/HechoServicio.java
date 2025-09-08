@@ -19,28 +19,30 @@ public class HechoServicio {
   private HechoRepositorio hechoRepositorio;
 
   public void guardarHecho(Hecho hecho) {
-    hechoRepositorio.guardar(hecho);
+    hechoRepositorio.save(hecho);
   }
 
   public void modificarHecho(Hecho hecho) {
-    if (DAYS.between(hecho.getFechaDeCarga(), now()) > CANTIDAD_DE_DIAS_LIMITE_MODIFICACION) {
+    Hecho hechoExistente = hechoRepositorio.findById(hecho.getId()).get();
+
+    if (DAYS.between(hechoExistente.getFechaDeCarga(), now()) > CANTIDAD_DE_DIAS_LIMITE_MODIFICACION) {
       throw new RuntimeException("No se puede modificar el Hecho, ha pasado la fecha limite.");
     }
-    Hecho hechoExistente = hechoRepositorio.dameHecho(hecho);
     if (hechoExistente.getContribuyente() != null) {
       throw new RuntimeException("No se puede modificar un Hecho anonimo.");
     }
-    hechoRepositorio.modificar(hecho);
+    //TODO hacer la modifcacion
+    hechoRepositorio.save(hechoExistente);
   }
 
   public Collection<Hecho> dameHechos() {
-    return hechoRepositorio.dameHechos().stream().filter(h -> !h.estaEliminado()).collect(toSet());
+    return hechoRepositorio.findAll().stream().filter(h -> !h.isEliminado()).collect(toSet());
   }
 
   public Hecho buscarHechoPorTitulo(String tituloHecho) {
     return hechoRepositorio.
-        dameHechos().stream()
-        .filter(h -> !h.estaEliminado() && h.getTitulo().equalsIgnoreCase(tituloHecho))
+        findAll().stream()
+        .filter(h -> !h.isEliminado() && h.getTitulo().equalsIgnoreCase(tituloHecho))
         .findFirst().get();
   }
 }

@@ -19,17 +19,8 @@ public class HechoDTO {
   private UbicacionDTO ubicacion;
   private LocalDateTime fechaDeCarga;
   private boolean eliminado;
-  private long fuenteId;
 
   public HechoDTO() {
-  }
-
-  public void setFuenteId(long fuenteId) {
-    this.fuenteId = fuenteId;
-  }
-
-  public long getFuenteId() {
-    return fuenteId;
   }
 
   public void setTitulo(String titulo) {
@@ -98,7 +89,6 @@ public class HechoDTO {
 
   public static HechoDTO toDTO(Hecho hecho) {
     HechoDTO hechoDTO = new HechoDTO();
-    hechoDTO.fuenteId = hecho.getFuenteExternaId();
     hechoDTO.hechoOrigen = hecho.getHechoOrigen();
     hechoDTO.titulo = hecho.getTitulo();
     hechoDTO.descripcion = hecho.getDescripcion();
@@ -121,7 +111,6 @@ public class HechoDTO {
         hechoDTO.fechaDeCarga,
         crearUbicacion(hechoDTO.ubicacion.getLatitud(), hechoDTO.ubicacion.getLongitud()),
         hechoDTO.fechaDelHecho,
-        hechoDTO.fuenteId,
         fuente
     );
   }

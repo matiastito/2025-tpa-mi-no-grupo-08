@@ -1,13 +1,10 @@
 package ar.edu.utn.frba.dds.repositorio;
 
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
-import java.util.Collection;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface SolicitudEliminacionRepositorio {
+@Repository
+public interface SolicitudEliminacionRepositorio extends JpaRepository<SolicitudDeEliminacionDeHecho, Long> {
 
-  void guardar(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho);
-
-  Collection<SolicitudDeEliminacionDeHecho> solicitudesDeEliminacionDeHecho();
-
-  SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho(Long solicitudDeEliminacionDeHechoId);
 }

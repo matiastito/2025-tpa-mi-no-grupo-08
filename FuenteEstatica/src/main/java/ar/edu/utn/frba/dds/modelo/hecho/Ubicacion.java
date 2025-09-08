@@ -1,7 +1,9 @@
 package ar.edu.utn.frba.dds.modelo.hecho;
 
+import jakarta.persistence.Embeddable;
 import java.util.Objects;
 
+@Embeddable
 public class Ubicacion {
   private String latitud;
   private String longitud;

@@ -4,7 +4,7 @@ import static java.util.stream.Collectors.toSet;
 
 import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
-import ar.edu.utn.frba.dds.repositorio.ColeccionRepositorioEnMemoria;
+import ar.edu.utn.frba.dds.repositorio.ColeccionRepositorio;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,18 +12,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class ColeccionServicio {
   @Autowired
-  private ColeccionRepositorioEnMemoria coleccionRepositorio;
+  private ColeccionRepositorio coleccionRepositorio;
 
   public Collection<Coleccion> colecciones() {
-    return coleccionRepositorio.colleciones();
+    return coleccionRepositorio.findAll();
   }
 
   public Coleccion coleccion(Long coleccionId) {
-    return coleccionRepositorio.collecion(coleccionId);
+    return coleccionRepositorio.findById(coleccionId).get();
   }
 
   public void guardarColeccion(Coleccion coleccion) {
-    coleccionRepositorio.guardar(coleccion);
+    coleccionRepositorio.save(coleccion);
   }
 
   public Collection<Hecho> hechos() {

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 public class HechoDTO {
+  private long id;
   private HechoOrigen hechoOrigen;
   private HechoEstado hechoEstado;
   private ContribuyenteDTO contribuyente;
@@ -38,6 +39,7 @@ public class HechoDTO {
         crearUbicacion(hechoDTO.ubicacion.latitud, hechoDTO.ubicacion.longitud),
         hechoDTO.fechaDeCarga
     );
+    hecho.setId(hechoDTO.id);
     if (hechoDTO.isEliminado()) {
       hecho.eliminar();
     }
@@ -46,6 +48,7 @@ public class HechoDTO {
 
   public static HechoDTO toHechoDTO(Hecho hecho) {
     HechoDTO hechoDTO = new HechoDTO();
+    hechoDTO.id = hecho.getId();
     hechoDTO.hechoOrigen = CONTRIBUYENTE;
     hechoDTO.hechoEstado = hecho.getHechoEstado();
     hechoDTO.titulo = hecho.getTitulo();
@@ -59,6 +62,10 @@ public class HechoDTO {
     );
     // hechoDTO.etiquetas = hecho.getEtiquetas();
     return hechoDTO;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 
   public void setHechoOrigen(HechoOrigen hechoOrigen) {
@@ -99,6 +106,10 @@ public class HechoDTO {
 
   public void setEtiquetas(Collection<String> etiquetas) {
     this.etiquetas = etiquetas;
+  }
+
+  public long getId() {
+    return id;
   }
 
   public HechoOrigen getHechoOrigen() {

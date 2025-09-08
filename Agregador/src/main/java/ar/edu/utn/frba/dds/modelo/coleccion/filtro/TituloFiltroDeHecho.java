@@ -1,9 +1,15 @@
 package ar.edu.utn.frba.dds.modelo.coleccion.filtro;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
-public class TituloFiltroDeHecho implements FiltroDeHecho {
+@Entity
+@DiscriminatorValue("TITULO_FILTRO_DE_HECHO")
+public class TituloFiltroDeHecho extends FiltroDeHecho {
 
+  @Column(name = "TITULO", nullable = false)
   private final String titulo;
 
   public TituloFiltroDeHecho(String titulo) {

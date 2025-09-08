@@ -1,14 +1,8 @@
 package ar.edu.utn.frba.dds.repositorio;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
-import java.util.Collection;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface HechoRepositorio {
-  void guardar(Hecho hecho);
+public interface HechoRepositorio extends JpaRepository<Hecho, Long> {
 
-  void modificar(Hecho hecho);
-
-  Hecho dameHecho(Hecho hecho);
-
-  Collection<Hecho> dameHechos();
 }

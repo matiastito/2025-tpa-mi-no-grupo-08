@@ -71,7 +71,7 @@ public class SolicitudDeEliminacionDeHechoControlador {
 
     //Buscar Administrador
     Administrador administrador =
-        administradorRepositorio.administrador(solicitudDeEliminacionDeHechoDTO.getAdministrador().getNombre());
+        administradorRepositorio.findByNombre(solicitudDeEliminacionDeHechoDTO.getAdministrador().getNombre());
 
     if (solicitudDeEliminacionDeHechoDTO.isAprobada()) {
       solicitudEliminacionServicio.aprobar(solicitudDeEliminacionDeHecho, administrador);

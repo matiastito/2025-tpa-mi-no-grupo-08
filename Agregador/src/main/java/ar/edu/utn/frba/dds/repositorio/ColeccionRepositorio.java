@@ -1,12 +1,10 @@
 package ar.edu.utn.frba.dds.repositorio;
 
 import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
-import java.util.Collection;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ColeccionRepositorio {
-  void guardar(Coleccion coleccion);
+@Repository
+public interface ColeccionRepositorio extends JpaRepository<Coleccion, Long> {
 
-  Collection<Coleccion> colleciones();
-
-  Coleccion collecion(Long coleccionId);
 }

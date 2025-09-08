@@ -1,10 +1,18 @@
 package ar.edu.utn.frba.dds.modelo.hecho;
 
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.util.Objects;
 
+@Embeddable
 public class Ubicacion {
   private String latitud;
   private String longitud;
+
+  @ManyToOne
+  @JoinColumn(name = "PROVINCIA_ID")
+  private Provincia provincia;
 
   private Ubicacion(String latitud, String longitud) {
     this.latitud = latitud;

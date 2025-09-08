@@ -1,14 +1,10 @@
 package ar.edu.utn.frba.dds.repositorio;
 
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
-import java.util.Collection;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ContribuyenteRepositorio {
-  void guardar(Contribuyente contribuyente);
-
-  Collection<Contribuyente> contribuyentes();
-
-  Contribuyente contribuyente(String nombre, String apellido);
-
-  Contribuyente contribuyente(Long contribuyenteId);
+@Repository
+public interface ContribuyenteRepositorio extends JpaRepository<Contribuyente, Long> {
+  Contribuyente findByNombreAndApellido(String nombre, String Apellido);
 }

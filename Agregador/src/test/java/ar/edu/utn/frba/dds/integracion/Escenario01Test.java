@@ -40,7 +40,6 @@ public class Escenario01Test {
             formatearFecha("29/11/2001"),
             crearUbicacion("-36.868375", "-60.343297"),
             now(),
-            1,
             fuente
         ),
         new Hecho(
@@ -51,7 +50,6 @@ public class Escenario01Test {
             formatearFecha("16/08/2001"),
             crearUbicacion("-37.345571", "-70.241485"),
             now(),
-            1,
             fuente
         ),
         new Hecho(
@@ -62,7 +60,6 @@ public class Escenario01Test {
             formatearFecha("08/08/2008"),
             crearUbicacion("-33.768051", "-61.921032"),
             now(),
-            1,
             fuente
         ),
         new Hecho(
@@ -73,7 +70,6 @@ public class Escenario01Test {
             formatearFecha("27/01/2020"),
             crearUbicacion("-35.855811", "-61.940589"),
             now(),
-            1,
             fuente
         ), new Hecho(
             MANUAL,
@@ -83,7 +79,6 @@ public class Escenario01Test {
             formatearFecha("04/06/2016"),
             crearUbicacion("-26.780008", "-60.458782"),
             now(),
-            1,
             fuente
         )));
     coleccionManual.refrescar();

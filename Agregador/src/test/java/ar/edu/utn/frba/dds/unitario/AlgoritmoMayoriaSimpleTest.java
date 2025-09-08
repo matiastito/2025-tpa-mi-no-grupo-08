@@ -42,7 +42,7 @@ public class AlgoritmoMayoriaSimpleTest {
     LocalDateTime fechaCreacion = LocalDateTime.now();
 
     Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria,
-        fechaCreacion, ubicacion, fechaCreacion, 1, null);
+        fechaCreacion, ubicacion, fechaCreacion, null);
     // Creamos 3 fuentes, dos fuentes contienen el hecho, y otra no
     Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));
     Fuente fuente2 = new FuenteFake("Fuente 2", TipoFuente.DINAMICA, Set.of(hechoA));
@@ -72,7 +72,7 @@ public class AlgoritmoMayoriaSimpleTest {
     LocalDateTime fechaCreacion = LocalDateTime.now();
 
     Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria,
-        fechaCreacion, ubicacion, fechaCreacion, 1, null);
+        fechaCreacion, ubicacion, fechaCreacion, null);
 
     // creamos 4 fuentes, y solo una contiene el hecho
     Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));

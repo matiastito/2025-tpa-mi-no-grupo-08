@@ -1,12 +1,10 @@
 package ar.edu.utn.frba.dds.repositorio;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
-import java.util.Collection;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface RepositorioDeHechos {
-  Collection<Hecho> hechos();
+@Repository
+public interface RepositorioDeHechos extends JpaRepository<Hecho, Long> {
 
-  void agregar(Collection<Hecho> hechos);
-
-  void agregar(Hecho hechos);
 }

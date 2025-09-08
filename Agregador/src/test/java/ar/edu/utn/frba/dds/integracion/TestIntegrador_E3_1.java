@@ -33,7 +33,6 @@ public class TestIntegrador_E3_1 {
                 LocalDateTime.now(),
                 Ubicacion.crearUbicacion("10", "20"),
                 LocalDateTime.now(),
-                1,
                 null // Fuente dummy
             ),
             new Hecho(
@@ -44,7 +43,6 @@ public class TestIntegrador_E3_1 {
                 LocalDateTime.now(),
                 Ubicacion.crearUbicacion("30", "40"),
                 LocalDateTime.now(),
-                1,
                 null // Fuente dummy
             )
         );

@@ -3,23 +3,48 @@ package ar.edu.utn.frba.dds.modelo.hecho;
 import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.ACEPTADA;
 import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.PENDIENTE;
 import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.RECHAZADA;
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.GenerationType.IDENTITY;
 import static java.time.LocalDateTime.now;
 
 import ar.edu.utn.frba.dds.modelo.administrador.Administrador;
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "SOLICITUD_DE_ELIMINACION_DE_HECHO")
 public class SolicitudDeEliminacionDeHecho {
+  @Id
+  @GeneratedValue(strategy = IDENTITY)
+  private long id;
+  @ManyToOne
+  @JoinColumn(name = "HECHO_ID")
+  private Hecho hecho;
+  @Column(name = "FECHA_DE_CREACION", nullable = false)
+  private LocalDateTime fechaCreacion;
+  @Column(name = "MOTIVO", nullable = false)
+  private String motivo;
+  @ManyToOne
+  @JoinColumn(name = "REPORTADOR_ID")
+  private Contribuyente repotador;
+  @ManyToOne
+  @JoinColumn(name = "APROBADOR_ID")
+  private Administrador aprobador;
+  @Column(name = "FECHA_DE_RESOLUCION", nullable = false)
+  private LocalDateTime fechaResolucion;
+  @Enumerated(STRING)
   private SolicitudDeEliminacionDeHechoEstado solicitudDeEliminacionDeHechoEstado;
 
-  private Hecho hecho;
-
-  private LocalDateTime fechaCreacion;
-  private String motivo;
-  private Contribuyente repotador;
-
-  private Administrador aprobador;
-  private LocalDateTime fechaResolucion;
+  public SolicitudDeEliminacionDeHecho() {
+  }
 
   public SolicitudDeEliminacionDeHecho(Contribuyente reportadoPor, Hecho hecho, String motivo) {
     this.hecho = hecho;

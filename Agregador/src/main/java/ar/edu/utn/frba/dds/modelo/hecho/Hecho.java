@@ -1,27 +1,72 @@
 package ar.edu.utn.frba.dds.modelo.hecho;
 
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.GenerationType.IDENTITY;
+import static org.hibernate.annotations.CascadeType.ALL;
+
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.ContenidoMultimedia;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.TipoContenidoMultimedia;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
+import org.hibernate.annotations.Cascade;
 
+@Entity
+@Table(name = "HECHO")
 public class Hecho {
+  @Id
+  @GeneratedValue(strategy = IDENTITY)
+  private long id;
+  @Column(name = "TITULO", nullable = false)
   private String titulo;
+  @Column(name = "DESCRIPCION", nullable = false)
   private String descripcion;
+  @ManyToOne
+  @JoinColumn(name = "CATEGORIA_ID")
   private Categoria categoria;
+  @OneToOne
+  @JoinColumn(name = "CONTENIDO_MULTIMEDIA_ID")
   private ContenidoMultimedia contenidoMultimedia;
+  @Embedded
   private Ubicacion ubicacion;
+  @Column(name = "FECHA_DEL_HECHO", nullable = false)
   private LocalDateTime fechaDelHecho;
+  @Column(name = "FECHA_DE_CARGA", nullable = false)
   private LocalDateTime fechaDeCarga;
+  @Enumerated(STRING)
   private HechoOrigen hechoOrigen;
+  @ManyToMany
+  @JoinTable(
+      name = "HECHO_ETIQUETA",
+      joinColumns = @JoinColumn(name = "HECHO_ID"),
+      inverseJoinColumns = @JoinColumn(name = "ETIQUETA_ID")
+  )
+  @Cascade(ALL)
   private Collection<Etiqueta> etiquetas;
+  @ManyToOne
+  @JoinColumn(name = "FUENTE_ID")
   private Fuente fuente;
-  private long fuenteExternaId;
+  @Column(name = "ELIMINADO", nullable = false)
   private boolean eliminado = false;
+  @Column(name = "CONSENSUADO", nullable = false)
   private boolean consensuado = true;
+
+  public Hecho() {
+  }
 
   public Hecho(HechoOrigen hechoOrigen,
                String titulo,
@@ -30,10 +75,8 @@ public class Hecho {
                LocalDateTime fechaDelHecho,
                Ubicacion ubicacion,
                LocalDateTime fechaDeCarga,
-               long fuenteExternaId,
                Fuente fuente) {
     this(hechoOrigen, titulo, descripcion, categoria, fechaDelHecho, ubicacion, fechaDeCarga);
-    this.fuenteExternaId = fuenteExternaId;
     this.fuente = fuente;
   }
 
@@ -58,13 +101,9 @@ public class Hecho {
     return this.eliminado;
   }
 
-  public void eliminar() {
+  public void eliminar(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho) {
     this.eliminado = true;
-    this.fuente.eliminar(this);
-  }
-
-  public long getFuenteExternaId() {
-    return fuenteExternaId;
+    this.fuente.eliminar(solicitudDeEliminacionDeHecho);
   }
 
   public LocalDateTime getFechaDelHecho() {

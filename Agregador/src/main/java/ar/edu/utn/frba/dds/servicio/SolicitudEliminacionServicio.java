@@ -16,21 +16,21 @@ public class SolicitudEliminacionServicio {
   private DetectorDeSpamServicio detectorDeSpamServicioTFIDF;
 
   public Collection<SolicitudDeEliminacionDeHecho> solicitudesDeEliminacionDeHecho() {
-    return solicitudEliminacionRepositorio.solicitudesDeEliminacionDeHecho();
+    return solicitudEliminacionRepositorio.findAll();
   }
 
   public SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho(Long solicitudDeEliminacionDeHechoId) {
     return solicitudEliminacionRepositorio
-        .solicitudDeEliminacionDeHecho(solicitudDeEliminacionDeHechoId);
+        .findById(solicitudDeEliminacionDeHechoId).get();
   }
 
   public void guardarSolicitudDeEliminacionDeHecho(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho) {
-    solicitudEliminacionRepositorio.guardar(solicitudDeEliminacionDeHecho);
+    solicitudEliminacionRepositorio.save(solicitudDeEliminacionDeHecho);
     detectorDeSpamServicioTFIDF.rechazaSpam(solicitudDeEliminacionDeHecho);
   }
 
   public SolicitudDeEliminacionDeHecho buscarSolicitudDeEliminacionDeHecho(Hecho hecho) {
-    return solicitudEliminacionRepositorio.solicitudesDeEliminacionDeHecho().stream().filter(
+    return solicitudEliminacionRepositorio.findAll().stream().filter(
         s -> s.getHecho().equals(hecho)
     ).findFirst().get();
   }

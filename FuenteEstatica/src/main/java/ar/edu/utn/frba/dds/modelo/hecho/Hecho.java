@@ -1,36 +1,49 @@
 package ar.edu.utn.frba.dds.modelo.hecho;
 
-import ar.edu.utn.frba.dds.modelo.fuente.FuenteArchivoCSV;
-import ar.edu.utn.frba.dds.modelo.hecho.contenido.ContenidoMultimedia;
-import ar.edu.utn.frba.dds.modelo.hecho.contenido.TipoContenidoMultimedia;
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.GenerationType.IDENTITY;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Objects;
 
+@Entity
+@Table(name = "HECHO")
 public class Hecho {
-  private FuenteArchivoCSV fuenteArchivoCSV;
+  @Id
+  @GeneratedValue(strategy = IDENTITY)
+  private long id;
+  @Column(name = "TITULO", nullable = false)
   private String titulo;
+  @Column(name = "DESCRIPCION", nullable = false)
   private String descripcion;
+  @ManyToOne
+  @JoinColumn(name = "CATEGORIA_ID")
   private Categoria categoria;
-  private ContenidoMultimedia contenidoMultimedia;
+  @Embedded
   private Ubicacion ubicacion;
+  @Column(name = "FECHA_DEL_HECHO", nullable = false)
   private LocalDateTime fechaDelHecho;
+  @Column(name = "FECHA_DE_CARGA", nullable = false)
   private LocalDateTime fechaDeCarga;
+  @Enumerated(STRING)
   private HechoOrigen hechoOrigen;
-  private Collection<Etiqueta> etiquetas;
-  private boolean eliminado = false;
 
-  public Hecho(FuenteArchivoCSV fuenteArchivoCSV,
-               HechoOrigen hechoOrigen,
+  public Hecho(HechoOrigen hechoOrigen,
                String titulo,
                String descripcion,
                Categoria categoria,
                LocalDateTime fechaDelHecho,
                Ubicacion ubicacion,
-               LocalDateTime fechaDeCarga,
-               boolean eliminado) {
-    this.fuenteArchivoCSV = fuenteArchivoCSV;
+               LocalDateTime fechaDeCarga) {
     this.hechoOrigen = hechoOrigen;
     this.titulo = titulo;
     this.descripcion = descripcion;
@@ -38,16 +51,6 @@ public class Hecho {
     this.fechaDelHecho = fechaDelHecho;
     this.ubicacion = ubicacion;
     this.fechaDeCarga = fechaDeCarga;
-    this.eliminado = eliminado;
-    this.etiquetas = new HashSet<>();
-  }
-
-  public boolean estaEliminado() {
-    return this.eliminado;
-  }
-
-  public void eliminar() {
-    this.eliminado = true;
   }
 
   public LocalDateTime getFechaDelHecho() {
@@ -64,18 +67,6 @@ public class Hecho {
 
   public String getTitulo() {
     return titulo;
-  }
-
-  public void etiquetar(Etiqueta etiqueta) {
-    this.etiquetas.add(etiqueta);
-  }
-
-  public Collection<Etiqueta> getEtiquetas() {
-    return etiquetas;
-  }
-
-  public FuenteArchivoCSV getFuenteArchivoCSV() {
-    return fuenteArchivoCSV;
   }
 
   @Override
@@ -100,9 +91,5 @@ public class Hecho {
 
   public Ubicacion getUbicacion() {
     return this.ubicacion;
-  }
-
-  public TipoContenidoMultimedia getTipoContenidoMultimedia() {
-    return this.contenidoMultimedia.getTipoContenidoMultimedia();
   }
 }

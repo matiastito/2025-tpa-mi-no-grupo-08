@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 public class HechoDTO {
-  private long fuenteId;
   private HechoOrigen hechoOrigen;
   private String titulo;
   private String descripcion;
@@ -21,14 +20,6 @@ public class HechoDTO {
   private LocalDateTime fechaDeCarga;
   private Collection<String> etiquetas;
   private boolean eliminado;
-
-  public void setFuenteId(long fuenteId) {
-    this.fuenteId = fuenteId;
-  }
-
-  public long getFuenteId() {
-    return fuenteId;
-  }
 
   public void setHechoOrigen(HechoOrigen hechoOrigen) {
     this.hechoOrigen = hechoOrigen;
@@ -131,9 +122,8 @@ public class HechoDTO {
     }
   }
 
-  public static HechoDTO toHechoDTO(DesastreDTO desastreDTO, long fuenteId) {
+  public static HechoDTO toHechoDTO(DesastreDTO desastreDTO) {
     HechoDTO hechoDTO = new HechoDTO();
-    hechoDTO.fuenteId = fuenteId;
     hechoDTO.hechoOrigen = EXTERNO;
     hechoDTO.titulo = desastreDTO.getTitulo();
     hechoDTO.descripcion = desastreDTO.getDescripcion();

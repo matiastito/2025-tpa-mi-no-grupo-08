@@ -13,10 +13,10 @@ public class FuenteProxyServicio {
   private RepositorioFuenteProxy repositorioFuenteProxy;
 
   public void guardar(FuenteProxy fuenteProxy) {
-    repositorioFuenteProxy.agregar(fuenteProxy);
+    repositorioFuenteProxy.save(fuenteProxy);
   }
 
   public List<FuenteProxy> fuentes() {
-    return repositorioFuenteProxy.fuentes();
+    return repositorioFuenteProxy.findAll();
   }
 }

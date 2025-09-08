@@ -45,7 +45,7 @@ public class AlgoritmoAbsolutoTest {
     LocalDateTime fecha = now();
 
     Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria,
-        fecha, ubicacion, fecha, 1, null);
+        fecha, ubicacion, fecha, null);
 
     // Todas las fuentes contienen el hecho
     Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));
@@ -75,7 +75,7 @@ public class AlgoritmoAbsolutoTest {
     LocalDateTime fecha = now();
 
     Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria,
-        fecha, ubicacion, fecha, 1, null);
+        fecha, ubicacion, fecha, null);
 
     // Una fuente no lo contiene
     Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));

@@ -21,7 +21,14 @@ public class SolicitudDeEliminacionDeHechoDTO {
   }
 
   public static SolicitudDeEliminacionDeHechoDTO toDTO(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho) {
-    return new SolicitudDeEliminacionDeHechoDTO();
+    SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO = new SolicitudDeEliminacionDeHechoDTO();
+    solicitudDeEliminacionDeHechoDTO.tituloHecho = solicitudDeEliminacionDeHecho.getHecho().getTitulo();
+    solicitudDeEliminacionDeHechoDTO.motivo = solicitudDeEliminacionDeHechoDTO.getMotivo();
+    ContribuyenteDTO contribuyenteDTO = solicitudDeEliminacionDeHechoDTO.new ContribuyenteDTO();
+    contribuyenteDTO.apellido = solicitudDeEliminacionDeHecho.getRepotador().getApellido();
+    contribuyenteDTO.apellido = solicitudDeEliminacionDeHecho.getRepotador().getNombre();
+    solicitudDeEliminacionDeHechoDTO.repotador = contribuyenteDTO;
+    return solicitudDeEliminacionDeHechoDTO;
   }
 
   public ContribuyenteDTO getRepotador() {

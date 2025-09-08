@@ -14,6 +14,7 @@ import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
+import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,9 +24,11 @@ public class ColeccionTest {
   private Hecho hecho;
   private Fuente fuente;
   private Coleccion coleccion;
+  private SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho;
 
   @BeforeEach
   public void setUp() {
+    solicitudDeEliminacionDeHecho = mock(SolicitudDeEliminacionDeHecho.class);
     fuente = mock(Fuente.class);
     hecho = new Hecho(
         HechoOrigen.MANUAL,
@@ -35,7 +38,6 @@ public class ColeccionTest {
         LocalDateTime.of(2025, 1, 20, 14, 30),
         crearUbicacion("-34.921", "-57.954"),
         now(),
-        1,
         fuente
     );
     when(fuente.hechos()).thenReturn(of(hecho));
@@ -51,7 +53,7 @@ public class ColeccionTest {
 
   @Test
   public void noIncluyeHechosEliminados() {
-    hecho.eliminar();
+    hecho.eliminar(solicitudDeEliminacionDeHecho);
     coleccion.refrescar();
     assertTrue(coleccion.hechos().isEmpty());
   }

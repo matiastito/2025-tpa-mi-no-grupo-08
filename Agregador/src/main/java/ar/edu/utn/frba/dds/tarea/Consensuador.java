@@ -21,7 +21,7 @@ public class Consensuador {
   @Scheduled(cron = "0 0 4 * * *")
   public void consensuar() {
     out.println("Ejecutando Consensuador.");
-    coleccionRepositorio.colleciones().forEach(
+    coleccionRepositorio.findAll().forEach(
         coleccion -> {
           coleccion.hechos().forEach(
               hecho -> {
