@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.web.controlador.dto;
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
+import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado;
 
 public class SolicitudDeEliminacionDeHechoDTO {
   private String tituloHecho;
@@ -10,7 +11,7 @@ public class SolicitudDeEliminacionDeHechoDTO {
   private ContribuyenteDTO repotador;
 
   private AdministradorDTO administrador;
-  private boolean aprobada;
+  private SolicitudDeEliminacionDeHechoEstado solicitudDeEliminacionDeHechoEstado;
 
   public SolicitudDeEliminacionDeHechoDTO() {
   }
@@ -24,6 +25,7 @@ public class SolicitudDeEliminacionDeHechoDTO {
     SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO = new SolicitudDeEliminacionDeHechoDTO();
     solicitudDeEliminacionDeHechoDTO.tituloHecho = solicitudDeEliminacionDeHecho.getHecho().getTitulo();
     solicitudDeEliminacionDeHechoDTO.motivo = solicitudDeEliminacionDeHechoDTO.getMotivo();
+    solicitudDeEliminacionDeHechoDTO.solicitudDeEliminacionDeHechoEstado = solicitudDeEliminacionDeHecho.getEstado();
     ContribuyenteDTO contribuyenteDTO = solicitudDeEliminacionDeHechoDTO.new ContribuyenteDTO();
     contribuyenteDTO.apellido = solicitudDeEliminacionDeHecho.getRepotador().getApellido();
     contribuyenteDTO.apellido = solicitudDeEliminacionDeHecho.getRepotador().getNombre();
@@ -55,12 +57,12 @@ public class SolicitudDeEliminacionDeHechoDTO {
     this.repotador = repotador;
   }
 
-  public void setAprobada(boolean aprobada) {
-    this.aprobada = aprobada;
+  public void setSolicitudDeEliminacionDeHechoEstado(SolicitudDeEliminacionDeHechoEstado solicitudDeEliminacionDeHechoEstado) {
+    this.solicitudDeEliminacionDeHechoEstado = solicitudDeEliminacionDeHechoEstado;
   }
 
-  public boolean isAprobada() {
-    return aprobada;
+  public SolicitudDeEliminacionDeHechoEstado getSolicitudDeEliminacionDeHechoEstado() {
+    return solicitudDeEliminacionDeHechoEstado;
   }
 
   public AdministradorDTO getAdministrador() {

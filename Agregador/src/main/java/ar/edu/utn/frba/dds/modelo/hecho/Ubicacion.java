@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.modelo.hecho;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
 import java.util.Objects;
 
 @Embeddable
@@ -13,6 +14,9 @@ public class Ubicacion {
   @ManyToOne
   @JoinColumn(name = "PROVINCIA_ID")
   private Provincia provincia;
+
+  public Ubicacion() {
+  }
 
   private Ubicacion(String latitud, String longitud) {
     this.latitud = latitud;

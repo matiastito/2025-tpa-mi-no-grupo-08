@@ -1,15 +1,8 @@
-package ar.edu.utn.frba.dds.web.controlador.dto;
-
-import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
-import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
-import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
-import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
-import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
+package ar.edu.utn.frba.dds.web;
 
 import java.time.LocalDateTime;
 
 public class HechoDTO {
-  private HechoOrigen hechoOrigen;
   private String titulo;
   private String descripcion;
   private String categoria;
@@ -47,14 +40,6 @@ public class HechoDTO {
     this.categoria = categoria;
   }
 
-  public void setHechoOrigen(HechoOrigen hechoOrigen) {
-    this.hechoOrigen = hechoOrigen;
-  }
-
-  public HechoOrigen getHechoOrigen() {
-    return hechoOrigen;
-  }
-
   public LocalDateTime getFechaDeCarga() {
     return fechaDeCarga;
   }
@@ -87,48 +72,18 @@ public class HechoDTO {
     this.eliminado = eliminado;
   }
 
-  public static HechoDTO toDTO(Hecho hecho) {
-    HechoDTO hechoDTO = new HechoDTO();
-    hechoDTO.titulo = hecho.getTitulo();
-    hechoDTO.descripcion = hecho.getDescripcion();
-    hechoDTO.hechoOrigen = hecho.getHechoOrigen();
-    hechoDTO.fechaDelHecho = hecho.getFechaDelHecho();
-    hechoDTO.categoria = hecho.getCategoria().getNombre();
-    hechoDTO.fechaDeCarga = hecho.getFechaDeCarga();
-    hechoDTO.ubicacion = hechoDTO.
-        new UbicacionDTO(hecho.getUbicacion().getLatitud(), hecho.getUbicacion().getLongitud());
-    hechoDTO.eliminado = hecho.estaEliminado();
-    return hechoDTO;
-  }
-
-  public static Hecho toHecho(HechoDTO hechoDTO, Fuente fuente) {
-    return new Hecho(
-        hechoDTO.hechoOrigen,
-        hechoDTO.titulo,
-        hechoDTO.descripcion,
-        new Categoria(hechoDTO.categoria),
-        hechoDTO.fechaDeCarga,
-        crearUbicacion(hechoDTO.ubicacion.getLatitud(), hechoDTO.ubicacion.getLongitud()),
-        hechoDTO.fechaDelHecho,
-        fuente
-    );
-  }
-
-  private class UbicacionDTO {
+  public class UbicacionDTO {
     private String latitud;
     private String longitud;
-    private String Provincia;
+    private String provincia;
 
     public UbicacionDTO() {
     }
 
-    public UbicacionDTO(String latitud, String longitud) {
+    public UbicacionDTO(String latitud, String longitud, String provincia) {
       this.latitud = latitud;
       this.longitud = longitud;
-    }
-
-    public String getProvincia() {
-      return Provincia;
+      this.provincia = provincia;
     }
 
     public String getLatitud() {
@@ -147,8 +102,12 @@ public class HechoDTO {
       this.latitud = latitud;
     }
 
+    public String getProvincia() {
+      return provincia;
+    }
+
     public void setProvincia(String provincia) {
-      Provincia = provincia;
+      this.provincia = provincia;
     }
   }
 }

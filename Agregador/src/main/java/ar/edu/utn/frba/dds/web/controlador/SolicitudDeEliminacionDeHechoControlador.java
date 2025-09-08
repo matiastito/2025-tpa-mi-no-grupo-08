@@ -1,7 +1,9 @@
 package ar.edu.utn.frba.dds.web.controlador;
 
+import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.ACEPTADA;
+import static ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHechoDTO.toDTO;
 import static ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHechoDTO.toModel;
-
+import static java.util.stream.Collectors.toSet;
 import ar.edu.utn.frba.dds.modelo.administrador.Administrador;
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
@@ -12,6 +14,7 @@ import ar.edu.utn.frba.dds.servicio.ContribuyenteServicio;
 import ar.edu.utn.frba.dds.servicio.SolicitudEliminacionServicio;
 import ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHechoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -73,11 +76,17 @@ public class SolicitudDeEliminacionDeHechoControlador {
     Administrador administrador =
         administradorRepositorio.findByNombre(solicitudDeEliminacionDeHechoDTO.getAdministrador().getNombre());
 
-    if (solicitudDeEliminacionDeHechoDTO.isAprobada()) {
+    if (ACEPTADA.equals(solicitudDeEliminacionDeHechoDTO.getSolicitudDeEliminacionDeHechoEstado())) {
       solicitudEliminacionServicio.aprobar(solicitudDeEliminacionDeHecho, administrador);
     } else {
       solicitudEliminacionServicio.rechazar(solicitudDeEliminacionDeHecho, administrador);
     }
+  }
+
+  @GetMapping("/solicitudes")
+  public void solicitudes() {
+    solicitudEliminacionServicio
+        .solicitudesDeEliminacionDeHecho().stream().map(s -> toDTO(s)).collect(toSet());
   }
 }
 
