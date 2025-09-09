@@ -2,6 +2,9 @@ package ar.edu.utn.frba.dds.model.estadistica;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static org.hibernate.annotations.CascadeType.ALL;
+import ar.edu.utn.frba.dds.model.Categoria;
+import ar.edu.utn.frba.dds.model.Provincia;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -10,16 +13,10 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-/*
-#Hechos porProvincia porColeccion De una colección, ¿en qué provincia se agrupan la mayor cantidad de hechos reportados?
-
-#Hechos porCategoria              ¿Cuál es la categoría con mayor cantidad de hechos reportados?
-#Hechos porProvincia porCategoria ¿En qué provincia se presenta la mayor cantidad de hechos de una cierta categoría?
-#Hechos porHora porCategoria      ¿A qué hora del día ocurren la mayor cantidad de hechos de una cierta categoría?
-#SolicirudesSpam                  ¿Cuántas solicitudes de eliminación son spam?
-*/
 @Entity
 @Table(name = "ESTADISTICA")
 public class Estadistica {
@@ -27,16 +24,52 @@ public class Estadistica {
   @GeneratedValue(strategy = IDENTITY)
   private long id;
 
+  @Column(name = "FECHA_DE_CREACION", nullable = false)
   private LocalDate fechaCreacion;
 
   @OneToMany
   @Cascade(ALL)
-  private List<EstadisticaColeccion> estadisticasColecciones;
+  private List<EstadisticaColeccion> estadisticasColecciones = new ArrayList<>();
   @OneToMany
   @Cascade(ALL)
-  private List<EstadisticaCategoria> estadisticasCategoria;
+  private List<EstadisticaCategoria> estadisticasCategoria = new ArrayList<>();
   @OneToMany
   @Cascade(ALL)
-  private List<EstadisticaSolicitudes> estadisticasSolicitudes;
+  private List<EstadisticaSolicitudes> estadisticasSolicitudes = new ArrayList<>();
 
+  public Estadistica() {
+
+  }
+
+  public Estadistica(LocalDate fechaCreacion) {
+    this.fechaCreacion = fechaCreacion;
+  }
+
+  public void registarHecho(Categoria categoria, Provincia provincia, int horaDelHecho) {
+    Optional<EstadisticaCategoria> estadisticaCategoria = estadisticasCategoria.stream()
+        .filter(ec -> ec.getCategoria().getId() == categoria.getId())
+        .findFirst();
+    if (estadisticaCategoria.isEmpty()) {
+      EstadisticaCategoria ec = new EstadisticaCategoria(categoria);
+      ec.registrarHecho(provincia, horaDelHecho);
+      estadisticasCategoria.add(ec);
+    } else {
+      estadisticaCategoria.get().registrarHecho(provincia, horaDelHecho);
+    }
+
+  }
+
+  public void registrarHecho(Provincia provincia, String handle) {
+    Optional<EstadisticaColeccion> estadisticaColeccion = estadisticasColecciones.stream()
+        .filter(ec -> ec.getHandle().equalsIgnoreCase(handle)).findFirst();
+    if (estadisticaColeccion.isEmpty()) {
+      EstadisticaColeccion ec = new EstadisticaColeccion(handle);
+      ec.registrarHecho(provincia);
+      estadisticasColecciones.add(ec);
+    }
+  }
+
+  public void registrarCantidadDeSolicitudesRechazadasPorSpam(int rechazadaPorSpam) {
+    estadisticasSolicitudes.add(new EstadisticaSolicitudes(rechazadaPorSpam));
+  }
 }

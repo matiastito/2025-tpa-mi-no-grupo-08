@@ -31,6 +31,10 @@ public class Ubicacion {
     return longitud;
   }
 
+  public Provincia getProvincia() {
+    return provincia;
+  }
+
   public static Ubicacion crearUbicacion(String latitud, String longitud) {
     return new Ubicacion(latitud, longitud);
   }
@@ -45,5 +49,9 @@ public class Ubicacion {
   @Override
   public int hashCode() {
     return Objects.hash(latitud, longitud);
+  }
+
+  public void setProvincia(Provincia provincia) {
+    this.provincia = provincia;
   }
 }

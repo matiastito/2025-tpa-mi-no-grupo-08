@@ -12,13 +12,13 @@ public class ContribuyenteServicio {
   private ContribuyenteRepositorio contribuyenteRepositorio;
 
   public Contribuyente contribuyente(String nombre, String apellido) {
-    return contribuyenteRepositorio.findByNombreAndApellido(nombre, apellido);
+    return contribuyenteRepositorio.findByNombreAndApellido(nombre, apellido).get();
   }
 
   public Contribuyente guardar(String nombre, String apellido) {
     if (contribuyente(nombre, apellido) == null) {
       contribuyenteRepositorio.save(new Contribuyente(nombre, apellido));
     }
-    return contribuyenteRepositorio.findByNombreAndApellido(nombre, apellido);
+    return contribuyenteRepositorio.findByNombreAndApellido(nombre, apellido).get();
   }
 }

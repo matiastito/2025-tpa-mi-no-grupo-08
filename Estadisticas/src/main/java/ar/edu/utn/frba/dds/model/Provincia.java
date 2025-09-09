@@ -19,4 +19,16 @@ public class Provincia {
 
   public Provincia() {
   }
+
+  public Provincia(String nombre) {
+    this.nombre = nombre;
+  }
+
+  public String getNombre() {
+    return nombre;
+  }
+
+  public long getId() {
+    return id;
+  }
 }
