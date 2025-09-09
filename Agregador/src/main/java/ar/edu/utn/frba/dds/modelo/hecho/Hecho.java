@@ -160,6 +160,10 @@ public class Hecho {
     return this;
   }
 
+  public void setCategoria(Categoria categoria) {
+    this.categoria = categoria;
+  }
+
   public boolean isConsensuado() {
     return consensuado;
   }

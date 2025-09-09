@@ -1,12 +1,16 @@
 package ar.edu.utn.frba.dds.modelo.hecho;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
-
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +21,10 @@ public class Categoria {
   private long id;
   @Column(name = "NOMBRE", nullable = false)
   private String nombre;
+  @ElementCollection
+  @CollectionTable(name = "CATEGORIA_SINONIMO") // Specifies the name of the join table
+  @Column(name = "SINONIMO")
+  private List<String> sinonimos = new ArrayList<>();
 
   public Categoria() {
   }
@@ -39,5 +47,9 @@ public class Categoria {
 
   public String getNombre() {
     return nombre;
+  }
+
+  public boolean esSinonimo(String potencialCategoria) {
+    return sinonimos.contains(potencialCategoria);
   }
 }
