@@ -4,6 +4,7 @@ import static java.lang.System.out;
 import static reactor.core.publisher.Flux.fromIterable;
 import ar.edu.utn.frba.dds.modelo.hecho.Provincia;
 import ar.edu.utn.frba.dds.normalizador.NormalizadorDeCoordenadas;
+import ar.edu.utn.frba.dds.repositorio.ElasticsearchHechoRepositorio;
 import ar.edu.utn.frba.dds.repositorio.HechoRepositorio;
 import ar.edu.utn.frba.dds.repositorio.ProvinciaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ import java.util.Optional;
 public class Normalizador {
   @Autowired
   private HechoRepositorio hechoRepositorio;
+
+  @Autowired
+  private ElasticsearchHechoRepositorio elasticsearchHechoRepositorio;
 
   @Autowired
   private ProvinciaRepositorio provinciaRepositorio;
@@ -42,6 +46,7 @@ public class Normalizador {
           }
           h.getUbicacion().setProvincia(p);
           hechoRepositorio.save(h);
+          elasticsearchHechoRepositorio.save(h);
         })
         .sequential()
         .subscribe();

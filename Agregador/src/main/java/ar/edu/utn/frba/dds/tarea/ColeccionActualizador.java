@@ -3,9 +3,9 @@ package ar.edu.utn.frba.dds.tarea;
 import static java.lang.System.out;
 import static reactor.core.publisher.Flux.fromIterable;
 import static reactor.core.publisher.Mono.empty;
-
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.repositorio.ColeccionRepositorio;
+import ar.edu.utn.frba.dds.repositorio.ElasticsearchHechoRepositorio;
 import ar.edu.utn.frba.dds.repositorio.FuenteRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,6 +17,8 @@ public class ColeccionActualizador {
   @Autowired
   private ColeccionRepositorio coleccionRepositorio;
   @Autowired
+  private ElasticsearchHechoRepositorio elasticsearchHechoRepositorio;
+  @Autowired
   private FuenteRepositorio fuenteRepositorio;
 
   @Scheduled(fixedRate = 500)
@@ -26,6 +28,7 @@ public class ColeccionActualizador {
         .parallel()
         .runOn(Schedulers.parallel())
         .doOnNext(Fuente::refrescar)
+        .doOnNext(fuenteRepositorio::save)
         .sequential()
         .subscribe();
 
@@ -33,6 +36,7 @@ public class ColeccionActualizador {
     fromIterable(coleccionRepositorio.findAll())
         .flatMap(c -> {
           c.refrescar();
+          elasticsearchHechoRepositorio.saveAll(c.hechos());
           return empty();
         }, 5)
         .subscribeOn(Schedulers.boundedElastic())

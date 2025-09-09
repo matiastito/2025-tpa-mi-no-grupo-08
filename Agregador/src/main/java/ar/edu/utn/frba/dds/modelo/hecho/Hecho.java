@@ -3,7 +3,8 @@ package ar.edu.utn.frba.dds.modelo.hecho;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static org.hibernate.annotations.CascadeType.ALL;
-
+import static org.springframework.data.elasticsearch.annotations.FieldType.Date;
+import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.ContenidoMultimedia;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.TipoContenidoMultimedia;
@@ -19,20 +20,27 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.Cascade;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
-import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "HECHO")
+@Document(indexName = "Hechos", createIndex = true)
 public class Hecho {
+  @org.springframework.data.annotation.Id
   @Id
   @GeneratedValue(strategy = IDENTITY)
   private long id;
+  @Field(type = Text)
   @Column(name = "TITULO", nullable = false)
   private String titulo;
+  @Field(type = Text)
   @Column(name = "DESCRIPCION", nullable = false)
   private String descripcion;
   @ManyToOne
@@ -43,6 +51,7 @@ public class Hecho {
   private ContenidoMultimedia contenidoMultimedia;
   @Embedded
   private Ubicacion ubicacion;
+  @Field(type = Date)
   @Column(name = "FECHA_DEL_HECHO", nullable = false)
   private LocalDateTime fechaDelHecho;
   @Column(name = "FECHA_DE_CARGA", nullable = false)
