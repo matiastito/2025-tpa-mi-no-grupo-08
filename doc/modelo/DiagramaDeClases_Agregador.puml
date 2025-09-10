@@ -1,0 +1,206 @@
+@startuml
+'https://plantuml.com/class-diagram
+!include https://raw.githubusercontent.com/patrik-csak/one-dark-plantuml-theme/v1.0.1/theme.puml
+
+package Agregador <<Folder>> {
+    class Administrador {
+        - nombre: String
+    }
+    class Contribuyente {
+      - nombre: String
+      - apellido: String
+      - edad: LocalDate
+    }
+    interface FiltroDeHecho {
+      + filtrar(hecho: Hecho): boolean
+    }
+
+    class TituloFiltroDeHecho implements FiltroDeHecho {
+      - titulo: String
+    }
+
+    class CategoriaFiltroDeHecho implements FiltroDeHecho {
+      - categoria: Categoria
+    }
+
+    class FechaDelHechoFiltroDeHecho implements FiltroDeHecho {
+      - fechaDelHechoDesde: LocalDateTime
+      - fechaDelHechoHasta: LocalDateTime
+    }
+
+    class TipoContenidoMulitmediaFiltroDeHecho implements FiltroDeHecho {
+      - tipoContenidoMultimedia: TipoContenidoMultimedia
+    }
+
+    class UbicacionFiltroDeHecho implements FiltroDeHecho {
+      - ubicacion: Ubicacion
+    }
+    TipoContenidoMultimediaFiltroDeHecho ..|> FiltroDeHecho
+    CategoriaFiltroDeHecho --> Categoria
+    TipoContenidoMultimediaFiltroDeHecho --> TipoContenidoMultimedia
+    UbicacionFiltroDeHecho --> Ubicacion
+
+    class Coleccion {
+      - handle: String
+      - titulo: String
+      - descripcion: String
+      - tipoConsenso: TipoConsenso
+      - fuentes: List<Fuente>
+      - hechos: Set<Hecho>
+      - criteriosDePertenencia: FiltrosParaHecho
+
+      + refrescar():void
+      + hechos(): Set<Hecho>
+      + hechosAgrupadosPorFuente(): Collection<Collection<Hecho>>
+      + agregarFiltro(filtro: FiltroDeHecho): void
+    }
+    Coleccion --> TipoConsenso
+    Coleccion --> FiltrosParaHecho
+    Coleccion --o Fuente
+    Coleccion o-- Hecho
+
+    class FiltrosParaHecho {
+      - filtros: List<FiltroDeHecho>
+
+      + aplicarFiltros(hecho: Hecho): boolean
+      + agregarFiltro(filtro: FiltroDeHecho): void
+    }
+    FiltrosParaHecho o-- FiltroDeHecho
+
+    class Fuente {
+      - baseUrl: String
+      - hechos: Set<Hecho>
+      - tipoFuente: TipoFuente
+
+      + hechos(): Set<Hecho>
+      + refrescar(): void
+      + eliminar(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho): void
+    }
+    Fuente --> TipoFuente
+    Fuente --o Hecho
+
+    enum TipoFuente {
+        DINAMICA, PROXY, METAMAPA, ESTATICA
+    }
+
+    class ContenidoMultimedia {
+      - tipoContenidoMultimedia: TipoContenidoMultimedia
+      - uri: String
+    }
+
+    enum TipoContenidoMultimedia {
+        FOTO,
+        VIDEO,
+        AUDIO,
+    }
+    ContenidoMultimedia --> TipoContenidoMultimedia
+
+    class Categoria {
+      - nombre: String
+      - sinonimos: List<String>
+      + esSinonimo(String potencialSinonimo): boolean
+    }
+
+    class Etiqueta {
+      - nombre: String
+    }
+
+    class Hecho {
+      - titulo: String
+      - descripcion: String
+      - categoria: Categoria
+      - contenidoMultimedia: ContenidoMultimedia
+      - ubicacion: Ubicacion
+      - fechaDelHecho: LocalDateTime
+      - fechaDeCarga: LocalDateTime
+      - hechoOrigen: HechoOrigen
+      - etiquetas: Collection<Etiqueta>
+      - fuente: Fuente
+      - eliminado: boolean
+      - consensuado: boolean
+
+      + estaEliminado(): boolean
+      + eliminar(): void
+      + etiquetar(etiqueta: Etiqueta): void
+      + setFuente(fuente: Fuente): Hecho
+      + isConsensuado(): boolean
+      + setConsensuado(consensuado: boolean): void
+    }
+    Hecho --> ContenidoMultimedia
+    Hecho --> HechoOrigen
+    Hecho --> Categoria
+    Hecho --> Ubicacion
+    Hecho o-- Etiqueta
+    Hecho --> Fuente
+
+    class Provincia {
+      - nombre: String
+    }
+
+    enum HechoOrigen {
+        CONTRIBUYENTE
+        MANUAL
+        EXTERNO
+    }
+
+    class Ubicacion {
+      - provincia: Provincia
+      - latitud: String
+      - longitud: String
+
+      + crearUbicacion(latitud: String, longitud: String): Ubicacion
+    }
+    Ubicacion --> Provincia
+
+    class SolicitudDeEliminacionDeHecho {
+      - hecho: Hecho
+      - solicitudDeEliminacionDeHechoEstado: SolicitudDeEliminacionDeHechoEstado
+      - fechaCreacion: LocalDateTime
+      - motivo: String
+      - reportador: Contribuyente
+      - aprobador: Administrador
+      - fechaResolucion: LocalDateTime
+
+      + aprobar(aprobador: Administrador): void
+      + rechazar(aprobador: Administrador): void
+      + rechazarPorSpam(aprobador: Administrador): void
+      + rechazar(): void
+    }
+    SolicitudDeEliminacionDeHecho --> Hecho
+    SolicitudDeEliminacionDeHecho --> SolicitudDeEliminacionDeHechoEstado
+    SolicitudDeEliminacionDeHecho --> Contribuyente
+    SolicitudDeEliminacionDeHecho --> Administrador
+
+    enum SolicitudDeEliminacionDeHechoEstado {
+      PENDIENTE, ACEPTADA, RECHAZADA, RECHAZADA_POR_SPAM
+    }
+
+    class Absoluto implements Consenso {
+    }
+
+    interface Consenso {
+      + analizarHechoEnFuente(hechos: Collection<Hecho>, hecho: Hecho): List<Boolean>
+      + hayConsenso(resultList: List<List<Boolean>>): boolean
+    }
+
+    class Consensos {
+      - consensos: Map<TipoConsenso, Consenso>
+    }
+
+    enum TipoConsenso {
+      ABSOLUTO,
+      MAYORIA_SIMPLE,
+      MULTIPLES_MENCIONES,
+    }
+
+    class MayoriaSimple implements Consenso {
+
+    }
+
+    class MultiplesMenciones implements Consenso {
+
+    }
+    Consensos --> Consenso
+    Consensos --> TipoConsenso
+}
+@enduml

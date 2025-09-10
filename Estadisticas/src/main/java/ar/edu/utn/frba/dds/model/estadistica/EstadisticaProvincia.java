@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.model.estadistica;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
+
 import ar.edu.utn.frba.dds.model.Provincia;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,6 +29,10 @@ public class EstadisticaProvincia {
 
   public Provincia getProvincia() {
     return provincia;
+  }
+
+  public long getCantidadDeHechos() {
+    return cantidadDeHechos;
   }
 
   public void registrarHecho() {

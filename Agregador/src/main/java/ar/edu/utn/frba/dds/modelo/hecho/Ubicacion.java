@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.modelo.hecho;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-
 import java.util.Objects;
 
 @Embeddable
@@ -31,6 +30,10 @@ public class Ubicacion {
     return longitud;
   }
 
+  public void setProvincia(Provincia provincia) {
+    this.provincia = provincia;
+  }
+
   public Provincia getProvincia() {
     return provincia;
   }
@@ -49,9 +52,5 @@ public class Ubicacion {
   @Override
   public int hashCode() {
     return Objects.hash(latitud, longitud);
-  }
-
-  public void setProvincia(Provincia provincia) {
-    this.provincia = provincia;
   }
 }

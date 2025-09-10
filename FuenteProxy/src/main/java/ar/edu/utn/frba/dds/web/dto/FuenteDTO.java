@@ -27,7 +27,7 @@ public class FuenteDTO {
 
   public static FuenteProxyAPIdeDDS toModelAPIdeDDS(FuenteDTO fuenteDTO) {
     if (PROXY_DDS.equals(fuenteDTO.getTipoFuente())) {
-      return new FuenteProxyAPIdeDDS(fuenteDTO.getBaseUrl());
+      return new FuenteProxyAPIdeDDS(fuenteDTO.getBaseUrl(), fuenteDTO.getTipoFuente());
     }
     throw new RuntimeException("Tipo de Fuente invalida.");
   }

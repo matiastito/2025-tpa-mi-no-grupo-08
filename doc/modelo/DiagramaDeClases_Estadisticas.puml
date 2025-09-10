@@ -1,0 +1,74 @@
+@startuml
+'https://plantuml.com/class-diagram
+!include https://raw.githubusercontent.com/patrik-csak/one-dark-plantuml-theme/v1.0.1/theme.puml
+
+package Estadisticas <<Folder>> {
+    class Estadista {
+        + generarEstadisticas(): void
+    }
+    Estadista .. Estadisticas
+    Estadista .. Fuente
+
+    class Estadisticas {
+      - fechaCreacion: LocalDate
+      - estadisticasColecciones: List<EstadisticaColeccion>
+      - estadisticasColecciones: List<EstadisticaCategoria>
+      - estadisticasColecciones: List<EstadisticaSolicitudes>
+      + registarHecho(Categoria categoria, Provincia provincia, int horaDelHecho): void
+    }
+    Estadisticas --o EstadisticaColeccion
+    Estadisticas --o EstadisticaCategoria
+    Estadisticas --o EstadisticaSolicitudes
+
+    class EstadisticaCategoria {
+        - categoria: Categoria
+        - estadisticaProvincias: List<EstadisticaProvincia>
+        - estadisticaHoras: List<EstadisticaPorHora>
+        - cantidadDeHechos: long
+        + registrarHecho(Provincia provincia, int horaDelHecho): void
+    }
+    EstadisticaCategoria --> Categoria
+    EstadisticaCategoria --o EstadisticaProvincia
+    EstadisticaCategoria --> EstadisticaPorHora
+
+    class EstadisticaColeccion {
+        - handle: String
+        - estadisticasPorProvincia: List<EstadisticaProvincia>
+        + registrarHecho(Provincia provincia): void
+    }
+    EstadisticaColeccion --o estadisticasPorProvincia
+
+    class EstadisticaPorHora {
+        - horaDelHecho: int
+        - cantidadDeHechos: long
+        + registrarHecho(): void
+    }
+
+    class EstadisticaProvincia {
+        - provincia: Provincia
+        - cantidadDeHechos: long
+        + registrarHecho(): void
+    }
+    EstadisticaProvincia --> Provincia
+
+    class EstadisticaSolicitudes {
+        - cantidadDeSolicutudesSpam: long
+    }
+
+    class Categoria {
+        - nombre: String
+    }
+
+    class Fuente {
+        - baseUrl: String
+        + hechos(): Set<HechoDTO>
+        + colecciones(): Set<ColeccionDTO>
+        + coleccion(String coleccionHandleId): Set<HechoDTO>
+        + solicitudes(): Set<SolicitudDeEliminacionDeHechoDTO>
+    }
+
+    class Provincia {
+        - nombre: String
+    }
+}
+@enduml

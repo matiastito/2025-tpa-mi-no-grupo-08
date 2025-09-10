@@ -36,7 +36,8 @@ public class FuenteProxyAPIdeDDS extends FuenteProxy {
   public FuenteProxyAPIdeDDS() {
   }
 
-  public FuenteProxyAPIdeDDS(String baseUrl) {
+  public FuenteProxyAPIdeDDS(String baseUrl, TipoFuente tipoFuente) {
+    super(tipoFuente);
     this.baseUrl = baseUrl;
   }
 

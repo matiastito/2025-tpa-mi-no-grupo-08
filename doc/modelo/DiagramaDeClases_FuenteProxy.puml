@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/class-diagram
+!include https://raw.githubusercontent.com/patrik-csak/one-dark-plantuml-theme/v1.0.1/theme.puml
+
+package Fuente_Proxy <<Folder>> {
+    class CacheHechos {
+        - hechos: Collection<HechoDTO>
+        - ultimaActualizacion: LocalDateTime
+
+        + isRecent(): boolean
+        + getHechos(): Collection<HechoDTO>
+        + actualizar(Collection<HechoDTO> hechos): viod
+    }
+
+    class CacheParaFuenteProxy {
+        - fuenteProxyMetaMapaServicio: FuenteProxyServicio
+        - cacheFuente: Map<FuenteProxy, CacheHechos>
+        + hechos(): Collection<HechoDTO>
+    }
+    CacheParaFuenteProxy --* CacheHechos
+    CacheParaFuenteProxy --* FuenteProxy
+
+    abstract class FuenteProxy {
+        - tipoFuente: TipoFuente
+        + abstract hechos(): List<HechoDTO>
+    }
+    FuenteProxy --> TipoFuente
+
+    enum HechoOrigen {
+      EXTERNO
+    }
+
+    enum TipoFuente {
+      PROXY_DDS
+    }
+
+    class FuenteProxyAPIdeDDS extends FuenteProxy {
+        - baseUrl: String
+    }
+}
+@enduml

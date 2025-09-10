@@ -5,6 +5,7 @@ import static jakarta.persistence.EnumType.STRING;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toSet;
 import static org.hibernate.annotations.CascadeType.ALL;
+
 import ar.edu.utn.frba.dds.consenso.TipoConsenso;
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltroDeHecho;
 import ar.edu.utn.frba.dds.modelo.coleccion.filtro.FiltrosParaHecho;
@@ -20,11 +21,10 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.Cascade;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "COLECCION")
@@ -102,13 +102,13 @@ public class Coleccion {
     );
   }
 
-  public Collection<Collection<Hecho>> hechosAgrupadosPorFuente() {
+  public Set<Collection<Hecho>> hechosAgrupadosPorFuente() {
     return fuentes.stream()
         .map(Fuente::hechos)
         .collect(toSet());
   }
 
-  public Collection<Hecho> hechos() {
+  public Set<Hecho> hechos() {
     fuentes.forEach(f -> {
           if (METAMAPA.equals(f.getTipoFuente())) {
             this.hechos.addAll(

@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.model.estadistica;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +28,10 @@ public class EstadisticaPorHora {
 
   public int getHora() {
     return horaDelHecho;
+  }
+
+  public long getCantidadDeHechos() {
+    return cantidadDeHechos;
   }
 
   public void registrarHecho() {

@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.model.estadistica;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static org.hibernate.annotations.CascadeType.ALL;
+
 import ar.edu.utn.frba.dds.model.Categoria;
 import ar.edu.utn.frba.dds.model.Provincia;
 import jakarta.persistence.Column;
@@ -10,12 +11,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.Cascade;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "ESTADISTICA")
@@ -71,5 +71,17 @@ public class Estadistica {
 
   public void registrarCantidadDeSolicitudesRechazadasPorSpam(int rechazadaPorSpam) {
     estadisticasSolicitudes.add(new EstadisticaSolicitudes(rechazadaPorSpam));
+  }
+
+  public List<EstadisticaCategoria> getEstadisticasCategoria() {
+    return estadisticasCategoria;
+  }
+
+  public List<EstadisticaColeccion> getEstadisticasColecciones() {
+    return estadisticasColecciones;
+  }
+
+  public List<EstadisticaSolicitudes> getEstadisticasSolicitudes() {
+    return estadisticasSolicitudes;
   }
 }

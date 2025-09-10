@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.model.estadistica;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static org.hibernate.annotations.CascadeType.ALL;
+
 import ar.edu.utn.frba.dds.model.Categoria;
 import ar.edu.utn.frba.dds.model.Provincia;
 import jakarta.persistence.Column;
@@ -13,11 +14,10 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.Cascade;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "ESTADISTICA_CATEGORIA")
@@ -55,6 +55,18 @@ public class EstadisticaCategoria {
   }
 
   public EstadisticaCategoria() {
+  }
+
+  public long getCantidadDeHechos() {
+    return cantidadDeHechos;
+  }
+
+  public List<EstadisticaProvincia> getEstadisticaProvincias() {
+    return estadisticaProvincias;
+  }
+
+  public List<EstadisticaPorHora> getEstadisticaHoras() {
+    return estadisticaHoras;
   }
 
   public Categoria getCategoria() {
