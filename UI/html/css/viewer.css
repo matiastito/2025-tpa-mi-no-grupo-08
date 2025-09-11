@@ -107,5 +107,29 @@ img{max-width:100%;display:block}
   }
 }
 
+/* Acciones dentro del panel de detalle */
+.fact-detail-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+
+/* Variante para solicitar eliminación */
+.btn-danger{
+  background:#b3261e;     
+  color:#fff;
+  border-color:transparent;
+  border-radius:12px;
+  min-height:40px;
+  padding:0 14px;
+  font-weight:700;
+  box-shadow:var(--shadow);
+}
+.btn-danger:hover{ background:#922017; }
+.btn-danger:focus-visible{ outline:2px solid #61140f; outline-offset:2px; }
+
+
+
   
   
