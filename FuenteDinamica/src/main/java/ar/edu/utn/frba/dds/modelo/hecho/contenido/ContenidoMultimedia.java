@@ -23,6 +23,9 @@ public class ContenidoMultimedia {
   @Column(name = "URI")
   private String uri;
 
+  public ContenidoMultimedia() {
+  }
+
   public ContenidoMultimedia(TipoContenidoMultimedia tipoContenidoMultimedia, String uri) {
     this.tipoContenidoMultimedia = tipoContenidoMultimedia;
     this.uri = uri;

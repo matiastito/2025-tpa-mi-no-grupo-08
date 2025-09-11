@@ -9,8 +9,10 @@ import static java.time.LocalDateTime.now;
 import ar.edu.utn.frba.dds.modelo.fuente.FuenteArchivoCSV;
 import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
+import ar.edu.utn.frba.dds.repositorio.RepositorioCategoria;
 import ar.edu.utn.frba.dds.util.archivo.lector.LectorDeArchivo;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,9 @@ import org.springframework.stereotype.Component;
 public class ImportadorDeHechosDesdeArchivo {
   @Autowired
   private LectorDeArchivo lectorDeArchivoDeHechos;
+
+  @Autowired
+  private RepositorioCategoria repositorioCategoria;
 
   public void importarHechos(FuenteArchivoCSV fuenteArchivoCSV) {
     this.lectorDeArchivoDeHechos
@@ -28,12 +33,19 @@ public class ImportadorDeHechosDesdeArchivo {
   private void agregarHecho(List<String> registro, FuenteArchivoCSV fuenteArchivoCSV) {
     String titulo = registro.get(0);
     String descripcion = registro.get(1);
-    String categoria = registro.get(2);
+    String nombreCategoria = registro.get(2);
     String latitud = registro.get(3);
     String longitud = registro.get(4);
     String fechaDelHecho = registro.get(5);
-
-    Hecho hecho = new Hecho(EXTERNO, titulo, descripcion, new Categoria(categoria),
+    Categoria categoria;
+    Optional<Categoria> categoriaOptional = repositorioCategoria.findByNombre(nombreCategoria);
+    if (categoriaOptional.isPresent()) {
+      categoria = categoriaOptional.get();
+    } else {
+      categoria = new Categoria(nombreCategoria);
+      repositorioCategoria.save(categoria);
+    }
+    Hecho hecho = new Hecho(EXTERNO, titulo, descripcion, categoria,
         formatearFecha(fechaDelHecho), crearUbicacion(latitud, longitud), now());
     fuenteArchivoCSV.agregarHecho(hecho);
   }

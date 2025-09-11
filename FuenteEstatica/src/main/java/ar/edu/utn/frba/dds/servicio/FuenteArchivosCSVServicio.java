@@ -27,6 +27,7 @@ public class FuenteArchivosCSVServicio {
   @Value("${app.directorio.fuente}")
   public String UPLOAD_DIR;
 
+  //FIXME procesarlos aca, al subirla
   public void guardar(MultipartFile archivoCSV) {
     File uploadDir = new File(UPLOAD_DIR);
     if (!uploadDir.exists()) {
@@ -50,11 +51,14 @@ public class FuenteArchivosCSVServicio {
 
   public Collection<Hecho> hechos() {
     Set<Hecho> ret = new HashSet<>();
-    this.repositorioFuenteDeArchivosCSV.findAll().forEach(fuenteArchivoCSV -> {
-          fuenteArchivoCSV.importar(importadorDeHechosDesdeArchivo);
-          ret.addAll(fuenteArchivoCSV.hechos());
-        }
-    );
+    this.repositorioFuenteDeArchivosCSV.findAll()
+        .forEach(fuenteArchivoCSV -> {
+              fuenteArchivoCSV.importar(importadorDeHechosDesdeArchivo);
+              this.repositorioFuenteDeArchivosCSV.save(fuenteArchivoCSV);
+              ret.addAll(fuenteArchivoCSV.hechos());
+            }
+        );
+
     return ret;
   }
 }

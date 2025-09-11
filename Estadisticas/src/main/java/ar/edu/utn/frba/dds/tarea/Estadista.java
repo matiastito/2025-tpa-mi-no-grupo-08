@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.tarea;
 
 import static java.time.LocalDate.now;
+
 import ar.edu.utn.frba.dds.model.Categoria;
 import ar.edu.utn.frba.dds.model.Fuente;
 import ar.edu.utn.frba.dds.model.Provincia;
@@ -9,12 +10,11 @@ import ar.edu.utn.frba.dds.repositorio.CategoriaRepositorio;
 import ar.edu.utn.frba.dds.repositorio.EstadisticaRepositorio;
 import ar.edu.utn.frba.dds.repositorio.FuenteRepositorio;
 import ar.edu.utn.frba.dds.repositorio.ProvinciaRepositorio;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /*
 GET /colecciones
@@ -41,6 +41,7 @@ public class Estadista {
   @Autowired
   private ProvinciaRepositorio provinciaRepositorio;
 
+  //TODO ver la manera de hacer los calculcos en la BD
   @Scheduled(fixedRate = 500)
   public void generarEstadisticas() {
     Estadistica estadistica = new Estadistica(now());
@@ -79,7 +80,6 @@ public class Estadista {
       ).collect(Collectors.toSet()).size();
       estadistica.registrarCantidadDeSolicitudesRechazadasPorSpam(cantidadDeSolicutudesSpam);
     });
-
     estadisticaRepositorio.save(estadistica);
   }
 

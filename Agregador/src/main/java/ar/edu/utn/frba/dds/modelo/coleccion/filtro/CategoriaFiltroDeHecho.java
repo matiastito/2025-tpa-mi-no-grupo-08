@@ -15,6 +15,7 @@ public class CategoriaFiltroDeHecho extends FiltroDeHecho {
   @JoinColumn(name = "CATEGORIA_ID")
   private final Categoria categoria;
 
+  
   public CategoriaFiltroDeHecho(Categoria categoria) {
     this.categoria = categoria;
   }

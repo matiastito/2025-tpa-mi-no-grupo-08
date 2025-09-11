@@ -32,6 +32,7 @@ public class Coleccion {
   @Id
   @GeneratedValue
   private long id;
+  //TODO iniciar con UUID
   @Column(name = "HANDLE", nullable = false)
   private String handle;
   @Column(name = "TITULO", nullable = false)

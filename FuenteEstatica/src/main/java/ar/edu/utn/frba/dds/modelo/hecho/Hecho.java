@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.modelo.hecho;
 
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
+import static org.hibernate.annotations.CascadeType.ALL;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -14,6 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "HECHO")
@@ -23,10 +25,11 @@ public class Hecho {
   private long id;
   @Column(name = "TITULO", nullable = false)
   private String titulo;
-  @Column(name = "DESCRIPCION", nullable = false)
+  @Column(name = "DESCRIPCION", nullable = false, length = 200000)
   private String descripcion;
   @ManyToOne
   @JoinColumn(name = "CATEGORIA_ID")
+  @Cascade(ALL)
   private Categoria categoria;
   @Embedded
   private Ubicacion ubicacion;
@@ -37,6 +40,9 @@ public class Hecho {
   @Enumerated(STRING)
   private HechoOrigen hechoOrigen;
 
+  public Hecho() {
+  }
+                                                                                                                                                                                          
   public Hecho(HechoOrigen hechoOrigen,
                String titulo,
                String descripcion,
