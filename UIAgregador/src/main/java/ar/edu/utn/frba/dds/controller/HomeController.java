@@ -11,13 +11,13 @@ public class HomeController {
   @GetMapping("/")
   public String home(Model model) {
     model.addAttribute("titulo", "Agregador de Colecciones");
-    return "landing.html";
+    return "anonimo/landing.html";
   }
 
   @GetMapping("/login")
   public String login(Model model) {
     model.addAttribute("titulo", "Agregador de Colecciones - LogIn");
-    return "login.html";
+    return "anonimo/login.html";
   }
 
   @GetMapping("/colecciones")
@@ -26,7 +26,7 @@ public class HomeController {
     coleccionDTO.setTitulo("Fuentes proxies");
     model.addAttribute("titulo", "Agregador de Colecciones - Colecciones");
     model.addAttribute("coleccion", coleccionDTO);
-    return "colecciones.html";
+    return "anonimo/colecciones.html";
   }
 
   @GetMapping("/404")
