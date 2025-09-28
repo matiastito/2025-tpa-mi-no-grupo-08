@@ -33,9 +33,11 @@ public class SolicitudEliminacionServicio {
 
   public void aprobar(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho, Administrador administrador) {
     solicitudDeEliminacionDeHecho.aprobar(administrador);
+    solicitudEliminacionRepositorio.save(solicitudDeEliminacionDeHecho);
   }
 
   public void rechazar(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho, Administrador administrador) {
     solicitudDeEliminacionDeHecho.rechazar(administrador);
+    solicitudEliminacionRepositorio.save(solicitudDeEliminacionDeHecho);
   }
 }

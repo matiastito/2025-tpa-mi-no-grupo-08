@@ -1,22 +1,23 @@
 package ar.edu.utn.frba.dds.web.controlador.dto;
 
 import static java.util.stream.Collectors.toSet;
+
 import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.fuente.TipoFuente;
-
 import java.util.Set;
+import java.util.UUID;
 
 public class ColeccionDTO {
   private String titulo;
   private String descripcion;
   private Set<FuenteDTO> fuentes;
-  private String handle;
+  private UUID handle;
 
   public ColeccionDTO() {
   }
 
-  public String getHandle() {
+  public UUID getHandle() {
     return handle;
   }
 
@@ -32,7 +33,7 @@ public class ColeccionDTO {
     return fuentes;
   }
 
-  public void setHandle(String handle) {
+  public void setHandle(UUID handle) {
     this.handle = handle;
   }
 

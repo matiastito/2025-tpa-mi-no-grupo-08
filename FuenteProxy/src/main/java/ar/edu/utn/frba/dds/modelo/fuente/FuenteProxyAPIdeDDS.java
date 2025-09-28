@@ -53,6 +53,7 @@ public class FuenteProxyAPIdeDDS extends FuenteProxy {
   }
 
   public List<HechoDTO> hechos() {
+    login();
     return fetchPage(0, pageSize)
         .flatMapMany(firstPage -> {
           int totalPages = firstPage.getLastPage();

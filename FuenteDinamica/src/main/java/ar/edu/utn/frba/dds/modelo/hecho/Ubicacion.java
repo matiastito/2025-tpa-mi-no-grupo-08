@@ -8,6 +8,9 @@ public class Ubicacion {
   private String latitud;
   private String longitud;
 
+  public Ubicacion() {
+  }
+
   private Ubicacion(String latitud, String longitud) {
     this.latitud = latitud;
     this.longitud = longitud;

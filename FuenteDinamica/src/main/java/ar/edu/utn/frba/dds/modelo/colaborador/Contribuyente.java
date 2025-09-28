@@ -21,7 +21,7 @@ public class Contribuyente {
   private String nombre;
   @Column(name = "APELLIDO", nullable = false)
   private String apellido;
-  @Column(name = "FECHA_NACIMIENTO", nullable = false)
+  @Column(name = "FECHA_NACIMIENTO")
   private LocalDate fechaNacimiento;
 
   //Representa un contribuyente anónimo.

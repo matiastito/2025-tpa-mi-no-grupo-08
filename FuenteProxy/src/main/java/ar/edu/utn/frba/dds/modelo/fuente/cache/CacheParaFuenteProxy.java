@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.modelo.fuente.FuenteProxy;
 import ar.edu.utn.frba.dds.servicio.FuenteProxyServicio;
 import ar.edu.utn.frba.dds.web.dto.HechoDTO;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -12,10 +13,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CacheParaFuenteProxy {
-  @Autowired
+  private Map<FuenteProxy, CacheHechos> cacheFuente;
   private FuenteProxyServicio fuenteProxyMetaMapaServicio;
 
-  private Map<FuenteProxy, CacheHechos> cacheFuente;
+  @Autowired
+  public CacheParaFuenteProxy(FuenteProxyServicio fuenteProxyMetaMapaServicio) {
+    this.fuenteProxyMetaMapaServicio = fuenteProxyMetaMapaServicio;
+    this.cacheFuente = new HashMap<>();
+  }
 
   public Collection<HechoDTO> hechos() {
     Set<HechoDTO> hechos = new HashSet<>();

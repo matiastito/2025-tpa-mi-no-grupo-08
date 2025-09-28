@@ -41,7 +41,7 @@ public class SolicitudDeEliminacionDeHecho {
   @ManyToOne
   @JoinColumn(name = "APROBADOR_ID")
   private Administrador aprobador;
-  @Column(name = "FECHA_DE_RESOLUCION", nullable = false)
+  @Column(name = "FECHA_DE_RESOLUCION")
   private LocalDateTime fechaResolucion;
 
   public SolicitudDeEliminacionDeHecho() {

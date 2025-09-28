@@ -21,7 +21,7 @@ public class Contribuyente {
   private String nombre;
   @Column(name = "APELLIDO", nullable = false)
   private String apellido;
-  @Column(name = "FECHA_DE_NACIMIENTO", nullable = false)
+  @Column(name = "FECHA_DE_NACIMIENTO")
   private LocalDate fechaNacimiento;
 
   public Contribuyente() {

@@ -21,13 +21,13 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-nav collapse navbar-collapse" id="navbarNav">
-            <a class="nav-link" th:href="@{/login}">
+            <a class="nav-link" th:href="@{/alumnos}">
                 <i class="bi bi-list-ul me-1"></i>
-                Inciar Sesion / Registración
+                Lista de Colecciones
             </a>
-            <a class="nav-link" th:href="@{/colecciones}">
+            <a class="nav-link" th:href="@{/alumnos/nuevo}">
                 <i class="bi bi-person-plus me-1"></i>
-                Ver Hechos y Colecciones
+                Crear Coleccióón
             </a>
         </div>
     </div>
@@ -45,11 +45,7 @@
 
 <!-- Contenido principal -->
 <main class="container my-4 flex-grow-1">
-    <div>
-        <h1>Propositos y Objetivos</h1>
-        <h1>Ejemplos de Colecciones y Hechos</h1>
-        <h1>Legales</h1>
-    </div>
+    <div th:replace="${contenido} :: contenido"></div>
 </main>
 
 <!-- Fragmento de footer -->

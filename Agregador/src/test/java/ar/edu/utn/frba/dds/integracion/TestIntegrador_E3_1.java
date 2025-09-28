@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.integracion;
 
-import static java.util.List.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -12,7 +11,7 @@ import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
 import ar.edu.utn.frba.dds.modelo.hecho.Ubicacion;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -23,8 +22,8 @@ public class TestIntegrador_E3_1 {
   void testColeccionFiltraHechosPorCategoria() {
     Fuente fuenteMock = new Fuente("localhost", null) {
       @Override
-      public List<Hecho> hechos() {
-        return of(
+      public Set<Hecho> hechos() {
+        return Set.of(
             new Hecho(
                 HechoOrigen.EXTERNO,
                 "Inundación",

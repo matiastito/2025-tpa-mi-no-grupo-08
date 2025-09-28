@@ -57,7 +57,7 @@ public class ColeccionControlador {
         .collect(toSet());
   }
 
-  @PutMapping("/colecciones/{coleccionId}/consenso({tipoConsenso}")
+  @PutMapping("/colecciones/{coleccionId}/consenso/{tipoConsenso}")
   public void coleccionConsenso(@PathVariable Long coleccionId,
                                 @PathVariable TipoConsenso tipoConsenso) {
     coleccionServicio.coleccion(coleccionId).setTipoConsenso(tipoConsenso);

@@ -19,6 +19,7 @@ public class HechoServicio {
   private HechoRepositorio hechoRepositorio;
 
   public void guardarHecho(Hecho hecho) {
+    //FIXME buscar las entidades internas
     hechoRepositorio.save(hecho);
   }
 

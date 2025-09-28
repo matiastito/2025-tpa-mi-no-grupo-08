@@ -14,7 +14,6 @@ import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
 import ar.edu.utn.frba.dds.modelo.hecho.Ubicacion;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
@@ -31,7 +30,7 @@ public class AlgoritmoAbsolutoTest {
     }
 
     @Override
-    public Collection<Hecho> hechos() {
+    public Set<Hecho> hechos() {
       return hechos;
     }
   }

@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.modelo.coleccion;
 import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.METAMAPA;
 import static jakarta.persistence.EnumType.STRING;
 import static java.util.Arrays.stream;
+import static java.util.UUID.randomUUID;
 import static java.util.stream.Collectors.toSet;
 import static org.hibernate.annotations.CascadeType.ALL;
 
@@ -20,10 +21,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import org.hibernate.annotations.Cascade;
 
 @Entity
@@ -32,9 +35,8 @@ public class Coleccion {
   @Id
   @GeneratedValue
   private long id;
-  //TODO iniciar con UUID
   @Column(name = "HANDLE", nullable = false)
-  private String handle;
+  private UUID handle;
   @Column(name = "TITULO", nullable = false)
   private String titulo;
   @Column(name = "DESCRIPCION", nullable = false)
@@ -60,6 +62,13 @@ public class Coleccion {
   @OneToOne
   @JoinColumn(name = "COLECCION_ID")
   private FiltrosParaHecho criteriosDePertenencia;
+
+  @PrePersist
+  protected void onCreate() {
+    if (this.handle == null) {
+      this.handle = randomUUID();
+    }
+  }
 
   public Coleccion() {
   }
@@ -130,7 +139,7 @@ public class Coleccion {
     return tipoConsenso;
   }
 
-  public String getHandle() {
+  public UUID getHandle() {
     return this.handle;
   }
 }

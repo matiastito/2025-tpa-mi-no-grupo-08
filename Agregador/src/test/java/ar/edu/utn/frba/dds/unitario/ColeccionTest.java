@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.unitario;
 import static ar.edu.utn.frba.dds.Categorias.categoria;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 import static java.time.LocalDateTime.now;
-import static java.util.List.of;
+import static java.util.Set.of;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;

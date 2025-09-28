@@ -26,9 +26,9 @@ public class SolicitudDeEliminacionDeHechoDTO {
     solicitudDeEliminacionDeHechoDTO.tituloHecho = solicitudDeEliminacionDeHecho.getHecho().getTitulo();
     solicitudDeEliminacionDeHechoDTO.motivo = solicitudDeEliminacionDeHechoDTO.getMotivo();
     solicitudDeEliminacionDeHechoDTO.solicitudDeEliminacionDeHechoEstado = solicitudDeEliminacionDeHecho.getEstado();
-    ContribuyenteDTO contribuyenteDTO = solicitudDeEliminacionDeHechoDTO.new ContribuyenteDTO();
-    contribuyenteDTO.apellido = solicitudDeEliminacionDeHecho.getRepotador().getApellido();
-    contribuyenteDTO.apellido = solicitudDeEliminacionDeHecho.getRepotador().getNombre();
+    ContribuyenteDTO contribuyenteDTO = new ContribuyenteDTO();
+    contribuyenteDTO.setApellido(solicitudDeEliminacionDeHecho.getRepotador().getApellido());
+    contribuyenteDTO.setNombre(solicitudDeEliminacionDeHecho.getRepotador().getNombre());
     solicitudDeEliminacionDeHechoDTO.repotador = contribuyenteDTO;
     return solicitudDeEliminacionDeHechoDTO;
   }
@@ -71,30 +71,6 @@ public class SolicitudDeEliminacionDeHechoDTO {
 
   public void setAdministrador(AdministradorDTO administrador) {
     this.administrador = administrador;
-  }
-
-  public class ContribuyenteDTO {
-    private String nombre;
-    private String apellido;
-
-    public ContribuyenteDTO() {
-    }
-
-    public String getApellido() {
-      return apellido;
-    }
-
-    public String getNombre() {
-      return nombre;
-    }
-
-    public void setNombre(String nombre) {
-      this.nombre = nombre;
-    }
-
-    public void setApellido(String apellido) {
-      this.apellido = apellido;
-    }
   }
 
   public class AdministradorDTO {

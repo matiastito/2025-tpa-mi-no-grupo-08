@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controller;
 
+import ar.edu.utn.frba.dds.model.dto.ColeccionDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,21 @@ public class HomeController {
   public String home(Model model) {
     model.addAttribute("titulo", "Agregador de Colecciones");
     return "landing.html";
+  }
+
+  @GetMapping("/login")
+  public String login(Model model) {
+    model.addAttribute("titulo", "Agregador de Colecciones - LogIn");
+    return "login.html";
+  }
+
+  @GetMapping("/colecciones")
+  public String colecciones(Model model) {
+    ColeccionDTO coleccionDTO = new ColeccionDTO();
+    coleccionDTO.setTitulo("Fuentes proxies");
+    model.addAttribute("titulo", "Agregador de Colecciones - Colecciones");
+    model.addAttribute("coleccion", coleccionDTO);
+    return "colecciones.html";
   }
 
   @GetMapping("/404")

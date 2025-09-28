@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 import org.hibernate.annotations.Cascade;
 
@@ -36,6 +37,7 @@ public class FuenteArchivoCSV {
   public FuenteArchivoCSV(String uri) {
     this.uri = uri;
     this.procesado = false;
+    hechos = new HashSet<>();
   }
 
   public void setId(long id) {
