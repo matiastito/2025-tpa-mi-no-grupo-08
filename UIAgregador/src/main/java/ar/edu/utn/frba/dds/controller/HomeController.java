@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.controller;
 
 import ar.edu.utn.frba.dds.model.dto.ColeccionDTO;
+import ar.edu.utn.frba.dds.model.dto.UbicacionDTO;
 import ar.edu.utn.frba.dds.servicio.AgregadorServicio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,10 @@ public class HomeController {
   @GetMapping("/colecciones")
   public String colecciones(Model model) {
     List<ColeccionDTO> colecciones = agregadorServicio.colecciones();
+    UbicacionDTO[] ubicaciones =
+        new UbicacionDTO[]{new UbicacionDTO(-34.649766, -58.454446), new UbicacionDTO(-34.650041, -58.455002)};
     model.addAttribute("colecciones", colecciones);
+    model.addAttribute("ubicaciones", ubicaciones);
     return "anonimo/colecciones.html";
   }
 
@@ -42,4 +46,5 @@ public class HomeController {
     model.addAttribute("titulo", "No encontrado");
     return "404";
   }
+
 }
