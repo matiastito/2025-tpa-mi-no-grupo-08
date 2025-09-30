@@ -44,31 +44,25 @@ public class Coleccion {
   @Enumerated(STRING)
   private TipoConsenso tipoConsenso;
   @ManyToMany
-  @Cascade(ALL)
   @JoinTable(
       name = "COLECCION_FUENTE",
       joinColumns = @JoinColumn(name = "COLECCION_ID"),
       inverseJoinColumns = @JoinColumn(name = "FUENTE_ID")
   )
+  @Cascade(ALL)
   private List<Fuente> fuentes;
   @ManyToMany
-  @Cascade(ALL)
   @JoinTable(
       name = "COLECCION_HECHOS",
       joinColumns = @JoinColumn(name = "COLECCION_ID"),
       inverseJoinColumns = @JoinColumn(name = "HECHO_ID")
   )
+  @Cascade(ALL)
   private Set<Hecho> hechos;
   @OneToOne
   @JoinColumn(name = "COLECCION_ID")
+  @Cascade(ALL)
   private FiltrosParaHecho criteriosDePertenencia;
-
-  @PrePersist
-  protected void onCreate() {
-    if (this.handle == null) {
-      this.handle = randomUUID();
-    }
-  }
 
   public Coleccion() {
   }
@@ -78,6 +72,13 @@ public class Coleccion {
     this.descripcion = descripcion;
     this.fuentes = stream(fuentes).toList();
     this.criteriosDePertenencia = new FiltrosParaHecho();
+  }
+
+  @PrePersist
+  protected void onCreate() {
+    if (this.handle == null) {
+      this.handle = randomUUID();
+    }
   }
 
   public String getTitulo() {
@@ -90,10 +91,6 @@ public class Coleccion {
 
   public List<Fuente> getFuentes() {
     return this.fuentes;
-  }
-
-  public void setTipoConsenso(TipoConsenso tipoConsenso) {
-    this.tipoConsenso = tipoConsenso;
   }
 
   public void agregarFiltro(FiltroDeHecho filtro) {
@@ -137,6 +134,10 @@ public class Coleccion {
 
   public TipoConsenso getTipoConsenso() {
     return tipoConsenso;
+  }
+
+  public void setTipoConsenso(TipoConsenso tipoConsenso) {
+    this.tipoConsenso = tipoConsenso;
   }
 
   public UUID getHandle() {
