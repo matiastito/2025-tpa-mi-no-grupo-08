@@ -10,12 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class HomeController {
+public class AnonimoControlador {
 
   @Autowired
   private final AgregadorServicio agregadorServicio;
 
-  public HomeController(AgregadorServicio agregadorServicio) {
+  public AnonimoControlador(AgregadorServicio agregadorServicio) {
     this.agregadorServicio = agregadorServicio;
   }
 
@@ -34,9 +34,11 @@ public class HomeController {
   @GetMapping("/colecciones")
   public String colecciones(Model model) {
     List<ColeccionDTO> colecciones = agregadorServicio.colecciones();
-    UbicacionDTO[] ubicaciones =
-        new UbicacionDTO[]{new UbicacionDTO(-34.649766, -58.454446), new UbicacionDTO(-34.650041, -58.455002)};
     model.addAttribute("colecciones", colecciones);
+
+    UbicacionDTO[] ubicaciones =
+        new UbicacionDTO[]{new UbicacionDTO(-34.649766, -58.454446),
+            new UbicacionDTO(-34.650041, -58.455002)};
     model.addAttribute("ubicaciones", ubicaciones);
     return "anonimo/colecciones.html";
   }
