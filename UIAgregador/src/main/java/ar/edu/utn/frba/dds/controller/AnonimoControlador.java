@@ -21,13 +21,13 @@ public class AnonimoControlador {
 
   @GetMapping("/")
   public String home(Model model) {
-    model.addAttribute("titulo", "Agregador de Colecciones");
+    model.addAttribute("titulo", "Bienvenido MetaMAPA");
     return "anonimo/landing.html";
   }
 
   @GetMapping("/login")
   public String login(Model model) {
-    model.addAttribute("titulo", "Agregador de Colecciones - LogIn");
+    model.addAttribute("titulo", "Inicio de Sesion - LogIn");
     return "anonimo/login.html";
   }
 
