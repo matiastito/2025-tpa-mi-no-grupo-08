@@ -8,12 +8,15 @@ import ar.edu.utn.frba.dds.dto.AuthResponseDTO;
 import ar.edu.utn.frba.dds.dto.RefreshRequest;
 import ar.edu.utn.frba.dds.dto.TokenResponse;
 import ar.edu.utn.frba.dds.dto.UserRolesPermissionsDTO;
+import ar.edu.utn.frba.dds.exception.NotFoundException;
+import ar.edu.utn.frba.dds.service.LoginService;
 import ar.edu.utn.frba.dds.util.JWTUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +31,11 @@ public class AuthController {
 
   private static final Logger log = LoggerFactory.getLogger(AuthController.class);
   private final LoginService loginService;
+
+  @Autowired
+  public AuthController(LoginService loginService) {
+    this.loginService = loginService;
+  }
 
   @PostMapping
   public ResponseEntity<AuthResponseDTO> loginApi(@RequestBody Map<String, String> credentials) {
@@ -51,6 +59,7 @@ public class AuthController {
       AuthResponseDTO response = AuthResponseDTO.builder()
           .accessToken(accessToken)
           .refreshToken(refreshToken)
+          .build();
 
       log.info("El usuario {} está logueado. El token generado es {}", username, accessToken);
 

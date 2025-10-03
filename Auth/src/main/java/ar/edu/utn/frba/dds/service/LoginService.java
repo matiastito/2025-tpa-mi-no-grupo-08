@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.service;
 
 import ar.edu.utn.frba.dds.dto.UserRolesPermissionsDTO;
-import ar.utn.ba.ddsi.gestionDeAlumnosServer.exceptions.NotFoundException;
-import ar.utn.ba.ddsi.gestionDeAlumnosServer.models.entities.usuarios.Usuario;
-import ar.utn.ba.ddsi.gestionDeAlumnosServer.models.repositories.UsuariosRepository;
-import ar.utn.ba.ddsi.gestionDeAlumnosServer.utils.JwtUtil;
+import ar.edu.utn.frba.dds.exception.NotFoundException;
+import ar.edu.utn.frba.dds.model.Usuario;
+import ar.edu.utn.frba.dds.repository.UsuariosRepository;
+import ar.edu.utn.frba.dds.util.JWTUtil;
 import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,11 +38,11 @@ public class LoginService {
   }
 
   public String generarAccessToken(String username) {
-    return JwtUtil.generarAccessToken(username);
+    return JWTUtil.generarAccessToken(username);
   }
 
   public String generarRefreshToken(String username) {
-    return JwtUtil.generarRefreshToken(username);
+    return JWTUtil.generarRefreshToken(username);
   }
 
   public UserRolesPermissionsDTO obtenerRolesYPermisosUsuario(String username) {

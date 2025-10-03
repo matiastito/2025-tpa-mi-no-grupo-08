@@ -41,4 +41,8 @@ public class JWTUtil {
         .getBody()
         .getSubject();
   }
+
+  public static Key getKey() {
+    return key;
+  }
 }
