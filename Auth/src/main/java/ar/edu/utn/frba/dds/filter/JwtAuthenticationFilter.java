@@ -2,13 +2,13 @@ package ar.edu.utn.frba.dds.filter;
 
 import static ar.edu.utn.frba.dds.util.JWTUtil.validarToken;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static java.util.Collections.singletonList;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             username,
             null,
             //TODO poner el Rol correcto, a partir del username
-            Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
+            singletonList(new SimpleGrantedAuthority("ROLE_USER"))
         );
         SecurityContextHolder.getContext().setAuthentication(auth);
       } catch (Exception e) {

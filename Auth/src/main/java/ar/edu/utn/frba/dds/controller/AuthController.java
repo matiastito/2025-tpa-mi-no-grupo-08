@@ -1,6 +1,8 @@
 package ar.edu.utn.frba.dds.controller;
 
+import static ar.edu.utn.frba.dds.util.JWTUtil.generarAccessToken;
 import static ar.edu.utn.frba.dds.util.JWTUtil.validarToken;
+import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.ResponseEntity.badRequest;
 
@@ -15,7 +17,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import java.util.Map;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-  private static final Logger log = LoggerFactory.getLogger(AuthController.class);
+  private static final Logger log = getLogger(AuthController.class);
   private final LoginService loginService;
 
   @Autowired
@@ -87,7 +88,7 @@ public class AuthController {
         return badRequest().build();
       }
 
-      String newAccessToken = JWTUtil.generarAccessToken(username);
+      String newAccessToken = generarAccessToken(username);
       TokenResponse response = new TokenResponse(newAccessToken, request.getRefreshToken());
 
       return ResponseEntity.ok(response);
