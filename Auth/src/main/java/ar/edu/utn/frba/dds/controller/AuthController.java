@@ -1,10 +1,14 @@
 package ar.edu.utn.frba.dds.controller;
 
+import static ar.edu.utn.frba.dds.dto.AuthResponseDTO.builder;
 import static ar.edu.utn.frba.dds.util.JWTUtil.generarAccessToken;
+import static ar.edu.utn.frba.dds.util.JWTUtil.getKey;
 import static ar.edu.utn.frba.dds.util.JWTUtil.validarToken;
+import static io.jsonwebtoken.Jwts.parserBuilder;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.ok;
 
 import ar.edu.utn.frba.dds.dto.AuthResponseDTO;
 import ar.edu.utn.frba.dds.dto.RefreshRequest;
@@ -12,9 +16,7 @@ import ar.edu.utn.frba.dds.dto.TokenResponse;
 import ar.edu.utn.frba.dds.dto.UserRolesPermissionsDTO;
 import ar.edu.utn.frba.dds.exception.NotFoundException;
 import ar.edu.utn.frba.dds.service.LoginService;
-import ar.edu.utn.frba.dds.util.JWTUtil;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,14 +59,13 @@ public class AuthController {
       String accessToken = loginService.generarAccessToken(username);
       String refreshToken = loginService.generarRefreshToken(username);
 
-      AuthResponseDTO response = AuthResponseDTO.builder()
+      AuthResponseDTO response = builder()
           .accessToken(accessToken)
-          .refreshToken(refreshToken)
-          .build();
+          .refreshToken(refreshToken).build();
 
       log.info("El usuario {} está logueado. El token generado es {}", username, accessToken);
 
-      return ResponseEntity.ok(response);
+      return ok(response);
     } catch (NotFoundException e) {
       return ResponseEntity.status(NOT_FOUND).build();
     } catch (Exception e) {
@@ -78,8 +79,8 @@ public class AuthController {
       String username = validarToken(request.getRefreshToken());
 
       // Validar que el token sea de tipo refresh
-      Claims claims = Jwts.parserBuilder()
-          .setSigningKey(JWTUtil.getKey())
+      Claims claims = parserBuilder()
+          .setSigningKey(getKey())
           .build()
           .parseClaimsJws(request.getRefreshToken())
           .getBody();
@@ -91,7 +92,7 @@ public class AuthController {
       String newAccessToken = generarAccessToken(username);
       TokenResponse response = new TokenResponse(newAccessToken, request.getRefreshToken());
 
-      return ResponseEntity.ok(response);
+      return ok(response);
     } catch (Exception e) {
       return badRequest().build();
     }
@@ -102,7 +103,7 @@ public class AuthController {
     try {
       String username = authentication.getName();
       UserRolesPermissionsDTO response = loginService.obtenerRolesYPermisosUsuario(username);
-      return ResponseEntity.ok(response);
+      return ok(response);
     } catch (NotFoundException e) {
       log.error("Usuario no encontrado", e);
       return ResponseEntity.notFound().build();
