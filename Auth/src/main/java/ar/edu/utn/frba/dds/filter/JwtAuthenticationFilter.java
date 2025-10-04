@@ -29,6 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         var auth = new UsernamePasswordAuthenticationToken(
             username,
             null,
+            //TODO poner el Rol correcto, a partir del username
             Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
         );
         SecurityContextHolder.getContext().setAuthentication(auth);

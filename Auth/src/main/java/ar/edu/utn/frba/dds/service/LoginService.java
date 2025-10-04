@@ -57,7 +57,6 @@ public class LoginService {
     return UserRolesPermissionsDTO.builder()
         .username(usuario.getNombreDeUsuario())
         .rol(usuario.getRol())
-        .permisos(usuario.getPermisos())
         .build();
   }
 }
