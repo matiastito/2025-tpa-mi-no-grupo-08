@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title th:text="${titulo} + ' - Agregador'"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          rel="stylesheet"
+          th:if="${colecciones}"/>
+    <script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            th:if="${colecciones}"></script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<!-- Fragmento de navegación -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navegacion">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/login}">
+            <i class="fa fa-network-wired"></i>
+            MetaMAPA
+        </a>
+        <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler"
+                data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-nav collapse navbar-collapse" id="navbarNav">
+            <a class="nav-link" th:href="@{/login}">
+                <i class="bi bi-list-ul me-1"></i>
+                Inciar Sesion / Registración
+            </a>
+            <a class="nav-link" th:href="@{/colecciones}">
+                <i class="bi bi-person-plus me-1"></i>
+                Ver Hechos y Colecciones
+            </a>
+        </div>
+    </div>
+</nav>
+
+<header class="bg-light py-4" th:fragment="header">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="h2 mb-0" th:text="${titulo}"></h1>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Contenido principal -->
+<main class="container my-4 flex-grow-1">
+    <div th:replace="~{${contenido} :: contenido}"></div>
+</main>
+
+<!-- Fragmento de footer -->
+<footer class="bg-dark text-light py-3 mt-auto" th:fragment="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 text-center text-md-start">
+                <p class="mb-0">
+                    <i class="bi bi-code-slash me-1"></i>
+                    Agregeador de Colecciones
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/map.js"></script>
+<script th:if="${colecciones}" th:inline="javascript">
+    /*
+    <![CDATA[
+    */
+        var marker = L.marker([-34.649766, -58.454446]).addTo(map);
+    /*]]>
+    */
+</script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    let ubicaciones = [[${ubicaciones}]]
+
+    ubicaciones.forEach(function(ubicacion) {
+        L.marker([ubicacion.lat, ubicacion.lon]).addTo(map);
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

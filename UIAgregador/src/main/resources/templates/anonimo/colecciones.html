@@ -1,0 +1,11 @@
+<html th:replace="~{layout/baseAnonimo :: html}">
+<div th:fragment="contenido">
+    <ul>
+        <li th:each="coleccion: ${colecciones}">
+            <span th:text="${coleccion.titulo}"/>
+            <span th:text="${coleccion.fuentes}"/>
+        </li>
+    </ul>
+    <div id="map" th:if="${colecciones}"></div>
+</div>
+</html>

@@ -1,0 +1,61 @@
+@startuml
+'https://plantuml.com/class-diagram
+!include https://raw.githubusercontent.com/patrik-csak/one-dark-plantuml-theme/v1.0.1/theme.puml
+
+package Fuente_Estatica <<Folder>> {
+    class FuenteArchivoCSV {
+      - uri: String
+      - procesado: boolean
+      - hechos: Set<Hecho>
+      
+      + marcarComoProcesado(): void
+      + agregarHecho(Hecho hecho): void
+      + hechos(): Set<Hecho>
+      + importar(ImportadorDeHechosDesdeArchivo importadorDeHechosDesdeArchivo): void
+    }
+    FuenteArchivoCSV --o Hecho
+    FuenteArchivoCSV ... ImportadorDeHechosDesdeArchivo
+
+    class Categoria {
+      - nombre: String
+    }
+
+    class Hecho {
+      - titulo: String
+      - descripcion: String
+      - categoria: Categoria
+      - ubicacion: Ubicacion
+      - fechaDelHecho: LocalDateTime
+      - fechaDeCarga: LocalDateTime
+      - hechoOrigen: HechoOrigen
+    }
+    Hecho --> Categoria
+    Hecho --> Ubicacion
+    Hecho --> HechoOrigen
+
+    enum HechoOrigen {
+        CONTRIBUYENTE,
+        MANUAL,
+        EXTERNO,
+    }
+
+    class Ubicacion {
+      - latitud: String
+      - longitud: String
+
+      + crearUbicacion(latitud: String, longitud: String): Ubicacion
+    }
+
+    class ImportadorDeHechosDesdeArchivo {
+      - lectorDeArchivoDeHechos: LectorDeArchivo
+    }
+    ImportadorDeHechosDesdeArchivo --> LectorDeArchivo
+
+    interface LectorDeArchivo {
+      getRegistros(URI uri): List<List<String>>
+    }
+
+    class LectorArchivoCSV implements LectorDeArchivo
+}
+
+@enduml

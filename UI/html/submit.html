@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MetaMapa — Contribuir</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../html/css/contribuyente.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html"><img src="images/logo.png" class="brand-logo" alt="" /><span class="brand-text">MetaMapa</span></a>
+    <nav class="auth-nav"><a class="btn btn-ghost" href="profile.html">Mi perfil</a><a class="btn btn-ghost" href="login.html">Iniciar sesión</a></nav>
+  </div>
+</header>
+
+<main class="main">
+  <div class="container">
+    <header class="card" style="text-align:center;margin-bottom:12px">
+      <h1 style="margin:0 0 6px">Contribuí con un hecho</h1>
+      <p class="muted">Ayudá a documentar eventos importantes compartiendo información verificable y precisa.</p>
+    </header>
+
+    <div class="grid two">
+      <!-- Formulario -->
+      <section class="card">
+        <h2 class="card-title">Formulario de contribución</h2>
+        <p class="muted">Los campos marcados con * son obligatorios.</p>
+        <div class="note">Importante: no incluyas datos personales sensibles. MetaMapa no guarda información privada de visitantes.</div>
+
+        <form class="form" action="submit-success.html">
+          <label for="titulo">Título del hecho *</label>
+          <input id="titulo" required placeholder="Ej: Temporal de viento en Pergamino" />
+
+          <div class="row">
+            <div>
+              <label for="categoria">Categoría *</label>
+              <select id="categoria" required>
+                <option value="">Seleccionar…</option>
+                <option>Clima</option><option>Infraestructura</option><option>Salud</option>
+              </select>
+            </div>
+            <div>
+              <label for="fecha">Fecha *</label>
+              <input id="fecha" type="date" required />
+            </div>
+          </div>
+
+          <label for="ubicacion">Ubicación *</label>
+          <input id="ubicacion" required placeholder="Ciudad, provincia / coordenadas" />
+
+          <label for="fuente">Fuente (enlace o descripción) *</label>
+          <input id="fuente" required placeholder="Ej: Archivo CSV, link a noticia, etc." />
+
+          <label for="descripcion">Descripción detallada *</label>
+          <textarea id="descripcion" required placeholder="Describe el hecho con precisión…"></textarea>
+
+          <div>
+            <label for="adj">Adjuntar archivo (opcional)</label>
+            <input id="adj" type="file" />
+          </div>
+
+          <div class="check">
+            <input id="anon" type="checkbox" />
+            <label for="anon">Enviar de forma anónima</label>
+          </div>
+
+          <div class="hr"></div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <a class="btn btn-light" href="viewer-list.html">Cancelar</a>
+            <button class="btn btn-primary" type="submit">Enviar hecho</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Guías / ayuda -->
+      <aside class="card helper">
+        <h3 class="card-title">Guía para contribuir</h3>
+        <ul style="margin:8px 0 0 18px;color:#4e564f">
+          <li>Usá títulos claros y descriptivos.</li>
+          <li>Preferí fuentes verificables (links, documentos).</li>
+          <li>Evitá datos personales o identificables.</li>
+        </ul>
+
+        <h3 class="card-title" style="margin-top:14px">Información verificada</h3>
+        <p class="muted">Los hechos pasan por revisión del equipo y herramientas de consenso antes de hacerse visibles.</p>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="container" style="padding:16px 0;text-align:center"><small>© 2025 MetaMapa</small></div></footer>
+</body>
+</html>

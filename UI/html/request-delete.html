@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MetaMapa — Solicitar eliminación</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../html/css/request.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="viewer-detail.html"><img src="images/logo.png" class="brand-logo" alt="" /><span class="brand-text">MetaMapa</span></a>
+    <nav class="auth-nav"><a class="btn btn-ghost" href="login.html">Mi perfil</a><a class="btn btn-ghost" href="viewer-list.html">Crear señal</a></nav>
+  </div>
+</header>
+
+<main class="container req">
+  <h1 class="title">Solicitar <span class="highlight">eliminación</span> de hecho</h1>
+  <p class="muted center">Completa el formulario para solicitar la eliminación de este hecho. Tu solicitud será revisada por nuestro equipo.</p>
+
+  <section class="grid two">
+    <!-- Columna izquierda: resumen del hecho + adjuntos -->
+    <div class="card">
+      <h2 class="card-title">Identificación del hecho</h2>
+
+      <article class="case">
+        <header class="case-head">
+          <h3 class="case-title">Temporal de viento — Pergamino, Buenos Aires</h3>
+          <span class="badge badge--status">Verificado</span>
+        </header>
+        <ul class="case-meta">
+          <li><strong>Categoría:</strong> Clima / Temporal de viento</li>
+          <li><strong>Fecha:</strong> 16/10/2023</li>
+          <li><strong>Fuente:</strong> Archivo CSV</li>
+          <li><strong>Ubicación:</strong> Pergamino, Buenos Aires</li>
+        </ul>
+
+        <figure class="case-media">
+          <img src="https://placehold.co/560x320" alt="" />
+          <figcaption>Imagen asociada al hecho.</figcaption>
+        </figure>
+      </article>
+
+      <details class="note"><summary>Importante</summary>
+        La eliminación de datos implica la remoción de la evidencia pública asociada a este hecho.
+      </details>
+    </div>
+
+    <!-- Columna derecha: formulario -->
+    <form class="card form" action="request-sent.html">
+      <h2 class="card-title">Formulario de solicitud</h2>
+
+      <label for="motivo">Justificación de la eliminación *</label>
+      <textarea id="motivo" required minlength="500" placeholder="Explica claramente por qué debería eliminarse…"></textarea>
+      <div class="counter" data-for="motivo">Mínimo 500 caracteres</div>
+
+      <label for="contacto">Medio de contacto (opcional)</label>
+      <input id="contacto" placeholder="ej: email o teléfono" />
+
+      <label class="check">
+        <input type="checkbox" required />
+        <span>Declaro que la información proporcionada es verídica *</span>
+      </label>
+
+      <div class="actions">
+        <a class="btn btn-ghost" href="viewer-detail.html">Volver</a>
+        <button class="btn btn-primary" type="submit">Enviar solicitud</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer class="site-footer"><div class="container footer-inner"><small>© 2025 MetaMapa</small></div></footer>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Fuentes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../html/css/admin.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="admin-dashboard.html"><img src="images/logo.png" class="brand-logo" alt="" /><span class="brand-text">MetaMapa — Admin</span></a>
+    <div class="head-actions">
+      <a class="btn btn-ghost btn-small" href="../html/profile.html">Ver perfil</a>
+      <a class="btn btn-ghost btn-small" href="../html/login.html">Cerrar sesión</a>
+    </div>
+  </div>
+</header>
+
+<main class="main container">
+  <nav class="tabs" style="margin-bottom:10px">
+    <a href="admin-dashboard.html">Resumen</a>
+    <a href="admin-moderation.html">Moderación</a>
+    <a href="admin-collections.html">Colecciones</a>
+    <a class="is-active" href="admin-sources.html">Fuentes</a>
+    <a href="admin-eliminations.html">Eliminaciones</a>
+  </nav>
+
+  <section class="item">
+    <div class="item-head">
+      <h3 class="item-title">Emergencia por altas temperaturas</h3>
+      <div class="badges">
+        <span class="pill">🧾 145 hechos</span>
+        <span class="pill">📦 5 fuentes</span>
+        <span class="pill">🧠 “Múltiples menciones” — consenso</span>
+        <span class="status ok">Estática</span>
+      </div>
+    </div>
+    <div class="actions" style="margin-top:8px">
+      <a class="btn">⚙ Configurar fuentes</a>
+      <a class="btn btn-light">✏️ Editar</a>
+      <a class="btn btn-ghost">🗑 Eliminar</a>
+    </div>
+  </section>
+
+  <!-- Placeholder de gráfico (como tu rectángulo rojo del Figma) -->
+  <section class="card" style="margin-top:12px;height:380px;display:grid;place-items:center;background:#ff2b2b;color:#fff">
+    Gráfico/preview de fuentes (placeholder)
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Editar colección</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../html/css/admin.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="admin-dashboard.html"><img src="images/logo.png" class="brand-logo" alt="" /><span class="brand-text">MetaMapa — Admin</span></a>
+    <div class="head-actions">
+      <a class="btn btn-ghost btn-small" href="../html/profile.html">Ver perfil</a>
+      <a class="btn btn-ghost btn-small" href="../html/login.html">Cerrar sesión</a>
+    </div>
+  </div>
+</header>
+
+<main class="main container">
+  <nav class="tabs" style="margin-bottom:10px">
+    <a href="admin-dashboard.html">Resumen</a>
+    <a href="admin-moderation.html">Moderación</a>
+    <a class="is-active" href="admin-collections.html">Colecciones</a>
+    <a href="admin-sources.html">Fuentes</a>
+    <a href="admin-eliminations.html">Eliminaciones</a>
+  </nav>
+
+  <!-- Cabecera de la colección -->
+  <section class="card">
+    <h3 class="card-title">Emergencia por altas temperaturas</h3>
+    <p class="muted">Descripción de la colección…</p>
+    <div class="badges" style="margin-top:6px">
+      <span class="pill">🧾 145 hechos</span>
+      <span class="pill">📦 3 fuentes</span>
+      <span class="pill">🧠 “Múltiples menciones” — consenso</span>
+    </div>
+    <div class="actions" style="margin-top:10px">
+      <a class="btn">🧠 Editar consenso</a>
+      <a class="btn">⚙ Configurar fuentes</a>
+      <a class="btn btn-light">✏️ Editar</a>
+      <a class="btn btn-ghost">🗑 Eliminar</a>
+    </div>
+  </section>
+
+  <!-- Form de edición -->
+  <section class="card" style="margin-top:12px">
+    <h3 class="card-title">Formulario de edición</h3>
+    <p class="muted">Completá los campos requeridos para actualizar la colección.</p>
+
+    <form class="form" action="admin-collections.html">
+      <label>Título de la colección *</label>
+      <input required placeholder="Emergencia por altas temperaturas" />
+
+      <label>Descripción *</label>
+      <textarea required placeholder="Descripción…"></textarea>
+
+      <label>Ubicación *</label>
+      <input required placeholder="Región / País / Provincia" />
+
+      <div class="row">
+        <div><label>Latitud (opcional)</label><input placeholder="00.000000" /></div>
+        <div><label>Longitud (opcional)</label><input placeholder="00.000000" /></div>
+      </div>
+
+      <label>Contenido multimedia (opcional)</label>
+      <input type="file" />
+
+      <div class="note" style="margin-top:6px">
+        Al guardar, confirmás que la información es veraz y válida para la colección.
+      </div>
+
+      <div class="actions" style="margin-top:10px">
+        <a class="btn btn-light" href="admin-collections.html">Cancelar</a>
+        <button class="btn btn-primary" type="submit">Guardar cambios</button>
+      </div>
+    </form>
+  </section>
+</main>
+</body>
+</html>

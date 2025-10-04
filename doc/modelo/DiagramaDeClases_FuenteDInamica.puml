@@ -1,0 +1,108 @@
+@startuml
+'https://plantuml.com/class-diagram
+!include https://raw.githubusercontent.com/patrik-csak/one-dark-plantuml-theme/v1.0.1/theme.puml
+
+package Fuente_Dinamica <<Folder>> {
+
+    class Administrador {
+      - nombre: String
+    }
+    note left: Se usará cunado se registren\nSolicitudes de Modificación.
+
+    class Contribuyente {
+      - nombre: String
+      - apellido: String
+      - fechaNacimiento: LocalDate
+    }
+
+    class ContenidoMulitmedia {
+      - tipoContenidoMultimedia: TipoContenidoMultimedia
+      - uri: String
+    }
+
+    enum TipoContenidoMulitmedia {
+        FOTO,
+        VIDEO,
+        AUDIO,
+    }
+    ContenidoMulitmedia --> TipoContenidoMulitmedia
+
+    class Categoria {
+      - nombre: String
+    }
+
+    class Etiqueta {
+      - nombre: String
+    }
+
+    class Hecho {
+      - contribuyente: Contribuyente
+      - titulo: String
+      - descripcion: String
+      - categoria: Categoria
+      - contenidoMultimedia: ContenidoMultimedia
+      - ubicacion: Ubicacion
+      - fechaDelHecho: LocalDateTime
+      - fechaDeCarga: LocalDateTime
+      - hechoOrigen: HechoOrigen
+      - hechoEstado: HechoEstado
+      - etiquetas: Collection<Etiqueta>
+      - eliminado: boolean
+
+      + estaEliminado(): boolean
+      + eliminar(): void
+      + etiquetar(etiqueta: Etiqueta): void
+    }
+
+    enum HechoEstado {
+      PENDIENTE,
+      ACEPTADO,
+      ACEPTADO_CON_SUGUERENCIAS,
+      RECHAZADO,
+    }
+
+    enum HechoOrigen {
+        CONTRIBUYENTE,
+        MANUAL,
+        EXTERNO,
+    }
+
+    class Ubicacion {
+      - latitud: String
+      - longitud: String
+
+      + crearUbicacion(latitud: String, longitud: String): Ubicacion
+    }
+    Hecho --> ContenidoMulitmedia
+    Hecho --> Contribuyente
+    Hecho --> HechoOrigen
+    Hecho --> Categoria
+    Hecho --> Ubicacion
+    Hecho *-- Etiqueta
+    Hecho --> HechoEstado
+
+    class SolicitudDeEliminacionDeHecho {
+      - hecho: Hecho
+      - solicitudDeEliminacionDeHechoEstado: SolicitudDeEliminacionDeHechoEstado
+      - fechaCreacion: LocalDateTime
+      - motivo: String
+      - reportador: Contribuyente
+      - aprobador: Administrador
+      - fechaResolucion: LocalDateTime
+
+      + aprobar(aprobador: Administrador): void
+      + rechazar(aprobador: Administrador): void
+      + rechazarPorSpam(aprobador: Administrador): void
+      + rechazar(): void
+    }
+    SolicitudDeEliminacionDeHecho --> Hecho
+    SolicitudDeEliminacionDeHecho --> SolicitudDeEliminacionDeHechoEstado
+    SolicitudDeEliminacionDeHecho --> Contribuyente
+    SolicitudDeEliminacionDeHecho --> Administrador
+
+    enum SolicitudDeEliminacionDeHechoEstado {
+      ACEPTADA, RECHAZADA, PENDIENTE
+    }
+}
+
+@enduml
