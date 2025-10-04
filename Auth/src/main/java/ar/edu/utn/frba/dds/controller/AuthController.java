@@ -99,10 +99,10 @@ public class AuthController {
   }
 
   @GetMapping("/user/roles")
-  public ResponseEntity<UserRolesDTO> getUserRolesAndPermissions(Authentication authentication) {
+  public ResponseEntity<UserRolesDTO> getUserRoles(Authentication authentication) {
     try {
       String username = authentication.getName();
-      UserRolesDTO response = loginService.obtenerRolesYPermisosUsuario(username);
+      UserRolesDTO response = loginService.obtenerRolesUsuario(username);
       return ok(response);
     } catch (NotFoundException e) {
       log.error("Usuario no encontrado", e);

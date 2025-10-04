@@ -61,7 +61,7 @@ public class ExternalAuthService {
   public RolesPermisosDTO getRolesPermisos(String accessToken) {
     try {
       RolesPermisosDTO response = webApiCallerService.getWithAuth(
-          authServiceUrl + "/auth/user/roles-permisos",
+          authServiceUrl + "/auth/user/roles",
           accessToken,
           RolesPermisosDTO.class
       );

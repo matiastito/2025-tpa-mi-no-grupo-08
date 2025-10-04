@@ -45,7 +45,7 @@ public class LoginService {
     return JWTUtil.generarRefreshToken(username);
   }
 
-  public UserRolesDTO obtenerRolesYPermisosUsuario(String username) {
+  public UserRolesDTO obtenerRolesUsuario(String username) {
     Optional<Usuario> usuarioOpt = usuariosRepository.findByNombreDeUsuario(username);
 
     if (usuarioOpt.isEmpty()) {
