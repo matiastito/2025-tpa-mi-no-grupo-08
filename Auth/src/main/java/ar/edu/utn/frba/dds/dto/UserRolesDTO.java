@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRolesPermissionsDTO {
+public class UserRolesDTO {
   private String username;
   private Rol rol;
 }

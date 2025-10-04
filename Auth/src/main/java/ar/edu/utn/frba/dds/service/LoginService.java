@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.service;
 
-import ar.edu.utn.frba.dds.dto.UserRolesPermissionsDTO;
+import ar.edu.utn.frba.dds.dto.UserRolesDTO;
 import ar.edu.utn.frba.dds.exception.NotFoundException;
 import ar.edu.utn.frba.dds.model.Usuario;
 import ar.edu.utn.frba.dds.repository.UsuariosRepository;
@@ -45,7 +45,7 @@ public class LoginService {
     return JWTUtil.generarRefreshToken(username);
   }
 
-  public UserRolesPermissionsDTO obtenerRolesYPermisosUsuario(String username) {
+  public UserRolesDTO obtenerRolesYPermisosUsuario(String username) {
     Optional<Usuario> usuarioOpt = usuariosRepository.findByNombreDeUsuario(username);
 
     if (usuarioOpt.isEmpty()) {
@@ -54,7 +54,7 @@ public class LoginService {
 
     Usuario usuario = usuarioOpt.get();
 
-    return UserRolesPermissionsDTO.builder()
+    return UserRolesDTO.builder()
         .username(usuario.getNombreDeUsuario())
         .rol(usuario.getRol())
         .build();

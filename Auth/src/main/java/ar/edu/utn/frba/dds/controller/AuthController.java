@@ -13,7 +13,7 @@ import static org.springframework.http.ResponseEntity.ok;
 import ar.edu.utn.frba.dds.dto.AuthResponseDTO;
 import ar.edu.utn.frba.dds.dto.RefreshRequest;
 import ar.edu.utn.frba.dds.dto.TokenResponse;
-import ar.edu.utn.frba.dds.dto.UserRolesPermissionsDTO;
+import ar.edu.utn.frba.dds.dto.UserRolesDTO;
 import ar.edu.utn.frba.dds.exception.NotFoundException;
 import ar.edu.utn.frba.dds.service.LoginService;
 import io.jsonwebtoken.Claims;
@@ -98,11 +98,11 @@ public class AuthController {
     }
   }
 
-  @GetMapping("/user/roles-permisos")
-  public ResponseEntity<UserRolesPermissionsDTO> getUserRolesAndPermissions(Authentication authentication) {
+  @GetMapping("/user/roles")
+  public ResponseEntity<UserRolesDTO> getUserRolesAndPermissions(Authentication authentication) {
     try {
       String username = authentication.getName();
-      UserRolesPermissionsDTO response = loginService.obtenerRolesYPermisosUsuario(username);
+      UserRolesDTO response = loginService.obtenerRolesYPermisosUsuario(username);
       return ok(response);
     } catch (NotFoundException e) {
       log.error("Usuario no encontrado", e);
