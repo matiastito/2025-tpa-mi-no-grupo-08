@@ -31,7 +31,7 @@ public class AnonimoControlador {
     return "anonimo/login.html";
   }
 
-  @GetMapping("/colecciones")
+  @GetMapping("/anonimo/colecciones")
   public String colecciones(Model model) {
     List<ColeccionDTO> colecciones = agregadorServicio.colecciones();
     model.addAttribute("colecciones", colecciones);
