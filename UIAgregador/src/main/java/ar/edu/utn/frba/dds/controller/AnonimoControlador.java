@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.model.dto.UbicacionDTO;
 import ar.edu.utn.frba.dds.servicio.AgregadorServicio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,13 +21,17 @@ public class AnonimoControlador {
   }
 
   @GetMapping("/")
-  public String home(Model model) {
+  public String home(Authentication authentication, Model model) {
+    if (authentication.isAuthenticated())
+      return "redirect:home";
     model.addAttribute("titulo", "Bienvenido MetaMAPA");
     return "anonimo/landing.html";
   }
 
   @GetMapping("/login")
-  public String login(Model model) {
+  public String login(Authentication authentication, Model model) {
+    if (authentication.isAuthenticated())
+      return "redirect:home";
     model.addAttribute("titulo", "Inicio de Sesion - LogIn");
     return "anonimo/login.html";
   }

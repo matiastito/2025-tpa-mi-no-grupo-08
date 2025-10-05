@@ -27,15 +27,14 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             // Recursos estáticos y login público
             .requestMatchers("/anonimo/**", "/login", "/css/**", "/js/**", "/images/**").permitAll()
-            // Ejemplo: Acceso a alumnos: ADMIN y DOCENTE
-            //.requestMatchers("/alumnos/**").hasAnyRole("ADMIN", "CONTRIBUYENTE")
-            // Lo demás requiere autenticación
+            .requestMatchers("/admin/**").hasRole("ADMIN")
+            .requestMatchers("/contribuyente/**").hasRole("CONTRIBUYENTE")
             .anyRequest().authenticated()
         )
         .formLogin(form -> form
             .loginPage("/login")    // tu template de login
             .permitAll()
-            .defaultSuccessUrl("/alumnos", true) // redirigir tras login exitoso
+            .defaultSuccessUrl("/home", true) // redirigir tras login exitoso
         )
         .logout(logout -> logout
             .logoutUrl("/logout")

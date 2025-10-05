@@ -45,7 +45,8 @@
 
 <!-- Contenido principal -->
 <main class="container my-4 flex-grow-1">
-    <div th:replace="${contenido} :: contenido"></div>
+    <div th:replace="~{${contenido_admin} :: contenido_admin}"></div>
+    <div th:replace="~{${contenido_user} :: contenido_user}"></div>
 </main>
 
 <!-- Fragmento de footer -->
