@@ -22,7 +22,7 @@ public class AnonimoControlador {
 
   @GetMapping("/")
   public String home(Authentication authentication, Model model) {
-    if (authentication.isAuthenticated())
+    if (authentication != null && authentication.isAuthenticated())
       return "redirect:home";
     model.addAttribute("titulo", "Bienvenido MetaMAPA");
     return "anonimo/landing.html";
@@ -30,7 +30,7 @@ public class AnonimoControlador {
 
   @GetMapping("/login")
   public String login(Authentication authentication, Model model) {
-    if (authentication.isAuthenticated())
+    if (authentication != null && authentication.isAuthenticated())
       return "redirect:home";
     model.addAttribute("titulo", "Inicio de Sesion - LogIn");
     return "anonimo/login.html";

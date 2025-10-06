@@ -16,6 +16,7 @@
     <script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             th:if="${colecciones}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!-- Fragmento de navegación -->
@@ -47,7 +48,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="h2 mb-0" th:text="${titulo}"></h1>
+                <h1 id="titulo" class="h2 mb-0" th:text="${titulo}"></h1>
             </div>
         </div>
     </div>
