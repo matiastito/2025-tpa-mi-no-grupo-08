@@ -1,3 +1,5 @@
+# UI Routing
+
 ## URLs Base
 
 |  URL  |                         Contenido                         | Requerimiento |
@@ -9,8 +11,8 @@
 |     URL      |            Contenido            | Requerimiento |
 |:------------:|:-------------------------------:|:-------------:|
 | **/landing** |            Propósito            |       1       |
-| **/landing** |              Login              |       5       |
-| **/landing** |            Registro             |       4       |
+| **/landing** |     Login (redirect /home)      |       5       |
+| **/landing** |    Registro (redirect /home)    |       4       |
 | **/landing** |            Ejemplos             |       1       |
 | **/landing** | Link a **/anonimo/colecciones** |       1       |
 | **/legales** |   Link a **/doc/legales.pdf**   |       1       |
@@ -34,8 +36,39 @@
 
 ## URLs Contribyente (ROL_CONTRIBUYENTE)
 
-|                       URL                       |             Contenido              | Requerimiento |
-|:-----------------------------------------------:|:----------------------------------:|:-------------:|
-|            **/contribuyente/hecho/**            |        Crear un hecho nuevo        |      11       |
-|          **/contribuyente/hecho/{id}**          |          Editar un hecho           |      12       |
-| **/contribuyente/hecho/{id}/solicitarEliminar** | Crear una Solicitud de Eliminación |      13       |
+|                         URL                          |             Contenido              | Requerimiento |
+|:----------------------------------------------------:|:----------------------------------:|:-------------:|
+|            **GET /contribuyente/hecho/**             |        Crear un hecho nuevo        |      11       |
+|            **POST /contribuyente/hecho/**            |        Crear un hecho nuevo        |      11       |
+|          **GET /contribuyente/hecho/{id}**           |          Editar un hecho           |      12       |
+|          **PUT /contribuyente/hecho/{id}**           |          Editar un hecho           |      12       |
+| **POST /contribuyente/hecho/{id}/solicitarEliminar** | Crear una Solicitud de Eliminación |      13       |
+
+## URLs Administrador (ROL_ADMIN)
+
+    TODO
+
+# Auth Routing
+
+|            URL             |  Contenido  |     ROL     |
+|:--------------------------:|:-----------:|:-----------:|
+|     **POST /api/auth**     | AccessToken |      -      |
+| **POST /api/auth/refresh** |  Refresca   |      -      |
+|    **GET /user/roles**     |  Refresca   | Autemticado |
+
+# Agregador
+
+- Agregar filtro de JWT.
+- Compartir KEY entre Agregador y Auth.
+
+|                    URL                    |      Contenido       | ROL |
+|:-----------------------------------------:|:--------------------:|:---:|
+|           **GET /colecciones**            |     Colecciones      |  -  |
+| **GET /colecciones/{coleccionId}/hechos** | Hechos por Coleccion |  -  |
+
+### Agregador (ToDO)
+
+|       URL        |    Contenido    |        ROL        |
+|:----------------:|:---------------:|:-----------------:|
+| **POST /hechos** | Crear un Hecho  | ROL_CONTRIBUYENTE |
+| **PUT /hechos**  | Editar un Hecho | ROL_CONTRIBUYENTE |
