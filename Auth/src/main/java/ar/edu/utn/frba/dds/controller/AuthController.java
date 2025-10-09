@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.controller;
 
-import static ar.edu.utn.frba.dds.dto.AuthResponseDTO.builder;
 import static ar.edu.utn.frba.dds.util.JWTUtil.generarAccessToken;
 import static ar.edu.utn.frba.dds.util.JWTUtil.getKey;
 import static ar.edu.utn.frba.dds.util.JWTUtil.validarToken;
@@ -59,7 +58,7 @@ public class AuthController {
       String accessToken = loginService.generarAccessToken(username);
       String refreshToken = loginService.generarRefreshToken(username);
 
-      AuthResponseDTO response = builder()
+      AuthResponseDTO response = AuthResponseDTO.builder()
           .accessToken(accessToken)
           .refreshToken(refreshToken).build();
 

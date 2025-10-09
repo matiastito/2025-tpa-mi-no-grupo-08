@@ -26,7 +26,7 @@ public class SecurityConfig {
     http
         .authorizeHttpRequests(auth -> auth
             // Recursos estáticos y login público
-            .requestMatchers("/anonimo/**", "/login", "/css/**", "/js/**", "/images/**").permitAll()
+            .requestMatchers("/", "/anonimo/**", "/css/**", "/js/**", "/images/**", "/doc/**").permitAll()
             .requestMatchers("/admin/**").hasRole("ADMIN")
             .requestMatchers("/contribuyente/**").hasRole("CONTRIBUYENTE")
             .anyRequest().authenticated()

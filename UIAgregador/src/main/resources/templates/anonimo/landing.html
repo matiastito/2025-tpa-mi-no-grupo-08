@@ -1,7 +1,70 @@
 <html th:replace="~{layout/baseAnonimo :: html}">
 <div th:fragment="contenido">
     <h1>Propositos y Objetivos</h1>
+    <div class="m-4 form-check form-switch">
+        <input class="form-check-input" id="switchCheckDefault" role="switch" type="checkbox">
+        <label class="form-check-label" for="switchCheckDefault"><span
+                class="badge rounded-pill bg-primary">REGISTRACION</span></label>
+    </div>
+    <form class="p-4" id="loginForm" method="post" th:action="@{/login}">
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="username">Usuario</label>
+            <div class="col-sm-10">
+                <input autofocus class="form-control" id="username" name="username" required
+                       type="text">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="password">Contraseña</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="password" name="password" required type="password">
+            </div>
+        </div>
+        <div class="d-grid">
+            <button class="btn btn-primary" type="submit">Ingresar</button>
+        </div>
+    </form>
+    <form class="p-4" id="registrarForm" method="post" th:action="@{/registrar}">
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="username">Usuario</label>
+            <div class="col-sm-10">
+                <input autofocus class="form-control" id="username" name="username" required
+                       type="text">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="username">Nombre</label>
+            <div class="col-sm-10">
+                <input autofocus class="form-control" id="nombre" name="username" required
+                       type="text">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-labellabel" for="password">Contraseña</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="password" name="password" required type="password">
+            </div>
+        </div>
+        <div class="d-grid">
+            <button class="btn btn-primary" type="submit">REGISTRAR</button>
+        </div>
+    </form>
     <h1>Ejemplos de Colecciones y Hechos</h1>
-    <h1>Legales</h1>
+    <h6>TODO Agregar Ejemplos</h6>
+    <h1><a href="/doc/legales.pdf">Legales</a></h1>
 </div>
 </html>
+<script>
+    $(document).ready(function() {
+        $('#registrarForm').hide();
+        $('#switchCheckDefault').click(function() {
+            $('#registrarForm').toggle();
+            $('#loginForm').toggle();
+            if ($(this).is(':checked')) {
+                $("#titulo").text("Registración");
+            } else {
+                $("#titulo").text("LogIn");
+            }
+        });
+    });
+</script>

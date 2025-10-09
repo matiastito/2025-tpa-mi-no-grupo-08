@@ -2,20 +2,20 @@
 
 ## URLs Base
 
-|  URL  |                         Contenido                         | Requerimiento |
-|:-----:|:---------------------------------------------------------:|:-------------:|
-| **/** | Sí tiene sesión, redirige a **/home**, si no **/landing** |       -       |
+|  URL  |                     Contenido                      | Requerimiento |
+|:-----:|:--------------------------------------------------:|:-------------:|
+| **/** | Sí tiene sesión, redirige a **/home**, si no **/** |       -       |
 
 ## URLs ANONIMAS
 
-|     URL      |            Contenido            | Requerimiento |
-|:------------:|:-------------------------------:|:-------------:|
-| **/landing** |            Propósito            |       1       |
-| **/landing** |     Login (redirect /home)      |       5       |
-| **/landing** |    Registro (redirect /home)    |       4       |
-| **/landing** |            Ejemplos             |       1       |
-| **/landing** | Link a **/anonimo/colecciones** |       1       |
-| **/landing** |   Link a **/doc/legales.pdf**   |       1       |
+|  URL  |            Contenido            | Requerimiento |
+|:-----:|:-------------------------------:|:-------------:|
+| **/** |            Propósito            |       1       |
+| **/** |          Form de Login          |       5       |
+| **/** |        Form de Registro         |       4       |
+| **/** |            Ejemplos             |       1       |
+| **/** | Link a **/anonimo/colecciones** |       1       |
+| **/** |   Link a **/doc/legales.pdf**   |       1       |
 
 |             URL             |                Contenido                | Requerimiento |
 |:---------------------------:|:---------------------------------------:|:-------------:|

@@ -28,14 +28,6 @@ public class AnonimoControlador {
     return "anonimo/landing.html";
   }
 
-  @GetMapping("/login")
-  public String login(Authentication authentication, Model model) {
-    if (authentication != null && authentication.isAuthenticated())
-      return "redirect:home";
-    model.addAttribute("titulo", "Inicio de Sesion - LogIn");
-    return "anonimo/login.html";
-  }
-
   @GetMapping("/anonimo/colecciones")
   public String colecciones(Model model) {
     List<ColeccionDTO> colecciones = agregadorServicio.colecciones();
