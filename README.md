@@ -15,7 +15,7 @@
 | **/landing** |    Registro (redirect /home)    |       4       |
 | **/landing** |            Ejemplos             |       1       |
 | **/landing** | Link a **/anonimo/colecciones** |       1       |
-| **/legales** |   Link a **/doc/legales.pdf**   |       1       |
+| **/landing** |   Link a **/doc/legales.pdf**   |       1       |
 
 |             URL             |                Contenido                | Requerimiento |
 |:---------------------------:|:---------------------------------------:|:-------------:|
