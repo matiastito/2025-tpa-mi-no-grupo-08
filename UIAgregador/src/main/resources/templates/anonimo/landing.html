@@ -1,6 +1,12 @@
 <html th:replace="~{layout/baseAnonimo :: html}">
 <div th:fragment="contenido">
     <h1>Propositos y Objetivos</h1>
+    <div class="alert alert-danger mt-3" th:if="${param.unauthorized}">
+        Usuario o contraseña incorrectos
+    </div>
+    <div class="alert alert-success mt-3" th:if="${param.logout}">
+        Sesión cerrada correctamente
+    </div>
     <div class="m-4 form-check form-switch">
         <input class="form-check-input" id="switchCheckDefault" role="switch" type="checkbox">
         <label class="form-check-label" for="switchCheckDefault"><span

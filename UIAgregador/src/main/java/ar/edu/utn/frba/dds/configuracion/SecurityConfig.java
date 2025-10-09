@@ -32,7 +32,7 @@ public class SecurityConfig {
             .anyRequest().authenticated()
         )
         .formLogin(form -> form
-            .loginPage("/login")    // tu template de login
+            .loginPage("/")    // tu template de login
             .permitAll()
             .defaultSuccessUrl("/home", true) // redirigir tras login exitoso
         )
@@ -44,7 +44,7 @@ public class SecurityConfig {
         .exceptionHandling(ex -> ex
             // Usuario no autenticado → redirigir a login
             .authenticationEntryPoint((request, response, authException) ->
-                response.sendRedirect("/login?unauthorized")
+                response.sendRedirect("?unauthorized")
             )
             // Usuario autenticado pero sin permisos → redirigir a página de error
             .accessDeniedHandler((request, response, accessDeniedException) ->
