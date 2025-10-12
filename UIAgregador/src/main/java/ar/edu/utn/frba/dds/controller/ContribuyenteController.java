@@ -12,7 +12,7 @@ public class ContribuyenteController {
 
   @GetMapping("/home")
   public String home(Authentication authentication, Model model) {
-    model.addAttribute("titulo", "Biennvenido");
+    model.addAttribute("titulo", "Biennvenido Contribuyente");
     return "contribuyente/home.html";
   }
 }

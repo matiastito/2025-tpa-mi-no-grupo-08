@@ -13,6 +13,6 @@ public class HomeController {
     boolean isAdmin = authentication.getAuthorities()
         .stream()
         .anyMatch(g -> g.getAuthority().equalsIgnoreCase("ROLE_ADMIN"));
-    return isAdmin ? "redirect:admin/home" : "redirect:contribuyemte/home";
+    return isAdmin ? "redirect:admin/home" : "redirect:contribuyente/home";
   }
 }

@@ -20,31 +20,33 @@ public class SecurityConfig {
         .build();
   }
 
-
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests(auth -> auth
-            // Recursos estáticos y login público
-            .requestMatchers("/", "/anonimo/**", "/css/**", "/js/**", "/images/**", "/doc/**").permitAll()
+            .requestMatchers("/", "/anonimo/**").permitAll()
+            // Recursos estáticos
+            .requestMatchers("/css/**", "/js/**", "/images/**", "/doc/**").permitAll()
+            // Registro
+            .requestMatchers("/registrar").permitAll()
             .requestMatchers("/admin/**").hasRole("ADMIN")
             .requestMatchers("/contribuyente/**").hasRole("CONTRIBUYENTE")
             .anyRequest().authenticated()
         )
         .formLogin(form -> form
-            .loginPage("/")    // tu template de login
+            .loginPage("/login")    // tu template de login
             .permitAll()
             .defaultSuccessUrl("/home", true) // redirigir tras login exitoso
         )
         .logout(logout -> logout
             .logoutUrl("/logout")
-            .logoutSuccessUrl("/login?logout") // redirigir tras logout
+            .logoutSuccessUrl("/?logout") // redirigir tras logout
             .permitAll()
         )
         .exceptionHandling(ex -> ex
             // Usuario no autenticado → redirigir a login
             .authenticationEntryPoint((request, response, authException) ->
-                response.sendRedirect("?unauthorized")
+                response.sendRedirect("/?unauthorized")
             )
             // Usuario autenticado pero sin permisos → redirigir a página de error
             .accessDeniedHandler((request, response, accessDeniedException) ->

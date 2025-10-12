@@ -19,17 +19,14 @@ public class ExternalAuthService {
   private final WebClient webClient;
   private final WebAPICallerService webApiCallerService;
   private final String authServiceUrl;
-  private final String alumnosServiceUrl;
 
   @Autowired
   public ExternalAuthService(
       WebAPICallerService webApiCallerService,
-      @Value("${auth.service.url}") String authServiceUrl,
-      @Value("${alumnos.service.url}") String alumnosServiceUrl) {
+      @Value("${auth.service.url}") String authServiceUrl) {
     this.webClient = WebClient.builder().build();
     this.webApiCallerService = webApiCallerService;
     this.authServiceUrl = authServiceUrl;
-    this.alumnosServiceUrl = alumnosServiceUrl;
   }
 
   public AuthResponseDTO login(String username, String password) {
@@ -70,6 +67,15 @@ public class ExternalAuthService {
       log.error(e.getMessage());
       throw new RuntimeException("Error al obtener roles y permisos: " + e.getMessage(), e);
     }
+  }
+
+  public void registrar(String username, String password, String nombre) {
+    webClient.post()
+        .uri(authServiceUrl + "/auth/user")
+        .bodyValue(of("username", username, "password", password, "nombre", nombre))
+        .retrieve()
+        .toBodilessEntity()
+        .block();
   }
 
   /*

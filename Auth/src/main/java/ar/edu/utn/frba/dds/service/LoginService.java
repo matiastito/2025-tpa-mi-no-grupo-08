@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.service;
 
+import static ar.edu.utn.frba.dds.model.Rol.CONTRIBUYENTE;
+
 import ar.edu.utn.frba.dds.dto.UserRolesDTO;
 import ar.edu.utn.frba.dds.exception.NotFoundException;
 import ar.edu.utn.frba.dds.model.Usuario;
@@ -58,5 +60,23 @@ public class LoginService {
         .username(usuario.getNombreDeUsuario())
         .rol(usuario.getRol())
         .build();
+  }
+
+  public boolean registrarUsuario(String nombre, String username, String passwordPlano) {
+    // Verificamos si ya existe un usuario con ese nombre de usuario
+    Optional<Usuario> existente = usuariosRepository.findByNombreDeUsuario(username);
+    if (existente.isPresent()) {
+      return false;
+    }
+
+    // Creamos el nuevo usuario
+    Usuario nuevo = new Usuario();
+    nuevo.setNombre(nombre);
+    nuevo.setNombreDeUsuario(username);
+    nuevo.setContrasenia(passwordEncoder.encode(passwordPlano));
+    nuevo.setRol(CONTRIBUYENTE);
+
+    usuariosRepository.save(nuevo);
+    return true;
   }
 }

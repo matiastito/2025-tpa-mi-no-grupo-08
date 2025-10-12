@@ -8,14 +8,15 @@
 
 ## URLs ANONIMAS
 
-|  URL  |            Contenido            | Requerimiento |
-|:-----:|:-------------------------------:|:-------------:|
-| **/** |            Propósito            |       1       |
-| **/** |          Form de Login          |       5       |
-| **/** |        Form de Registro         |       4       |
-| **/** |            Ejemplos             |       1       |
-| **/** | Link a **/anonimo/colecciones** |       1       |
-| **/** |   Link a **/doc/legales.pdf**   |       1       |
+|      URL       |            Contenido            | Requerimiento |
+|:--------------:|:-------------------------------:|:-------------:|
+|     **/**      |            Propósito            |       1       |
+|     **/**      | Link a **/anonimo/colecciones** |       1       |
+|     **/**      | Link a **/anonimo/hecho/crear** |       1       |
+|     **/**      |   Link a **/doc/legales.pdf**   |       1       |
+|     **/**      |            Ejemplos             |       1       |
+|   **/login**   |          Form de Login          |       5       |
+| **/registrar** |        Form de Registro         |       4       |
 
 |             URL             |                Contenido                | Requerimiento |
 |:---------------------------:|:---------------------------------------:|:-------------:|
@@ -50,11 +51,12 @@
 
 # Auth Routing
 
-|            URL             |  Contenido  |     ROL     |
-|:--------------------------:|:-----------:|:-----------:|
-|     **POST /api/auth**     | AccessToken |      -      |
-| **POST /api/auth/refresh** |  Refresca   |      -      |
-|    **GET /user/roles**     |  Refresca   | Autemticado |
+|            URL             |  Contenido   |     ROL     |
+|:--------------------------:|:------------:|:-----------:|
+|     **POST /api/auth**     | AccessToken  |      -      |
+| **POST /api/auth/refresh** |   Refresca   |      -      |
+|       **POST /user**       | Crea Usuario |      -      |
+|    **GET /user/roles**     |   Refresca   | Autenticado |
 
 # Agregador
 

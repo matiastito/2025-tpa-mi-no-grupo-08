@@ -1,0 +1,24 @@
+<html th:replace="~{layout/baseAnonimo :: html}">
+<main th:fragment="contenido" class="auth-main">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/auth.css}"/>
+    <div class="auth-card">
+        <h1>Iniciar sesión</h1>
+        <form th:action="@{/login}" method="post">
+            <label>Usuario</label>
+            <input type="text" name="username" required/>
+
+            <label>Contraseña</label>
+            <input type="password" name="password" required/>
+
+            <button class="btn btn-primary" type="submit">Ingresar</button>
+        </form>
+
+        <p class="muted">¿No tenés cuenta? <a th:href="@{/registrar}">Registrate</a></p>
+    </div>
+</main>
+</html>
+<script>
+    $(document).ready(function() {
+    });
+</script>

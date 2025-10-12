@@ -1,76 +1,59 @@
 <html th:replace="~{layout/baseAnonimo :: html}">
-<div th:fragment="contenido">
-    <h1>Propositos y Objetivos</h1>
-    <div class="alert alert-danger mt-3" th:if="${param.unauthorized}">
-        Usuario o contraseña incorrectos
-    </div>
-    <div class="alert alert-success mt-3" th:if="${param.logout}">
-        Sesión cerrada correctamente
-    </div>
-    <div class="m-4 form-check form-switch">
-        <input class="form-check-input" id="switchCheckDefault" role="switch" type="checkbox">
-        <label class="form-check-label" for="switchCheckDefault"><span
-                class="badge rounded-pill bg-primary">REGISTRACION</span></label>
-    </div>
-    <form class="p-4" id="loginForm" method="post" th:action="@{/login}">
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="username">Usuario</label>
-            <div class="col-sm-10">
-                <input autofocus class="form-control" id="username" name="username" required
-                       type="text">
+<main th:fragment="contenido">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/landing.css}">
+    <section class="hero">
+        <div class="container hero-inner">
+            <h1 class="hero-title">
+                Inteligencia colectiva para el
+                <span class="highlight">Cambio Social</span>
+            </h1>
+            <p class="hero-sub">
+                MetaMapa permite la recopilación, visualización y mapeo colaborativo de información geográfica
+                para organizaciones civiles, universidades y organismos estatales.
+            </p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" th:href="@{/anonimo/colecciones}"><span class="icon">👁️</span> Explorar mapa</a>
+                <a class="btn btn-primary" th:href="@{/anonimo/hecho/crear}"><span class="icon">⤴️</span> Contribuir</a>
+                <a class="btn btn-primary" th:href="@{/doc/aspectosLegales.pdf}"><span class="icon">⤴️</span>
+                    Legales</a>
             </div>
         </div>
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="password">Contraseña</label>
-            <div class="col-sm-10">
-                <input class="form-control" id="password" name="password" required type="password">
+    </section>
+    <section class="purpose">
+        <div class="container">
+            <h2 class="purpose-title">Propósito y objetivos</h2>
+            <p class="purpose-sub">
+                Diseñado para maximizar la disponibilidad y veracidad de la información,
+                protegiendo la identidad de los usuarios.
+            </p>
+
+            <div class="features">
+                <article class="feature">
+                    <img th:src="@{/images/mapeo.png}" alt="Mapeo interactivo" class="feature-img">
+                    <h3 class="feature-title">Mapeo interactivo</h3>
+                    <p class="feature-desc">Visualizá hechos en un mapa interactivo con filtros por fecha y
+                        ubicación.</p>
+                </article>
+                <article class="feature">
+                    <img th:src="@{/images/colaboration.jpg}" alt="Colaboración abierta" class="feature-img">
+                    <h3 class="feature-title">Colaboración abierta</h3>
+                    <p class="feature-desc">Contribuciones anónimas y verificación mediante herramientas de
+                        consenso.</p>
+                </article>
+                <article class="feature">
+                    <img th:src="@{/images/privacy.jpeg}" alt="Privacidad protegida" class="feature-img">
+                    <h3 class="feature-title">Privacidad protegida</h3>
+                    <p class="feature-desc">No se recopilan datos de visitantes; anonimato y protección de
+                        identidad.</p>
+                </article>
             </div>
         </div>
-        <div class="d-grid">
-            <button class="btn btn-primary" type="submit">Ingresar</button>
-        </div>
-    </form>
-    <form class="p-4" id="registrarForm" method="post" th:action="@{/registrar}">
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="username">Usuario</label>
-            <div class="col-sm-10">
-                <input autofocus class="form-control" id="username" name="username" required
-                       type="text">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="username">Nombre</label>
-            <div class="col-sm-10">
-                <input autofocus class="form-control" id="nombre" name="username" required
-                       type="text">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-labellabel" for="password">Contraseña</label>
-            <div class="col-sm-10">
-                <input class="form-control" id="password" name="password" required type="password">
-            </div>
-        </div>
-        <div class="d-grid">
-            <button class="btn btn-primary" type="submit">REGISTRAR</button>
-        </div>
-    </form>
-    <h1>Ejemplos de Colecciones y Hechos</h1>
-    <h6>TODO Agregar Ejemplos</h6>
-    <h1><a href="/doc/legales.pdf">Legales</a></h1>
-</div>
+    </section>
+</main>
 </html>
 <script>
     $(document).ready(function() {
-        $('#registrarForm').hide();
-        $('#switchCheckDefault').click(function() {
-            $('#registrarForm').toggle();
-            $('#loginForm').toggle();
-            if ($(this).is(':checked')) {
-                $("#titulo").text("Registración");
-            } else {
-                $("#titulo").text("LogIn");
-            }
-        });
+
     });
 </script>

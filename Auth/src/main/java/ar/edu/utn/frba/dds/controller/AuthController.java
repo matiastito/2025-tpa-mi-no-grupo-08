@@ -4,14 +4,17 @@ import static ar.edu.utn.frba.dds.util.JWTUtil.generarAccessToken;
 import static ar.edu.utn.frba.dds.util.JWTUtil.getKey;
 import static ar.edu.utn.frba.dds.util.JWTUtil.validarToken;
 import static io.jsonwebtoken.Jwts.parserBuilder;
+import static java.util.Map.of;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.ResponseEntity.badRequest;
 import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.http.ResponseEntity.status;
 
 import ar.edu.utn.frba.dds.dto.AuthResponseDTO;
 import ar.edu.utn.frba.dds.dto.RefreshRequest;
 import ar.edu.utn.frba.dds.dto.TokenResponse;
+import ar.edu.utn.frba.dds.dto.UserDTO;
 import ar.edu.utn.frba.dds.dto.UserRolesDTO;
 import ar.edu.utn.frba.dds.exception.NotFoundException;
 import ar.edu.utn.frba.dds.service.LoginService;
@@ -66,7 +69,7 @@ public class AuthController {
 
       return ok(response);
     } catch (NotFoundException e) {
-      return ResponseEntity.status(NOT_FOUND).build();
+      return status(NOT_FOUND).build();
     } catch (Exception e) {
       return badRequest().build();
     }
@@ -92,6 +95,29 @@ public class AuthController {
       TokenResponse response = new TokenResponse(newAccessToken, request.getRefreshToken());
 
       return ok(response);
+    } catch (Exception e) {
+      return badRequest().build();
+    }
+  }
+
+  @PostMapping("/user")
+  public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
+    try {
+      if (userDTO.getUsername().isBlank() || userDTO.getPassword().isBlank() || userDTO.getNombre().isBlank()) {
+        return badRequest().body("Faltan campos obligatorios");
+      }
+
+      // Delegamos la creación en el servicio
+      boolean creado = loginService.registrarUsuario(
+          userDTO.getNombre().trim(), userDTO.getUsername().trim(), userDTO.getPassword());
+      if (!creado) {
+        return status(409).body("El usuario ya existe");
+      }
+
+      return status(201).body(of(
+          "username", userDTO.getUsername().trim(),
+          "rol", "ROLE_CONTRIBUYENTE"
+      ));
     } catch (Exception e) {
       return badRequest().build();
     }
