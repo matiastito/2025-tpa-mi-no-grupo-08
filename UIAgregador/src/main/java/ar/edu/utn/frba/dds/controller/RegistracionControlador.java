@@ -36,10 +36,10 @@ public class RegistracionControlador {
     try {
       externalAuthService.registrar(username, password, nombre);
       ra.addFlashAttribute("msjOk", "Registro exitoso. Ingresá con tus credenciales.");
-      return "redirect:/";
+      return "redirect:/login";
     } catch (Exception e) {
       ra.addFlashAttribute("msjError", "No se pudo registrar: " + e.getMessage());
-      return "redirect:/";
+      return "redirect:/registrar";
     }
   }
 }

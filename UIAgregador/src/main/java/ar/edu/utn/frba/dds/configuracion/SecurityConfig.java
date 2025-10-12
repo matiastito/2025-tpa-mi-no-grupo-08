@@ -41,6 +41,8 @@ public class SecurityConfig {
         .logout(logout -> logout
             .logoutUrl("/logout")
             .logoutSuccessUrl("/?logout") // redirigir tras logout
+            .invalidateHttpSession(true)
+            .clearAuthentication(true)
             .permitAll()
         )
         .exceptionHandling(ex -> ex
