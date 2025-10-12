@@ -13,15 +13,6 @@
     <!-- JQuey -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="/css/style.css" rel="stylesheet">
-
-    <!-- MAPA -->
-    <link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          rel="stylesheet"
-          th:if="${colecciones}"/>
-    <script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            th:if="${colecciones}"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!-- Fragmento de navegación -->
@@ -85,24 +76,5 @@
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/js/map.js"></script>
-<script th:if="${colecciones}" th:inline="javascript">
-    /*
-    <![CDATA[
-    */
-        var marker = L.marker([-34.649766, -58.454446]).addTo(map);
-    /*]]>
-    */
-</script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-
-    let ubicaciones = [[${ubicaciones}]]
-
-    ubicaciones.forEach(function(ubicacion) {
-        L.marker([ubicacion.lat, ubicacion.lon]).addTo(map);
-    });
-    /*]]>*/
-</script>
 </body>
 </html>

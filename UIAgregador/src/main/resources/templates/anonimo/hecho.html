@@ -1,15 +1,49 @@
 <html th:replace="~{layout/baseAnonimo :: html}">
 <main th:fragment="contenido" class="auth-main">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" th:href="@{/css/auth.css}"/>
     <div class="auth-card">
         <h1>Contribuir</h1>
         <form th:action="@{/hecho}" method="post">
+            <label>Categoria</label>
+            <select id="categoria" name="categoria">
+                <option value="1">Incendio</option>
+            </select>
+            <label>Titulo</label>
+            <input id="titulo" type="text" name="titulo" required/>
             <label>Descripcion</label>
-            <input type="text" name="descripcion" required/>
+            <input id="descripcion" type="text" name="descripcion" required/>
+            <label>Fecha</label>
+            <input id="fecha" type="date" name="fecha" required/>
+            <label>Latitud</label>
+            <input id="latitud" type="text" name="latitud" required disabled/>
+            <label>Longitud</label>
+            <input id="longitud" type="text" name="longitud" required disabled/>
 
             <button class="btn btn-primary" type="submit">Crear</button>
         </form>
     </div>
+    <div id="map"></div>
 </main>
 </html>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" th:href="@{/css/auth.css}"/>
+<link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      rel="stylesheet"/>
+<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- MAPA -->
+<link rel="stylesheet"
+      crossorigin=""
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="/>
+<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/js/map.js"></script>
+<script>
+    $(document).ready(function() {
+        map.on('click', function () {
+            $("#latitud").val(ubicacion.lat);
+            $("#longitud").val(ubicacion.lng);
+        });
+    });
+</script>

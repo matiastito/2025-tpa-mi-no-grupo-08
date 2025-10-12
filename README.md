@@ -26,8 +26,6 @@
 | **/anonimo/coleccion/{id}** |              Detalle Hecho              |       9       |
 | **/anonimo/coleccion/{id}** | Tabla de Hechos (Solicitud Eliminacion) |      10       |
 | **/anonimo/coleccion/{id}** |        Tabla de Hechos (Filtros)        |       7       |
-| **/anonimo/coleccion/{id}** |              Detalle Hecho              |       9       |
-| **/anonimo/coleccion/{id}** | Tabla de Hechos (Solicitud Eliminacion) |      10       |
 
 ## URLs Protegidas (con autenticación)
 
