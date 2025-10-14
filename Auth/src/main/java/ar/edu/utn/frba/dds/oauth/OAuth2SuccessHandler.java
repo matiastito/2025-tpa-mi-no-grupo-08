@@ -55,7 +55,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     String base = uiRedirect.endsWith("/") ? uiRedirect.substring(0, uiRedirect.length()-1) : uiRedirect;
     String redirect = base + "/sso/callback?token=" + URLEncoder.encode(accessToken, StandardCharsets.UTF_8);
 
-    log.info("✅ [Auth] SSO OK para {}. Redirigiendo a: {}", email, redirect);  // <-- VER ESTO EN CONSOLA
+    log.info("[Auth] SSO OK para {}. Redirigiendo a: {}", email, redirect); 
     response.sendRedirect(redirect);
   }
 

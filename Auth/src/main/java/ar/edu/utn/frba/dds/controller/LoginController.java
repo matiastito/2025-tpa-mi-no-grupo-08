@@ -10,7 +10,6 @@ public class LoginController {
   @GetMapping("/login")
   @ResponseBody
   public String login() {
-    // Página mínima con un botón de Google
     return """
       <html><head><meta charset='utf-8'><title>Login</title></head>
       <body style="font-family: sans-serif; margin:40px">

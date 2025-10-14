@@ -2,14 +2,16 @@
 <main th:fragment="contenido" class="auth-main">
     <div class="auth-card">
         <h1>Iniciar sesión</h1>
-        <form th:action="@{/login}" method="post" input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
-            <label>Usuario</label>
-            <input type="text" name="username" required/>
+        <form th:action="@{/login}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
-            <label>Contraseña</label>
-            <input type="password" name="password" required/>
+        <label>Usuario</label>
+        <input type="text" name="username" required/>
 
-            <button class="btn btn-primary" type="submit">Ingresar</button>
+        <label>Contraseña</label>
+        <input type="password" name="password" required/>
+
+        <button class="btn btn-primary" type="submit">Ingresar</button>
         </form>
 
     <div class="auth-divider"><span>o</span></div>

@@ -41,13 +41,11 @@ public class LoginService {
   }
 
   public String generarAccessToken(String username) {
-    // ANTES: return JWTUtil.generarAccessToken(username);
-    return jwtUtil.generarAccessToken(username); // <-- instancia
+    return jwtUtil.generarAccessToken(username); 
   }
 
   public String generarRefreshToken(String username) {
-    // ANTES: return JWTUtil.generarRefreshToken(username);
-    return jwtUtil.generarRefreshToken(username); // <-- instancia
+    return jwtUtil.generarRefreshToken(username);
   }
 
   public UserRolesDTO obtenerRolesUsuario(String username) {

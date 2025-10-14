@@ -43,7 +43,7 @@ public class AuthController {
   /**
    * Login clásico (usuario/contraseña).
    * Devuelve tokens por JSON y además setea cookie HttpOnly "JWT" con el access token
-   * (mismo mecanismo que usamos en SSO para que el UI detecte sesión).
+   * (replico el mismo mecanismo en SSO para que el UI detecte sesión).
    */
   @PostMapping
   public ResponseEntity<AuthResponseDTO> loginApi(@RequestBody Map<String, String> credentials,
@@ -56,10 +56,8 @@ public class AuthController {
         return badRequest().build();
       }
 
-      // Autenticar usuario
       loginService.autenticarUsuario(username, password);
 
-      // Datos visibles y rol (ajustá según tu modelo real)
       String name = username;                
       String role = "ROLE_CONTRIBUYENTE";
 
@@ -71,11 +69,10 @@ public class AuthController {
       );
       String refreshToken = jwtUtil.generarRefreshToken(username);
 
-      // Cookie con el access token (para que el filtro JWT te deje autenticada en el UI)
+      // Cookie con el access token
       Cookie cookie = new Cookie("JWT", accessToken);
       cookie.setHttpOnly(true);
       cookie.setPath("/");
-      // En HTTPS real: cookie.setSecure(true) y SameSite=None (si tu JDK lo soporta)
       response.addCookie(cookie);
 
       AuthResponseDTO body = AuthResponseDTO.builder()
@@ -163,7 +160,7 @@ public class AuthController {
         return status(409).body("El usuario ya existe");
       }
 
-      // Por defecto, asignamos contribuyente (ajustá si corresponde)
+      // Por defecto, asignamos contribuyente
       return status(201).body(of(
           "username", userDTO.getUsername().trim(),
           "rol", "ROLE_CONTRIBUYENTE"

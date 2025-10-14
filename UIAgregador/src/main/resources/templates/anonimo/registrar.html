@@ -2,20 +2,21 @@
 <main th:fragment="contenido" class="auth-main">
     <div class="auth-card">
         <h1>Registración</h1>
-        <form th:action="@{/registrar}" method="post" input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
->
-            <label>Nombre</label>
-            <input type="text" name="nombre" required/>
+        <form th:action="@{/registrar}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
-            <label>Usuario</label>
-            <input type="text" name="username" required/>
+        <label>Nombre</label>
+        <input type="text" name="nombre" required/>
 
-            <label>Contraseña</label>
-            <input type="password" name="password" required/>
+        <label>Usuario</label>
+        <input type="text" name="username" required/>
 
-            <button class="btn btn-primary" type="submit">Crear cuenta</button>
+        <label>Contraseña</label>
+        <input type="password" name="password" required/>
+
+        <button class="btn btn-primary" type="submit">Crear cuenta</button>
         </form>
-        
+
     <div class="auth-divider"><span>o</span></div>
 
     <div class="auth-social">

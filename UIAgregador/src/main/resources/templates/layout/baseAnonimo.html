@@ -49,11 +49,12 @@
         <div class="alert alert-success mt-3" th:if="${param.logout}">
             Sesión cerrada correctamente
         </div>
-        <div class="alert alert-danger mt-3" th:if="${param.unauthorized}">
-            Usuario o contraseña incorrectos
+        <div class="alert alert-danger mt-3" th:if="${param.error}">
+        Usuario o contraseña incorrectos
         </div>
-        <div th:if="${param.error}" class="alert alert-danger">
-            Usuario o contraseña incorrectos
+
+        <div class="alert alert-warning mt-3" th:if="${param.unauthorized}">
+        No pudimos iniciar sesión por un error del sistema. Probá nuevamente.
         </div>
         <div th:if="${msjOk}" class="alert alert-success" th:text="${msjOk}"></div>
         <div th:if="${msjError}" class="alert alert-danger" th:text="${msjError}"></div>

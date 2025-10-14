@@ -20,7 +20,7 @@ import ar.edu.utn.frba.dds.servicio.ExternalAuthService;
 @Controller
 public class SsoController {
 
-  private static final Logger log = LoggerFactory.getLogger(SsoController.class); // <-- NUEVO
+  private static final Logger log = LoggerFactory.getLogger(SsoController.class); 
 
   private final ExternalAuthService externalAuthService;
 
@@ -33,9 +33,9 @@ public class SsoController {
     String safe = token == null ? "(null)" : token.substring(0, Math.min(10, token.length()));
     log.info("👉 [SsoController] Callback recibido con token: {}...", safe);
 
-    // ✅ Forzar siempre CONTRIBUYENTE en el flujo SSO
+    // Siempre es rol contribuyente por defecto con sso
     String roleName = "ROLE_CONTRIBUYENTE";
-    String username = "usuario"; // opcional: podés sustituirlo si luego querés traerlo del token
+    String username = "usuario"; 
 
     var auth = new UsernamePasswordAuthenticationToken(
         username,
@@ -43,7 +43,6 @@ public class SsoController {
         List.of(new SimpleGrantedAuthority(roleName))
     );
 
-    // Persistir en SecurityContext + sesión HTTP
     SecurityContext context = SecurityContextHolder.createEmptyContext();
     context.setAuthentication(auth);
     SecurityContextHolder.setContext(context);
@@ -51,7 +50,7 @@ public class SsoController {
         HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context
     );
 
-    // (opcional) guardar el JWT por si lo necesitás para otras llamadas
+
     request.getSession(true).setAttribute("JWT_TOKEN", token);
 
     return "redirect:/home";
