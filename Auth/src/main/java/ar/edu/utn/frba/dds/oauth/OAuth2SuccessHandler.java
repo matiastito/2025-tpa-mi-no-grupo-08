@@ -1,14 +1,11 @@
 package ar.edu.utn.frba.dds.oauth;
 
-import ar.edu.utn.frba.dds.model.Usuario;
-import ar.edu.utn.frba.dds.service.LoginService;
 import ar.edu.utn.frba.dds.util.JWTUtil;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -18,45 +15,45 @@ import org.springframework.stereotype.Component;
 @Component
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
-  @Autowired
-  private LoginService loginService;
+  private final JWTUtil jwtUtil;
 
-  @Value("${ui.redirect.success:http://localhost:8082/}")
+  @Value("${app.ui.redirect-uri:http://localhost:8080/}")
   private String uiRedirect;
+
+  public OAuth2SuccessHandler(JWTUtil jwtUtil) {
+    this.jwtUtil = jwtUtil;
+  }
 
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request,
                                       HttpServletResponse response,
-                                      Authentication authentication)
-      throws IOException, ServletException {
+                                      Authentication authentication) throws IOException {
+    OAuth2User principal = (OAuth2User) authentication.getPrincipal();
+    Map<String, Object> attrs = principal.getAttributes();
 
-    OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+    String email = (String) attrs.getOrDefault("email", "");
+    String name  = (String) attrs.getOrDefault("name", email);
 
-    String email = (String) oAuth2User.getAttributes().get("email");
-    if (email == null) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-          "No se recibió el email del proveedor OAuth2");
-      return;
-    }
+    // TODO: resolver/crear usuario y rol real según tu modelo
+    String role = resolveUserRole(email); // "ROLE_ADMIN" o "ROLE_CONTRIBUYENTE"
 
-    String nombre = (String) oAuth2User.getAttributes().getOrDefault("name", email);
+    String accessToken = jwtUtil.generarAccessToken(email, role, name);
 
-    // upsert en base local
-    Usuario usuario = loginService.upsertFromSocial(email, nombre);
-
-    // Generar access token
-    String jwt = JWTUtil.generarAccessToken(usuario.getNombreDeUsuario());
-
-    // Enviar JWT en cookie HttpOnly
-    Cookie cookie = new Cookie("JWT", jwt);
+    Cookie cookie = new Cookie("JWT", accessToken);
     cookie.setHttpOnly(true);
     cookie.setPath("/");
-    cookie.setMaxAge(60 * 60 * 4); 
-    // cookie.setSecure(true); // activar en prod con HTTPS
+    // En localhost con HTTP: NO uses Secure ni SameSite=None (puede descartarla el navegador).
+    // En HTTPS real: cookie.setSecure(true) y SameSite=None.
+
     response.addCookie(cookie);
-    // Redirigir a UI
     response.sendRedirect(uiRedirect);
   }
+
+  private String resolveUserRole(String email) {
+    if (email != null && email.endsWith("@utn.edu.ar")) return "ROLE_ADMIN";
+    return "ROLE_CONTRIBUYENTE";
+  }
 }
+
 
 

@@ -1,48 +1,76 @@
 package ar.edu.utn.frba.dds.util;
 
-import static io.jsonwebtoken.SignatureAlgorithm.HS256;
-import static io.jsonwebtoken.security.Keys.secretKeyFor;
-import static java.lang.System.currentTimeMillis;
-
-import io.jsonwebtoken.Jwts;
-import java.security.Key;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JWTUtil {
-  private static final Key key = secretKeyFor(HS256);
 
-  private static final long ACCESS_TOKEN_VALIDITY = 15 * 60 * 1000; // 15 min
-  private static final long REFRESH_TOKEN_VALIDITY = 7 * 24 * 60 * 60 * 1000; // 7 días
+  @Value("${app.jwt.secret}")
+  private String secret;
 
-  public static String generarAccessToken(String username) {
+  @Value("${app.jwt.access-ttl-seconds:86400}")   // 24 hs por defecto
+  private long accessTtlSeconds;
+
+  @Value("${app.jwt.refresh-ttl-seconds:604800}") // 7 días por defecto
+  private long refreshTtlSeconds;
+
+  /**
+   * Genera un Access Token con claims de rol y nombre visible.
+   */
+  public String generarAccessToken(String username, String role, String name) {
+    Instant now = Instant.now();
     return Jwts.builder()
         .setSubject(username)
-        .setIssuer("gestion-alumnos-server")
-        .setExpiration(new Date(currentTimeMillis() + ACCESS_TOKEN_VALIDITY))
-        .signWith(key)
+        .claim("role", role)
+        .claim("name", name)
+        .setIssuedAt(Date.from(now))
+        .setExpiration(Date.from(now.plusSeconds(accessTtlSeconds)))
+        .signWith(Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8)), SignatureAlgorithm.HS256)
         .compact();
   }
 
-  public static String generarRefreshToken(String username) {
+  /**
+   * Compatibilidad: si algún código viejo solo pasa username,
+   * asumimos ROLE_CONTRIBUYENTE y name = username.
+   */
+  public String generarAccessToken(String username) {
+    return generarAccessToken(username, "ROLE_CONTRIBUYENTE", username);
+  }
+
+  /**
+   * Genera un Refresh Token con claim type=refresh.
+   */
+  public String generarRefreshToken(String username) {
+    Instant now = Instant.now();
     return Jwts.builder()
         .setSubject(username)
-        .setIssuer("gestion-alumnos-server")
-        .setExpiration(new Date(currentTimeMillis() + REFRESH_TOKEN_VALIDITY))
-        .claim("type", "refresh") // diferenciamos refresh del access
-        .signWith(key)
+        .claim("type", "refresh")
+        .setIssuedAt(Date.from(now))
+        .setExpiration(Date.from(now.plusSeconds(refreshTtlSeconds)))
+        .signWith(Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8)), SignatureAlgorithm.HS256)
         .compact();
   }
 
-  public static String validarToken(String token) {
+  /**
+   * Parsea y valida la firma/expiración del token, devolviendo el JWS para leer claims.
+   */
+  public Jws<Claims> parse(String token) throws JwtException {
     return Jwts.parserBuilder()
-        .setSigningKey(key)
+        .setSigningKey(secret.getBytes(StandardCharsets.UTF_8))
         .build()
-        .parseClaimsJws(token)
-        .getBody()
-        .getSubject();
+        .parseClaimsJws(token);
   }
 
-  public static Key getKey() {
-    return key;
+  /**
+   * Compatibilidad: devuelve el 'sub' (username) si el token es válido.
+   */
+  public String validarToken(String token) {
+    return parse(token).getBody().getSubject();
   }
 }

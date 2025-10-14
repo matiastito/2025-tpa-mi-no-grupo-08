@@ -16,10 +16,12 @@ public class LoginService {
 
   private final UsuariosRepository usuariosRepository;
   private final BCryptPasswordEncoder passwordEncoder;
+  private final JWTUtil jwtUtil; // <-- inyectamos el bean
 
-  public LoginService(UsuariosRepository usuariosRepository) {
+  public LoginService(UsuariosRepository usuariosRepository, JWTUtil jwtUtil) {
     this.usuariosRepository = usuariosRepository;
     this.passwordEncoder = new BCryptPasswordEncoder();
+    this.jwtUtil = jwtUtil; // <-- guardamos la instancia
   }
 
   public Usuario autenticarUsuario(String username, String password) {
@@ -31,7 +33,6 @@ public class LoginService {
 
     Usuario usuario = usuarioOpt.get();
 
-    // Verificar la contraseña usando BCrypt
     if (!passwordEncoder.matches(password, usuario.getContrasenia())) {
       throw new NotFoundException("Usuario", username);
     }
@@ -40,11 +41,13 @@ public class LoginService {
   }
 
   public String generarAccessToken(String username) {
-    return JWTUtil.generarAccessToken(username);
+    // ANTES: return JWTUtil.generarAccessToken(username);
+    return jwtUtil.generarAccessToken(username); // <-- instancia
   }
 
   public String generarRefreshToken(String username) {
-    return JWTUtil.generarRefreshToken(username);
+    // ANTES: return JWTUtil.generarRefreshToken(username);
+    return jwtUtil.generarRefreshToken(username); // <-- instancia
   }
 
   public UserRolesDTO obtenerRolesUsuario(String username) {
@@ -63,13 +66,11 @@ public class LoginService {
   }
 
   public boolean registrarUsuario(String nombre, String username, String passwordPlano) {
-    // Verificamos si ya existe un usuario con ese nombre de usuario
     Optional<Usuario> existente = usuariosRepository.findByNombreDeUsuario(username);
     if (existente.isPresent()) {
       return false;
     }
 
-    // Creamos el nuevo usuario
     Usuario nuevo = new Usuario();
     nuevo.setNombre(nombre);
     nuevo.setNombreDeUsuario(username);
@@ -79,32 +80,4 @@ public class LoginService {
     usuariosRepository.save(nuevo);
     return true;
   }
-
-  public Usuario upsertFromSocial(String email, String nombre) {
-    // Busco por nombreDeUsuario (en tu modelo, el "username")
-    Optional<Usuario> existente = usuariosRepository.findByNombreDeUsuario(email);
-    if (existente.isPresent()) {
-      Usuario u = existente.get();
-      // Si no tenía nombre, actualizo; podés ajustar esta lógica si querés
-      if (u.getNombre() == null || u.getNombre().isBlank()) {
-        u.setNombre(nombre);
-        usuariosRepository.save(u);
-      }
-      return u;
-    }
-
-    // Si no existe, lo creo con rol CONTRIBUYENTE por defecto
-    Usuario nuevo = new Usuario();
-    nuevo.setNombre(nombre);
-    nuevo.setNombreDeUsuario(email);
-
-    // Como es social login, no tenemos password real. Guardamos un hash dummy.
-    String dummy = "oauth2:" + email;
-    nuevo.setContrasenia(passwordEncoder.encode(dummy));
-
-    nuevo.setRol(CONTRIBUYENTE);
-    usuariosRepository.save(nuevo);
-    return nuevo;
-  }
-
 }
