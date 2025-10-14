@@ -31,10 +31,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request,
                                   HttpServletResponse response,
                                   FilterChain filterChain) throws ServletException, IOException {
-
-    String header = request.getHeader("Authorization");
-    if (header != null && header.startsWith("Bearer ")) {
-      String token = header.substring(7);
+    
+    String token = extraerToken(request);
+    
+    if(token != null) {
       try {
         String username = validarToken(token);
 
@@ -42,7 +42,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         var auth = new UsernamePasswordAuthenticationToken(
             username,
             null,
-            //TODO poner el Rol correcto, a partir del username
             singletonList(new SimpleGrantedAuthority("ROLE_" + userRolesDTO.getRol().name()))
         );
         getContext().setAuthentication(auth);
@@ -57,13 +56,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     filterChain.doFilter(request, response);
   }
 
+  private String extraerToken(HttpServletRequest request) {
+    // 1) Intentar por header Authorization: Bearer xxx
+    String header = request.getHeader("Authorization");
+    if (header != null && header.startsWith("Bearer ")) {
+      return header.substring(7);
+    }
+
+    // 2) Fallback: intentar por cookie "JWT"
+    if (request.getCookies() != null) {
+      for (jakarta.servlet.http.Cookie c : request.getCookies()) {
+        if ("JWT".equals(c.getName())) {
+          return c.getValue();
+        }
+      }
+    }
+    return null;
+  }
+
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) {
     String path = request.getRequestURI();
     String method = request.getMethod();
-    // No aplicar el filtro JWT solo a los endpoints públicos de autenticación y Registro
-    return path.equals("/api/auth")
-        || path.equals("/api/auth/refresh")
-        || (path.equals("/api/user") && method.equalsIgnoreCase("POST"));
+
+    // Endpoints públicos: auth/login, refresh, registro, y flujo OAuth2
+    if (path.equals("/api/auth") || path.equals("/api/auth/refresh")) return true;
+    if (path.equals("/api/auth/user") && method.equalsIgnoreCase("POST")) return true;
+
+    // OAuth2 (social login)
+    if (path.equals("/login")) return true;
+    if (path.startsWith("/oauth2/")) return true;
+    if (path.startsWith("/login/oauth2/")) return true;
+    if (path.startsWith("/css/") || path.startsWith("/js/") || path.startsWith("/img/") || path.equals("/error")) return true;
+
+    return false;
   }
+
 }

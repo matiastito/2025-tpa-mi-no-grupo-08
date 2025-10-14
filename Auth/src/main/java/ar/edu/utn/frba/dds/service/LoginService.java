@@ -79,4 +79,32 @@ public class LoginService {
     usuariosRepository.save(nuevo);
     return true;
   }
+
+  public Usuario upsertFromSocial(String email, String nombre) {
+    // Busco por nombreDeUsuario (en tu modelo, el "username")
+    Optional<Usuario> existente = usuariosRepository.findByNombreDeUsuario(email);
+    if (existente.isPresent()) {
+      Usuario u = existente.get();
+      // Si no tenía nombre, actualizo; podés ajustar esta lógica si querés
+      if (u.getNombre() == null || u.getNombre().isBlank()) {
+        u.setNombre(nombre);
+        usuariosRepository.save(u);
+      }
+      return u;
+    }
+
+    // Si no existe, lo creo con rol CONTRIBUYENTE por defecto
+    Usuario nuevo = new Usuario();
+    nuevo.setNombre(nombre);
+    nuevo.setNombreDeUsuario(email);
+
+    // Como es social login, no tenemos password real. Guardamos un hash dummy.
+    String dummy = "oauth2:" + email;
+    nuevo.setContrasenia(passwordEncoder.encode(dummy));
+
+    nuevo.setRol(CONTRIBUYENTE);
+    usuariosRepository.save(nuevo);
+    return nuevo;
+  }
+
 }
