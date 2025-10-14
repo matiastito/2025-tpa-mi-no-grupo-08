@@ -24,9 +24,9 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/", "/anonimo/**").permitAll()
+            .requestMatchers("/","/login", "/anonimo/**").permitAll()
             // Recursos estáticos
-            .requestMatchers("/css/**", "/js/**", "/images/**", "/doc/**").permitAll()
+            .requestMatchers("/sso/**","/css/**", "/js/**", "/images/**", "/doc/**").permitAll()
             // Registro
             .requestMatchers("/registrar").permitAll()
             .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -34,23 +34,21 @@ public class SecurityConfig {
             .anyRequest().authenticated()
         )
         .formLogin(form -> form
-            .loginPage("/login")    // tu template de login
+            .loginPage("/login")    
             .permitAll()
-            .defaultSuccessUrl("/home", true) // redirigir tras login exitoso
+            .defaultSuccessUrl("/home", true) 
         )
         .logout(logout -> logout
             .logoutUrl("/logout")
-            .logoutSuccessUrl("/?logout") // redirigir tras logout
+            .logoutSuccessUrl("/?logout") 
             .invalidateHttpSession(true)
             .clearAuthentication(true)
             .permitAll()
         )
         .exceptionHandling(ex -> ex
-            // Usuario no autenticado → redirigir a login
             .authenticationEntryPoint((request, response, authException) ->
                 response.sendRedirect("/?unauthorized")
             )
-            // Usuario autenticado pero sin permisos → redirigir a página de error
             .accessDeniedHandler((request, response, accessDeniedException) ->
                 response.sendRedirect("/403")
             )

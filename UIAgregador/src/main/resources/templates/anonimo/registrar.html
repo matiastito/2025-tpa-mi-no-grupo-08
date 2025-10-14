@@ -2,7 +2,8 @@
 <main th:fragment="contenido" class="auth-main">
     <div class="auth-card">
         <h1>Registración</h1>
-        <form th:action="@{/registrar}" method="post">
+        <form th:action="@{/registrar}" method="post" input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+>
             <label>Nombre</label>
             <input type="text" name="nombre" required/>
 

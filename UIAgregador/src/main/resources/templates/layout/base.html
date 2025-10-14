@@ -37,7 +37,8 @@
                 Crear Coleccióón
             </a>
             <form id="logoutForm" method="post" th:action="@{/logout}">
-                <button type="submit">Logout</button>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit">Logout</button>
             </form>
         </div>
     </div>

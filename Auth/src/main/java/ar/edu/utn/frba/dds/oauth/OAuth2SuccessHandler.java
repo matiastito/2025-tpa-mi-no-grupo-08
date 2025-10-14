@@ -6,6 +6,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -15,9 +21,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
+  private static final Logger log = LoggerFactory.getLogger(OAuth2SuccessHandler.class);
   private final JWTUtil jwtUtil;
 
-  @Value("${app.ui.redirect-uri:http://localhost:8080/}")
+  @Value("${app.ui.redirect-uri:http://localhost:9000}")
   private String uiRedirect;
 
   public OAuth2SuccessHandler(JWTUtil jwtUtil) {
@@ -34,25 +41,24 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     String email = (String) attrs.getOrDefault("email", "");
     String name  = (String) attrs.getOrDefault("name", email);
 
-    // TODO: resolver/crear usuario y rol real según tu modelo
-    String role = resolveUserRole(email); // "ROLE_ADMIN" o "ROLE_CONTRIBUYENTE"
+    // Siempre rol contribuyente en SSO
+    String role = "ROLE_CONTRIBUYENTE";
+
 
     String accessToken = jwtUtil.generarAccessToken(email, role, name);
 
     Cookie cookie = new Cookie("JWT", accessToken);
     cookie.setHttpOnly(true);
     cookie.setPath("/");
-    // En localhost con HTTP: NO uses Secure ni SameSite=None (puede descartarla el navegador).
-    // En HTTPS real: cookie.setSecure(true) y SameSite=None.
-
     response.addCookie(cookie);
-    response.sendRedirect(uiRedirect);
+
+    String base = uiRedirect.endsWith("/") ? uiRedirect.substring(0, uiRedirect.length()-1) : uiRedirect;
+    String redirect = base + "/sso/callback?token=" + URLEncoder.encode(accessToken, StandardCharsets.UTF_8);
+
+    log.info("✅ [Auth] SSO OK para {}. Redirigiendo a: {}", email, redirect);  // <-- VER ESTO EN CONSOLA
+    response.sendRedirect(redirect);
   }
 
-  private String resolveUserRole(String email) {
-    if (email != null && email.endsWith("@utn.edu.ar")) return "ROLE_ADMIN";
-    return "ROLE_CONTRIBUYENTE";
-  }
 }
 
 
