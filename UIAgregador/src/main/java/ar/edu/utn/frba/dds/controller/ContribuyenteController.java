@@ -12,7 +12,7 @@ public class ContribuyenteController {
 
   @GetMapping("/home")
   public String home(Authentication authentication, Model model) {
-    model.addAttribute("titulo", "Biennvenido Contribuyente");
+    model.addAttribute("titulo", "Bienvenido Contribuyente " + authentication.getName().toUpperCase());
     return "contribuyente/home.html";
   }
 }

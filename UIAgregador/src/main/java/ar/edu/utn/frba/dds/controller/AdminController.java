@@ -12,7 +12,7 @@ public class AdminController {
 
   @GetMapping("/home")
   public String home(Authentication authentication, Model model) {
-    model.addAttribute("titulo", "Biennvenido Administrador");
+    model.addAttribute("titulo", "Bienvenido Administrador");
     return "admin/home.html";
   }
 }
