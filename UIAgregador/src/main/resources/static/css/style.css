@@ -19,6 +19,14 @@ body {
 }
 
 /* Navegación personalizada */
+
+/* Para que la barra de navegación se quede fija arriba */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
 .navbar-brand {
     font-weight: 600;
     font-size: 1.5rem;
@@ -33,10 +41,9 @@ body {
     color: rgba(255, 255, 255, 0.8) !important;
 }
 
-/* REVISAR Estilo para el link de la página activa en la Nav Bar */
 .navbar-nav .nav-link.active {
-    color: #ffffff !important;   /* Cambia el color del texto a blanco brillante */
-    font-weight: 700;            /* Lo pone en negrita para que destaque */
+    color: #ffffff !important;
+    font-weight: 700;
 }
 
 /* Cards personalizadas */
