@@ -1,18 +1,34 @@
 <html th:replace="~{layout/baseAnonimo :: html}">
-<main th:fragment="contenido" class="auth-main">
-    <div class="auth-card">
-        <h1>Iniciar sesión</h1>
-        <form th:action="@{/login}" method="post">
-            <label>Usuario</label>
-            <input type="text" name="username" required/>
 
-            <label>Contraseña</label>
-            <input type="password" name="password" required/>
+<main th:fragment="contenido">
 
-            <button class="btn btn-primary" type="submit">Ingresar</button>
-        </form>
+    <div style="max-width: 500px; margin: 4rem auto;">
 
-        <p class="muted">¿No tenés cuenta? <a th:href="@{/registrar}">Registrate</a></p>
+        <div style="background-color: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);">
+
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <h1>Iniciar Sesión</h1>
+            </div>
+
+            <form th:action="@{/login}" method="post">
+                <div style="margin-bottom: 1rem;">
+                    <label>Usuario</label>
+                    <input type="text" name="username" required
+                           style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #ccc;"/>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label>Contraseña</label>
+                    <input type="password" name="password" required
+                           style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #ccc;"/>
+                </div>
+
+                <button class="btn btn-primary" type="submit" style="width: 100%;">Entrar</button>
+            </form>
+
+            <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem;">¿No tenés cuenta? <a th:href="@{/registrar}">Registrate</a></p>
+
+        </div>
     </div>
 </main>
 </html>

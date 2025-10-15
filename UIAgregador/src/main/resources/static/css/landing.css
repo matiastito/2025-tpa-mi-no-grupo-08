@@ -106,12 +106,16 @@
   .features{
     display:grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
   }
-  .feature{
-    background: var(--card);
-    border: 1px solid var(--stroke);
-    border-radius: var(--radius-xl);
-    padding: 18px 16px;
-  }
+
+
+.feature{
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius-xl);
+  padding: 18px 16px; /* <-- Devolvé el padding para crear el margen interno */
+  /* overflow: hidden; */ /* <-- Quita o comenta esta línea */
+}
+
   .feature-title{margin:0 0 4px; font-size: 18px}
   .feature-desc{margin:0; color:var(--muted)}
   
@@ -125,9 +129,13 @@
   }
 
 /* Imágenes */
+
+/*Version de Aylu*/
 .feature-img {
-  width: auto;
+  border-radius: 8px; /* <-- ¡La clave! Redondea la imagen misma */
+  width: 100%;        /* Hacemos que ocupe todo el ancho disponible DENTRO del padding */
   height: 200px;
+  object-fit: cover;
   display: block;
-  margin: 0 auto 10px; /* centrada con espacio abajo */
+  margin-bottom: 15px; /* Un poco más de espacio antes del título */
 }
