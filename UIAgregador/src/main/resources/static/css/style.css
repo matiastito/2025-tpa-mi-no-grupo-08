@@ -33,6 +33,12 @@ body {
     color: rgba(255, 255, 255, 0.8) !important;
 }
 
+/* REVISAR Estilo para el link de la página activa en la Nav Bar */
+.navbar-nav .nav-link.active {
+    color: #ffffff !important;   /* Cambia el color del texto a blanco brillante */
+    font-weight: 700;            /* Lo pone en negrita para que destaque */
+}
+
 /* Cards personalizadas */
 /*.card {
     border: none;

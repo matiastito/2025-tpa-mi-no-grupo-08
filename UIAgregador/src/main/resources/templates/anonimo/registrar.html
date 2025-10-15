@@ -8,21 +8,22 @@
 
             <div style="text-align: center; margin-bottom: 1.5rem;">
                 <h1>Registración</h1>
+                <p style="font-size: 0.9rem; color: #6c757d;">Los campos con <span style="color: red;">*</span> son obligatorios</p>
             </div>
 
             <form th:action="@{/registrar}" method="post">
                 <div style="margin-bottom: 1rem;">
-                    <label>Nombre</label>
+                    <label>Nombre <span style="color: red;">*</span></label>
                     <input type="text" name="nombre" required
                            style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #ccc;"/>
                 </div>
                 <div style="margin-bottom: 1rem;">
-                    <label>Usuario</label>
+                    <label>Usuario <span style="color: red;">*</span></label>
                     <input type="text" name="username" required
                            style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #ccc;"/>
                 </div>
                 <div style="margin-bottom: 1.5rem;">
-                    <label>Contraseña</label>
+                    <label>Contraseña <span style="color: red;">*</span></label>
                     <input type="password" name="password" required
                            style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #ccc;"/>
                 </div>
