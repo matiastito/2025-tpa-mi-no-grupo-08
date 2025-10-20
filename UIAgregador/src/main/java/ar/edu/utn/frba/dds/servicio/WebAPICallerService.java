@@ -144,6 +144,21 @@ public class WebAPICallerService {
   }
 
   /**
+   * Ejecuta una llamada HTTP PUT
+   */
+  public <T> T put(String url, Class<T> responseType) {
+    return executeWithTokenRetry(accessToken ->
+        webClient
+            .put()
+            .uri(url)
+            .header("Authorization", "Bearer " + accessToken)
+            .retrieve()
+            .bodyToMono(responseType)
+            .block()
+    );
+  }
+
+  /**
    * Ejecuta una llamada HTTP DELETE
    */
   public void delete(String url) {

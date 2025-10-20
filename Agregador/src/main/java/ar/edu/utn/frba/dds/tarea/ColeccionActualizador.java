@@ -28,7 +28,7 @@ public class ColeccionActualizador {
   @Autowired
   private NormalizadorCategoria normalizadorCategoria;
 
-  @Scheduled(fixedRate = 500)
+  @Scheduled(fixedRate = 60000)
   public void actulizarColecciones() {
     out.println("Refrescando Fuentes.");
     fromIterable(fuenteRepositorio.findAll())

@@ -28,13 +28,29 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-nav collapse navbar-collapse" id="navbarNav">
-            <a class="nav-link" th:href="@{/}">
+            <a class="nav-link" th:href="@{/admin/panelDeControl}">
                 <i class="bi bi-list-ul me-1"></i>
-                Lista de Colecciones
+                Panel de Control
+            </a>
+            <a class="nav-link" th:href="@{/admin/colecciones}">
+                <i class="bi bi-person-plus me-1"></i>
+                Colecciones
+            </a>
+            <a class="nav-link" th:href="@{/admin/fuentes}">
+                <i class="bi bi-person-plus me-1"></i>
+                Fuentes
             </a>
             <a class="nav-link" th:href="@{/}">
                 <i class="bi bi-person-plus me-1"></i>
-                Subir Hecho
+                Hechos
+            </a>
+            <a class="nav-link" th:href="@{/}">
+                <i class="bi bi-person-plus me-1"></i>
+                Solicitudes de Eliminacion
+            </a>
+            <a class="nav-link" th:href="@{/}">
+                <i class="bi bi-person-plus me-1"></i>
+                Importar Hechos
             </a>
             <form id="logoutForm" method="post" th:action="@{/logout}" class="mt-2">
                 <button type="submit" class="btn btn-secondary">Logout</button>

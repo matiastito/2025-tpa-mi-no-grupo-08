@@ -1,0 +1,52 @@
+<html th:replace="~{layout/baseAdmin :: html}">
+<div th:fragment="contenido">
+    <h2 class="ms-5">Colecciones</h2>
+    <a class="navbar-brand" th:href="@{/admin/colecciones/crear}">Nueva Coleccion</a>
+    <table class="table table-sm table-dark">
+        <thead>
+        <tr>
+            <th scope="col">Handle</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Fuente</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="coleccion : ${colecciones}">
+            <td scope="row" th:text="${coleccion.handle}"/>
+            <td th:text="${coleccion.titulo}"/>
+            <td th:text="${coleccion.fuentes[0].baseUrl}"/>
+            <td><a class="navbar-brand" th:href="@{/admin/colecciones/editar/{id}(id=${coleccion.id})}">Editar</a></td>
+            <td>
+                <form th:action="@{/admin/colecciones/eliminar/{id}(id=${coleccion.id})}" method="POST">
+                    <button class="btn btn-primary" type="submit">Borrar</button>
+                </form>
+            </td>
+            <td>
+                <form th:action="@{/admin/colecciones/{id}/consenso(id=${coleccion.id})}" method="POST">
+                    <select id="tipoConsenso" name="tipoConsenso">
+                        <option value="ABSOLUTO" th:selected="${#strings.equals('ABSOLUTO', coleccion.tipoConsenso)}">
+                            ABSOLUTO
+                        </option>
+                        <option value="MAYORIA_SIMPLE"
+                                th:selected="${#strings.equals('MAYORIA_SIMPLE', coleccion.tipoConsenso)}">
+                            MAYORIA
+                            SIMPLE
+                        </option>
+                        <option value="MULTIPLES_MENCIONES"
+                                th:selected="${#strings.equals('MULTIPLES_MENCIONES', coleccion.tipoConsenso)}">
+                            MULTIPLES MENCIONES
+                        </option>
+                    </select>
+                    <button class="btn btn-primary" type="submit">Borrar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" th:href="@{/css/landing.css}">

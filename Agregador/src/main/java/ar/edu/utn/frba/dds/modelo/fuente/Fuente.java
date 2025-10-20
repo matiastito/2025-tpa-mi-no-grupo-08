@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.modelo.fuente;
 
 import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.DINAMICA;
 import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.METAMAPA;
+import static ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO.toDTO;
 import static ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO.toHecho;
 import static ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHechoDTO.toDTO;
 import static jakarta.persistence.EnumType.STRING;
@@ -47,8 +48,26 @@ public class Fuente {
     this.tipoFuente = tipoFuente;
   }
 
+  public Fuente(Long id, String baseUrl, TipoFuente tipoFuente) {
+    this.id = id;
+    this.baseUrl = baseUrl;
+    this.tipoFuente = tipoFuente;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setBaseUrl(String baseUrl) {
+    this.baseUrl = baseUrl;
+  }
+
   public String getBaseUrl() {
     return baseUrl;
+  }
+
+  public void setTipoFuente(TipoFuente tipoFuente) {
+    this.tipoFuente = tipoFuente;
   }
 
   public TipoFuente getTipoFuente() {
@@ -80,6 +99,17 @@ public class Fuente {
       create("http://" + baseUrl + "/solicitudes")
           .post()
           .body(toDTO(solicitudDeEliminacionDeHecho))
+          .retrieve()
+          .toEntity(new ParameterizedTypeReference<>() {
+          });
+    }
+  }
+
+  public void crear(Hecho hecho) {
+    if (DINAMICA.equals(tipoFuente)) {
+      create("http://" + baseUrl + "/hechos")
+          .post()
+          .body(toDTO(hecho))
           .retrieve()
           .toEntity(new ParameterizedTypeReference<>() {
           });

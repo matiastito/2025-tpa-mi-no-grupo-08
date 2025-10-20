@@ -29,9 +29,9 @@
 
 ## URLs Protegidas (con autenticación)
 
-|    URL    |                         Contenido                          | Requerimiento |
-|:---------:|:----------------------------------------------------------:|:-------------:|
-| **/home** | Redirige a **/admin/home**, si no **/sonctribuyente/home** |       -       |
+|    URL    |                         Contenido                         | Requerimiento |
+|:---------:|:---------------------------------------------------------:|:-------------:|
+| **/home** | Redirige a **/admin/home**, si no **/contribuyente/home** |       -       |
 
 ## URLs Contribyente (ROL_CONTRIBUYENTE)
 

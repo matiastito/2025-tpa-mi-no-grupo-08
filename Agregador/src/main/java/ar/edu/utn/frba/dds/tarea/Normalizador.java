@@ -25,7 +25,7 @@ public class Normalizador {
   private NormalizadorDeCoordenadas normalizadorDeCoordenadas;
 
   //TODO cambiar a una ver por dia, de fuentes que no son PROXY
-  @Scheduled(fixedRate = 500)
+  @Scheduled(fixedRate = 60000)
   public void actulizarColecciones() {
     out.println("Normalizando Hechos.");
     fromIterable(hechoRepositorio.hechosSinNormalizarProvinca())

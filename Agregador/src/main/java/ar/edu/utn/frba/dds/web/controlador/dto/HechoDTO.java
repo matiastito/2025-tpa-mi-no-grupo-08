@@ -1,11 +1,11 @@
 package ar.edu.utn.frba.dds.web.controlador.dto;
 
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
+
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
-
 import java.time.LocalDateTime;
 
 public class HechoDTO {
@@ -100,6 +100,7 @@ public class HechoDTO {
     hechoDTO.eliminado = hecho.estaEliminado();
     return hechoDTO;
   }
+
 
   public static Hecho toHecho(HechoDTO hechoDTO, Fuente fuente) {
     return new Hecho(

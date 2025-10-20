@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.servicio;
 
 import static java.util.stream.Collectors.toSet;
 
+import ar.edu.utn.frba.dds.consenso.TipoConsenso;
 import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.repositorio.ColeccionRepositorio;
@@ -38,5 +39,22 @@ public class ColeccionServicio {
         .filter(h -> h.getTitulo().equalsIgnoreCase(tituloHecho))
         .findFirst()
         .orElseThrow(() -> new RuntimeException("No se puede crear un solicitud de eliminacion para un hecho inexistente."));
+  }
+
+  public void eliminarColeccion(Long coleccionId) {
+    coleccionRepositorio.deleteById(coleccionId);
+  }
+
+  public void cambiarTipoConsenso(Long coleccionId, TipoConsenso tipoConsenso) {
+    Coleccion coleccion = coleccionRepositorio.findById(coleccionId).get();
+    coleccion.setTipoConsenso(tipoConsenso);
+    coleccionRepositorio.save(coleccion);
+  }
+
+  public void editarColeccion(Coleccion coleccion) {
+    Coleccion coleccionAEditar = coleccion(coleccion.getId());
+    coleccionAEditar.setTitulo(coleccionAEditar.getTitulo());
+    coleccionAEditar.setDescripcion(coleccionAEditar.getDescripcion());
+    coleccionRepositorio.save(coleccion);
   }
 }
