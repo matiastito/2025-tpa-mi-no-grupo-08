@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class Gateway {
@@ -64,5 +66,10 @@ public class Gateway {
   public void crearHecho(@RequestBody HechoDTO hechoDTO) {
     //FIXME? ver esto de no pasarle fuente.
     fuenteServicio.crearHecho(toHecho(hechoDTO, null));
+  }
+
+  @PostMapping("/importarHechos")
+  public void crearHecho(@RequestParam("archivoCSVDeHechos") MultipartFile archivoCSVDeHechos) {
+    fuenteServicio.importarHechos(archivoCSVDeHechos);
   }
 }

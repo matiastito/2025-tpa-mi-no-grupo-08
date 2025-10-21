@@ -1,0 +1,50 @@
+<html th:replace="~{layout/baseContribuyente :: html}">
+<main th:fragment="contenido">
+    <table class="table table-sm table-dark">
+        <thead>
+        <tr>
+            <th scope="col">Handle</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Fuente</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="coleccion : ${colecciones}">
+            <td scope="row" th:text="${coleccion.handle}"/>
+            <td th:text="${coleccion.titulo}"/>
+            <td>
+                <span th:each="fuente : ${coleccion.fuentes}" th:text="${fuente.baseUrl}"/>
+            </td>
+            <td><a class="navbar-brand"
+                   th:href="@{/contribuyente/colecciones/{id}/hechos(id=${coleccion.id})}">Hechos</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div id="map"></div>
+</main>
+</html>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"/>
+<link rel="stylesheet" th:href="@{/css/landing.css}"/>
+<!-- MAPA -->
+<link rel="stylesheet"
+      crossorigin=""
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="/>
+<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/js/map.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    let ubicaciones = [[${ubicaciones}]]
+
+    ubicaciones.forEach(
+        function(ubicacion) {
+            var marker = L.marker([-34.649766, -58.454446]).addTo(map);
+            marker.bindPopup("<b>Descripcion</b>");
+        }
+    );
+    /*]]>*/
+</script>

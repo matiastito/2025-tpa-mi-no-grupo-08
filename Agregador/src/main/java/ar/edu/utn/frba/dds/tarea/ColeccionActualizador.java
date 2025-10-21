@@ -20,9 +20,6 @@ public class ColeccionActualizador {
   @Autowired
   private ColeccionRepositorio coleccionRepositorio;
 
-  /*@Autowired
-  private ElasticsearchHechoRepositorio elasticsearchHechoRepositorio;
-   */
   @Autowired
   private FuenteRepositorio fuenteRepositorio;
   @Autowired

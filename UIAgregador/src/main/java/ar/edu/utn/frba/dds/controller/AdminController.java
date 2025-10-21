@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/admin")
@@ -97,5 +98,17 @@ public class AdminController {
     agregadorServicio.cambiarConsenso(coleccionId, tipoConsenso);
     return "redirect:/admin/colecciones";
   }
+
+  @GetMapping("/importarHechos")
+  public String importarHechos() {
+    return "admin/importarHechos.html"; // Returns the upload.html template
+  }
+
+  @PostMapping("/importarHechos")
+  public String importarHechosDesdeArchivo(@RequestParam("file") MultipartFile file, Model model) {
+    agregadorServicio.importarHechos(file);
+    return "redirect:/admin/panelDeControl"; // Return to the upload page, potentially with a message
+  }
+
 }
 

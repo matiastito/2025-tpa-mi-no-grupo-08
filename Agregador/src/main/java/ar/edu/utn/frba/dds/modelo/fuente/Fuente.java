@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.modelo.fuente;
 
 import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.DINAMICA;
+import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.ESTATICA;
 import static ar.edu.utn.frba.dds.modelo.fuente.TipoFuente.METAMAPA;
 import static ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO.toDTO;
 import static ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO.toHecho;
@@ -8,6 +9,7 @@ import static ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHe
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static java.util.stream.Collectors.toSet;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.web.client.RestClient.create;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
@@ -24,8 +26,15 @@ import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+//FIXME Abastraer tres implemetacióones, una para cada fuente
 @Entity
 @Table(name = "FUENTE")
 public class Fuente {
@@ -113,6 +122,17 @@ public class Fuente {
           .retrieve()
           .toEntity(new ParameterizedTypeReference<>() {
           });
+    }
+  }
+
+  public void importarHechos(MultipartFile archivoCSV) {
+    if (ESTATICA.equals(tipoFuente)) {
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MULTIPART_FORM_DATA);
+      MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+      body.add("archivoCSVDeHechos", archivoCSV.getResource());
+      HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+      new RestTemplate().postForLocation("http://" + baseUrl + "/fuentes", requestEntity);
     }
   }
 }
