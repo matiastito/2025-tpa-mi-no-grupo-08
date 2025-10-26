@@ -1,0 +1,25 @@
+<html th:replace="~{layout/baseAdmin :: html}">
+<div th:fragment="contenido">
+    <h2 class="ms-5">Crear Coleccion</h2>
+    <form th:action="@{/admin/colecciones}" method="post" th:object="${coleccionDTO}">
+        <label>Titulo</label>
+        <input id="titulo" type="text" name="titulo" th:field="*{titulo}" required/>
+        <label>Descripcion</label>
+        <input id="descripcion" type="text" name="descripcion" th:field="*{descripcion}" required/>
+
+        <div th:each="fuente, fuenteStat : *{fuentes}">
+            <label for="nuevaFuente">Fuente</label>
+            <input type="text" id="nuevaFuente" th:field="*{fuentes[__${fuenteStat.index}__].baseUrl}"/>
+            <label>Tipo Fuente</label>
+            <select id="tipoFuente" th:field="*{fuentes[__${fuenteStat.index}__].tipoFuente}">
+                <option value="PROXY">PROXY</option>
+                <option value="DINAMICA">DINAMICA</option>
+                <option value="ESTATICA">ESTATICA</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Crear</button>
+    </form>
+</div>
+</html>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" th:href="@{/css/landing.css}">

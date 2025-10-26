@@ -1,0 +1,25 @@
+<html th:replace="~{layout/baseAdmin :: html}">
+<div th:fragment="contenido">
+    <h2 class="ms-5">Fuentes</h2>
+    <table class="table table-sm table-dark">
+        <thead>
+        <tr>
+            <th scope="col">Fuente URL</th>
+            <th scope="col">Tipo Fuente</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="fuente : ${fuentesDTO}">
+            <td scope="row" th:text="${fuente.baseUrl}"/>
+            <td th:text="${fuente.tipoFuente}"/>
+        </tr>
+        </tbody>
+    </table>
+    <h2>Hechos con modificaciones</h2>
+    <span th:text="${'Hay ' + hechosModificacionesCantidad + ' hechos que requeiren su validacion.'}"/>
+    <h2>Solicitudes de eliminación</h2>
+    <span th:text="${'Hay ' + solicitudesDeEliminacionCantidad + ' solicitudes de eliminación que requeiren su validacion.'}"/>
+</div>
+</html>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" th:href="@{/css/landing.css}">

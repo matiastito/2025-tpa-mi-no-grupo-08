@@ -4,6 +4,7 @@ import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.EXTERNO;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class HechoDTO {
@@ -11,7 +12,7 @@ public class HechoDTO {
   private String titulo;
   private String descripcion;
   private String categoria;
-  private LocalDateTime fechaDelHecho;
+  private LocalDate fechaDelHecho;
   private UbicacionDTO ubicacion;
   private LocalDateTime fechaDeCarga;
 
@@ -26,7 +27,7 @@ public class HechoDTO {
     this.descripcion = descripcion;
   }
 
-  public void setFechaDelHecho(LocalDateTime fechaDelHecho) {
+  public void setFechaDelHecho(LocalDate fechaDelHecho) {
     this.fechaDelHecho = fechaDelHecho;
   }
 
@@ -70,7 +71,7 @@ public class HechoDTO {
     return categoria;
   }
 
-  public LocalDateTime getFechaDelHecho() {
+  public LocalDate getFechaDelHecho() {
     return fechaDelHecho;
   }
 

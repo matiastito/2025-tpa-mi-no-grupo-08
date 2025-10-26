@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
 import ar.edu.utn.frba.dds.modelo.hecho.Ubicacion;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -35,9 +36,10 @@ public class AlgoritmoMultiplesMencionesTest {
     HechoOrigen origen = HechoOrigen.MANUAL;
     Categoria categoria = new Categoria("Categoria Test");
     Ubicacion ubicacion = Ubicacion.crearUbicacion("-34.6037", "-58.3816");
-    LocalDateTime fecha = LocalDateTime.now();
+    LocalDate fecha = LocalDate.now();
+    LocalDateTime fechaCarga = LocalDateTime.now();
 
-    Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria, fecha, ubicacion, fecha, null);
+    Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria, fecha, ubicacion, fechaCarga, null);
 
     Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));
     Fuente fuente2 = new FuenteFake("Fuente 2", TipoFuente.DINAMICA, Set.of(hechoA));
@@ -62,13 +64,14 @@ public class AlgoritmoMultiplesMencionesTest {
     HechoOrigen origen = HechoOrigen.MANUAL;
     Categoria categoria = new Categoria("Categoria Test");
     Ubicacion ubicacion = Ubicacion.crearUbicacion("-34.6037", "-58.3816");
-    LocalDateTime fecha = LocalDateTime.now();
+    LocalDate fecha = LocalDate.now();
+    LocalDateTime fechaCarga = LocalDateTime.now();
 
-    Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria, fecha, ubicacion, fecha, null);
+    Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria, fecha, ubicacion, fechaCarga, null);
 
     // Hecho conflictivo con mismo título, diferente fecha y categoría
     Hecho hechoConflicto = new Hecho(origen, "Título A", "Otra descripción", new Categoria("Otra Categoria"),
-        fecha.minusDays(1), ubicacion, fecha, null);
+        fecha.minusDays(1), ubicacion, fechaCarga, null);
 
     Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));
     Fuente fuente2 = new FuenteFake("Fuente 2", TipoFuente.DINAMICA, Set.of(hechoA));

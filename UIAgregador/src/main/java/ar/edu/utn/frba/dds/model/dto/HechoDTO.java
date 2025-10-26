@@ -1,20 +1,33 @@
 package ar.edu.utn.frba.dds.model.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class HechoDTO {
+  private Long id;
   private HechoOrigen hechoOrigen;
   private String titulo;
   private String descripcion;
   private String categoria;
+  private ContribuyenteDTO contribuyenteDTO;
   // TODO
   //private ContenidoMultimediaDTO contenidoMultimedia;
-  private LocalDateTime fechaDelHecho;
-  private UbicacionDTO ubicacion;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private LocalDate fechaDelHecho;
+  private UbicacionDTO ubicacion = new UbicacionDTO();
   private LocalDateTime fechaDeCarga;
   private boolean eliminado;
 
   public HechoDTO() {
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public void setTitulo(String titulo) {
@@ -25,7 +38,7 @@ public class HechoDTO {
     this.descripcion = descripcion;
   }
 
-  public void setFechaDelHecho(LocalDateTime fechaDelHecho) {
+  public void setFechaDelHecho(LocalDate fechaDelHecho) {
     this.fechaDelHecho = fechaDelHecho;
   }
 
@@ -69,7 +82,7 @@ public class HechoDTO {
     return categoria;
   }
 
-  public LocalDateTime getFechaDelHecho() {
+  public LocalDate getFechaDelHecho() {
     return fechaDelHecho;
   }
 
@@ -81,41 +94,11 @@ public class HechoDTO {
     this.eliminado = eliminado;
   }
 
-  private class UbicacionDTO {
-    private String latitud;
-    private String longitud;
-    private String Provincia;
+  public void setContribuyenteDTO(ContribuyenteDTO contribuyenteDTO) {
+    this.contribuyenteDTO = contribuyenteDTO;
+  }
 
-    public UbicacionDTO() {
-    }
-
-    public UbicacionDTO(String latitud, String longitud) {
-      this.latitud = latitud;
-      this.longitud = longitud;
-    }
-
-    public String getProvincia() {
-      return Provincia;
-    }
-
-    public String getLatitud() {
-      return latitud;
-    }
-
-    public String getLongitud() {
-      return longitud;
-    }
-
-    public void setLongitud(String longitud) {
-      this.longitud = longitud;
-    }
-
-    public void setLatitud(String latitud) {
-      this.latitud = latitud;
-    }
-
-    public void setProvincia(String provincia) {
-      Provincia = provincia;
-    }
+  public ContribuyenteDTO getContribuyenteDTO() {
+    return contribuyenteDTO;
   }
 }

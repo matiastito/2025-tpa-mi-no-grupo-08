@@ -5,6 +5,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 import static org.hibernate.annotations.CascadeType.ALL;
 
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
+import ar.edu.utn.frba.dds.modelo.fuente.TipoFuente;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.ContenidoMultimedia;
 import ar.edu.utn.frba.dds.modelo.hecho.contenido.TipoContenidoMultimedia;
 import jakarta.persistence.Column;
@@ -19,6 +20,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -31,20 +33,24 @@ public class Hecho {
   @Id
   @GeneratedValue(strategy = IDENTITY)
   private long id;
+  @Column(name = "ID_EXTERNO")
+  private Long idExterno;
   @Column(name = "TITULO", nullable = false)
   private String titulo;
   @Column(name = "DESCRIPCION", nullable = false)
   private String descripcion;
   @ManyToOne
   @JoinColumn(name = "CATEGORIA_ID")
+  @Cascade(ALL)
   private Categoria categoria;
   @OneToOne
   @JoinColumn(name = "CONTENIDO_MULTIMEDIA_ID")
+  @Cascade(ALL)
   private ContenidoMultimedia contenidoMultimedia;
   @Embedded
   private Ubicacion ubicacion;
   @Column(name = "FECHA_DEL_HECHO", nullable = false)
-  private LocalDateTime fechaDelHecho;
+  private LocalDate fechaDelHecho;
   @Column(name = "FECHA_DE_CARGA", nullable = false)
   private LocalDateTime fechaDeCarga;
   @Enumerated(STRING)
@@ -72,7 +78,7 @@ public class Hecho {
                String titulo,
                String descripcion,
                Categoria categoria,
-               LocalDateTime fechaDelHecho,
+               LocalDate fechaDelHecho,
                Ubicacion ubicacion,
                LocalDateTime fechaDeCarga,
                Fuente fuente) {
@@ -84,7 +90,7 @@ public class Hecho {
                 String titulo,
                 String descripcion,
                 Categoria categoria,
-                LocalDateTime fechaDelHecho,
+                LocalDate fechaDelHecho,
                 Ubicacion ubicacion,
                 LocalDateTime fechaDeCarga) {
     this.hechoOrigen = hechoOrigen;
@@ -97,6 +103,38 @@ public class Hecho {
     this.etiquetas = new HashSet<>();
   }
 
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setIdExterno(Long idExterno) {
+    this.idExterno = idExterno;
+  }
+
+  public Long getIdExterno() {
+    return idExterno;
+  }
+
+  public void setTitulo(String titulo) {
+    this.titulo = titulo;
+  }
+
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
+
+  public void setUbicacion(Ubicacion ubicacion) {
+    this.ubicacion = ubicacion;
+  }
+
+  public void setFechaDelHecho(LocalDate fechaDelHecho) {
+    this.fechaDelHecho = fechaDelHecho;
+  }
+
   public boolean estaEliminado() {
     return this.eliminado;
   }
@@ -106,7 +144,7 @@ public class Hecho {
     this.fuente.eliminar(solicitudDeEliminacionDeHecho);
   }
 
-  public LocalDateTime getFechaDelHecho() {
+  public LocalDate getFechaDelHecho() {
     return fechaDelHecho;
   }
 
@@ -167,14 +205,19 @@ public class Hecho {
     return this.fuente;
   }
 
+  public boolean esDeFuenteDinamica() {
+    return this.fuente.getTipoFuente().equals(TipoFuente.DINAMICA);
+  }
+
   //FIXME reescribir el equals (ID's VS Semáantica)
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof Hecho hecho)) return false;
-    return Objects.equals(titulo, hecho.titulo)
-        && Objects.equals(categoria, hecho.categoria)
-        && Objects.equals(fechaDelHecho, hecho.fechaDelHecho);
+    return Objects.equals(id, hecho.id) ||
+        (Objects.equals(titulo, hecho.titulo)
+            && Objects.equals(categoria, hecho.categoria)
+            && Objects.equals(fechaDelHecho, hecho.fechaDelHecho));
   }
 
   @Override

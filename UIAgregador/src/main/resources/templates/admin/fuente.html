@@ -1,0 +1,21 @@
+<html th:replace="~{layout/baseAdmin :: html}">
+<div th:fragment="contenido">
+    <h2 class="ms-5">Editar Fuente</h2>
+    <form th:action="@{/admin/fuentes}" method="post" th:object="${fuenteDTO}">
+        <label>Base URL</label>
+        <input type="text" th:field="*{baseUrl}" required/>
+        <label>Tipo Fuente</label>
+        <select th:field="*{tipoFuente}">
+            <option value="PROXY" th:selected="${#strings.equals('PROXY', fuenteDTO.tipoFuente)}">PROXY</option>
+            <option value="DINAMICA" th:selected="${#strings.equals('DINAMICA', fuenteDTO.tipoFuente)}">DINAMICA
+            </option>
+            <option value="ESTATICA" th:selected="${#strings.equals('ESTATICA', fuenteDTO.tipoFuente)}">ESTATICA
+            </option>
+        </select>
+        <input type="hidden" th:field="*{id}"/>
+        <button class="btn btn-primary" type="submit">Editar</button>
+    </form>
+</div>
+</html>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" th:href="@{/css/landing.css}">

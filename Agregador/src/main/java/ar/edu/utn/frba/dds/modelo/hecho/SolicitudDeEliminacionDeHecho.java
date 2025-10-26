@@ -7,6 +7,7 @@ import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEsta
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static java.time.LocalDateTime.now;
+import static org.hibernate.annotations.CascadeType.ALL;
 
 import ar.edu.utn.frba.dds.modelo.administrador.Administrador;
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
@@ -19,6 +20,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "SOLICITUD_DE_ELIMINACION_HECHO")
@@ -37,9 +39,11 @@ public class SolicitudDeEliminacionDeHecho {
   private String motivo;
   @ManyToOne
   @JoinColumn(name = "REPORTADOR_ID")
+  @Cascade(ALL)
   private Contribuyente repotador;
   @ManyToOne
   @JoinColumn(name = "APROBADOR_ID")
+  @Cascade(ALL)
   private Administrador aprobador;
   @Column(name = "FECHA_DE_RESOLUCION")
   private LocalDateTime fechaResolucion;
@@ -51,6 +55,7 @@ public class SolicitudDeEliminacionDeHecho {
     this.hecho = hecho;
     this.motivo = motivo;
     this.fechaCreacion = now();
+    this.repotador = reportadoPor;
     this.solicitudDeEliminacionDeHechoEstado = PENDIENTE;
   }
 
@@ -95,5 +100,9 @@ public class SolicitudDeEliminacionDeHecho {
 
   public String getMotivo() {
     return motivo;
+  }
+
+  public long getId() {
+    return id;
   }
 }

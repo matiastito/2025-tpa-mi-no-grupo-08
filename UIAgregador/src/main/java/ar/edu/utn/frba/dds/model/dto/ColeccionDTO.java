@@ -1,15 +1,26 @@
 package ar.edu.utn.frba.dds.model.dto;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ColeccionDTO {
+  private Long id;
   private String titulo;
   private String descripcion;
-  private Set<FuenteDTO> fuentes;
+  private List<FuenteDTO> fuentes = new ArrayList<>();
   private UUID handle;
+  private TipoConsenso tipoConsenso;
 
   public ColeccionDTO() {
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public UUID getHandle() {
@@ -24,7 +35,7 @@ public class ColeccionDTO {
     return descripcion;
   }
 
-  public Set<FuenteDTO> getFuentes() {
+  public List<FuenteDTO> getFuentes() {
     return fuentes;
   }
 
@@ -40,26 +51,49 @@ public class ColeccionDTO {
     this.descripcion = descripcion;
   }
 
-  public void setFuentes(Set<FuenteDTO> fuentes) {
+  public void setFuentes(List<FuenteDTO> fuentes) {
     this.fuentes = fuentes;
   }
 
+  public TipoConsenso getTipoConsenso() {
+    return tipoConsenso;
+  }
+
+  public void setTipoConsenso(TipoConsenso tipoConsenso) {
+    this.tipoConsenso = tipoConsenso;
+  }
+
   public static class FuenteDTO {
+    private Long id;
     private String baseUrl;
-    private String tipoFuente;
+    private TipoFuente tipoFuente;
 
     public FuenteDTO() {
+    }
+
+    public FuenteDTO(Long id, String baseUrl, TipoFuente tipoFuente) {
+      this.id = id;
+      this.baseUrl = baseUrl;
+      this.tipoFuente = tipoFuente;
+    }
+
+    public void setId(Long id) {
+      this.id = id;
+    }
+
+    public Long getId() {
+      return id;
     }
 
     public void setBaseUrl(String baseUrl) {
       this.baseUrl = baseUrl;
     }
 
-    public void setTipoFuente(String tipoFuente) {
+    public void setTipoFuente(TipoFuente tipoFuente) {
       this.tipoFuente = tipoFuente;
     }
 
-    public String getTipoFuente() {
+    public TipoFuente getTipoFuente() {
       return tipoFuente;
     }
 
@@ -67,4 +101,5 @@ public class ColeccionDTO {
       return baseUrl;
     }
   }
+
 }

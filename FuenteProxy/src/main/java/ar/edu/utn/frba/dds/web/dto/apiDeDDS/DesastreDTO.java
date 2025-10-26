@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.web.dto.apiDeDDS;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class DesastreDTO {
@@ -11,7 +12,7 @@ public class DesastreDTO {
   private double latitud;
   private double longitud;
   @JsonProperty("fecha_hecho")
-  private LocalDateTime fechaHecho; // O LocalDateTime si no necesitas la zona horaria
+  private LocalDate fechaHecho;
   @JsonProperty("created_at")
   private LocalDateTime createdAt;
   @JsonProperty("updated_at")
@@ -69,11 +70,11 @@ public class DesastreDTO {
     this.longitud = longitud;
   }
 
-  public LocalDateTime getFechaHecho() {
+  public LocalDate getFechaHecho() {
     return fechaHecho;
   }
 
-  public void setFechaHecho(LocalDateTime fechaHecho) {
+  public void setFechaHecho(LocalDate fechaHecho) {
     this.fechaHecho = fechaHecho;
   }
 

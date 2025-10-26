@@ -1,26 +1,37 @@
 package ar.edu.utn.frba.dds.web.controlador.dto;
 
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
+
 import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class HechoDTO {
+  private Long id;
   private HechoOrigen hechoOrigen;
   private String titulo;
   private String descripcion;
   private String categoria;
+  private ContribuyenteDTO contribuyenteDTO;
   // TODO
   //private ContenidoMultimediaDTO contenidoMultimedia;
-  private LocalDateTime fechaDelHecho;
+  private LocalDate fechaDelHecho;
   private UbicacionDTO ubicacion;
   private LocalDateTime fechaDeCarga;
   private boolean eliminado;
 
   public HechoDTO() {
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public void setTitulo(String titulo) {
@@ -31,7 +42,7 @@ public class HechoDTO {
     this.descripcion = descripcion;
   }
 
-  public void setFechaDelHecho(LocalDateTime fechaDelHecho) {
+  public void setFechaDelHecho(LocalDate fechaDelHecho) {
     this.fechaDelHecho = fechaDelHecho;
   }
 
@@ -75,7 +86,7 @@ public class HechoDTO {
     return categoria;
   }
 
-  public LocalDateTime getFechaDelHecho() {
+  public LocalDate getFechaDelHecho() {
     return fechaDelHecho;
   }
 
@@ -87,8 +98,17 @@ public class HechoDTO {
     this.eliminado = eliminado;
   }
 
+  public void setContribuyenteDTO(ContribuyenteDTO contribuyenteDTO) {
+    this.contribuyenteDTO = contribuyenteDTO;
+  }
+
+  public ContribuyenteDTO getContribuyenteDTO() {
+    return contribuyenteDTO;
+  }
+
   public static HechoDTO toDTO(Hecho hecho) {
     HechoDTO hechoDTO = new HechoDTO();
+    hechoDTO.id = hecho.getId();
     hechoDTO.titulo = hecho.getTitulo();
     hechoDTO.descripcion = hecho.getDescripcion();
     hechoDTO.hechoOrigen = hecho.getHechoOrigen();
@@ -102,16 +122,20 @@ public class HechoDTO {
   }
 
   public static Hecho toHecho(HechoDTO hechoDTO, Fuente fuente) {
-    return new Hecho(
+    Hecho hecho = new Hecho(
         hechoDTO.hechoOrigen,
         hechoDTO.titulo,
         hechoDTO.descripcion,
         new Categoria(hechoDTO.categoria),
-        hechoDTO.fechaDeCarga,
-        crearUbicacion(hechoDTO.ubicacion.getLatitud(), hechoDTO.ubicacion.getLongitud()),
         hechoDTO.fechaDelHecho,
+        crearUbicacion(hechoDTO.ubicacion.getLatitud(), hechoDTO.ubicacion.getLongitud()),
+        hechoDTO.fechaDeCarga,
         fuente
     );
+    if (hechoDTO.getId() != null) {
+      hecho.setIdExterno(hechoDTO.getId());
+    }
+    return hecho;
   }
 
   private class UbicacionDTO {

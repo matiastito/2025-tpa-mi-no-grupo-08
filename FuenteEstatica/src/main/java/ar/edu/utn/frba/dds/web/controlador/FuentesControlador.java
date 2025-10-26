@@ -14,7 +14,7 @@ public class FuentesControlador {
   private FuenteArchivosCSVServicio fuenteArchivosCSVServicio;
 
   @PostMapping("/fuentes")
-  public String fuente(@RequestParam("archivoCSV") MultipartFile archivoCSV) {
+  public String fuente(@RequestParam("archivoCSVDeHechos") MultipartFile archivoCSV) {
     if (archivoCSV.isEmpty()) {
       return "Por favor, seleccione un archivo CSV para cargar.";
     }

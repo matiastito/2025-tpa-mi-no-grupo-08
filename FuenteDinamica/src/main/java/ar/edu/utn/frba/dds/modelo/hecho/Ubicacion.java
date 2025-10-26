@@ -28,6 +28,14 @@ public class Ubicacion {
     return longitud;
   }
 
+  public void setLongitud(String longitud) {
+    this.longitud = longitud;
+  }
+
+  public void setLatitud(String latitud) {
+    this.latitud = latitud;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

@@ -28,16 +28,32 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-nav collapse navbar-collapse" id="navbarNav">
-            <a class="nav-link" th:href="@{/}">
+            <a class="nav-link" th:href="@{/admin/panelDeControl}">
                 <i class="bi bi-list-ul me-1"></i>
-                Lista de Colecciones
+                Panel de Control
             </a>
-            <a class="nav-link" th:href="@{/}">
+            <a class="nav-link" th:href="@{/admin/colecciones}">
                 <i class="bi bi-person-plus me-1"></i>
-                Crear Coleccióón
+                Colecciones
             </a>
-            <form id="logoutForm" method="post" th:action="@{/logout}">
-                <button type="submit">Logout</button>
+            <a class="nav-link" th:href="@{/admin/fuentes}">
+                <i class="bi bi-person-plus me-1"></i>
+                Fuentes
+            </a>
+            <a class="nav-link" th:href="@{/admin/hechosModificaciones}">
+                <i class="bi bi-person-plus me-1"></i>
+                Hechos
+            </a>
+            <a class="nav-link" th:href="@{/admin/solicitudesEliminacion}">
+                <i class="bi bi-person-plus me-1"></i>
+                Solicitudes de Eliminacion
+            </a>
+            <a class="nav-link" th:href="@{/admin/importarHechos}">
+                <i class="bi bi-person-plus me-1"></i>
+                Importar Hechos
+            </a>
+            <form id="logoutForm" method="post" th:action="@{/logout}" class="mt-2">
+                <button type="submit" class="btn btn-secondary">Logout</button>
             </form>
         </div>
     </div>
@@ -47,13 +63,6 @@
     <div class="container">
         <div th:if="${msjOk}" class="alert alert-success" th:text="${msjOk}"></div>
         <div th:if="${msjError}" class="alert alert-danger" th:text="${msjError}"></div>
-    </div>
-
-    <div class="container header-inner">
-        <a class="brand" th:href="@{/}">
-            <img th:src="@{/images/logo.png}" alt="MetaMapa" class="brand-logo"/>
-            <span class="brand-text">MetaMapa</span>
-        </a>
     </div>
 </header>
 

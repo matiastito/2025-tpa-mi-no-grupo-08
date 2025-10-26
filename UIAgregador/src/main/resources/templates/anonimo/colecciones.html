@@ -1,11 +1,26 @@
 <html th:replace="~{layout/baseAnonimo :: html}">
 <main th:fragment="contenido">
-    <ul>
-        <li th:each="coleccion: ${colecciones}">
-            <span th:text="${coleccion.titulo}"/>
-            <span th:text="${coleccion.fuentes}"/>
-        </li>
-    </ul>
+    <table class="table table-sm table-dark">
+        <thead>
+        <tr>
+            <th scope="col">Handle</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Fuente</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="coleccion : ${colecciones}">
+            <td scope="row" th:text="${coleccion.handle}"/>
+            <td th:text="${coleccion.titulo}"/>
+            <td>
+                <span th:each="fuente : ${coleccion.fuentes}" th:text="${fuente.baseUrl}"/>
+            </td>
+            <td><a class="navbar-brand" th:href="@{/anonimo/colecciones/{id}/hechos(id=${coleccion.id})}">Hechos</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
     <div id="map"></div>
 </main>
 </html>
@@ -22,10 +37,10 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
 
-    let ubicaciones = [[${ubicaciones}]]
+    let hechos = [[${hechos}]]
 
-    ubicaciones.forEach(
-        function(ubicacion) {
+    hechos.forEach(
+        function(hecho) {
             var marker = L.marker([-34.649766, -58.454446]).addTo(map);
             marker.bindPopup("<b>Descripcion</b>");
         }

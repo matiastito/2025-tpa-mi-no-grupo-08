@@ -5,6 +5,7 @@ import static java.lang.String.valueOf;
 
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
 import ar.edu.utn.frba.dds.web.dto.apiDeDDS.DesastreDTO;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -15,7 +16,7 @@ public class HechoDTO {
   private String categoria;
   // TODO
   //private ContenidoMultimediaDTO contenidoMultimedia;
-  private LocalDateTime fechaDelHecho;
+  private LocalDate fechaDelHecho;
   private UbicacionDTO ubicacion;
   private LocalDateTime fechaDeCarga;
   private Collection<String> etiquetas;
@@ -41,7 +42,7 @@ public class HechoDTO {
     this.ubicacion = ubicacion;
   }
 
-  public void setFechaDelHecho(LocalDateTime fechaDelHecho) {
+  public void setFechaDelHecho(LocalDate fechaDelHecho) {
     this.fechaDelHecho = fechaDelHecho;
   }
 
@@ -65,7 +66,7 @@ public class HechoDTO {
     return hechoOrigen;
   }
 
-  public LocalDateTime getFechaDelHecho() {
+  public LocalDate getFechaDelHecho() {
     return fechaDelHecho;
   }
 

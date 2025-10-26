@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoEstado;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -22,7 +23,7 @@ public class HechoDTO {
   // TODO
   //private ContenidoMultimediaDTO contenidoMultimedia;
   private UbicacionDTO ubicacion;
-  private LocalDateTime fechaDelHecho;
+  private LocalDate fechaDelHecho;
   private LocalDateTime fechaDeCarga;
   private Collection<String> etiquetas;
   private boolean eliminado = false;
@@ -31,7 +32,9 @@ public class HechoDTO {
     Hecho hecho = new Hecho(
         CONTRIBUYENTE,
         hechoDTO.hechoEstado,
-        new Contribuyente(hechoDTO.contribuyente.nombre, hechoDTO.contribuyente.apellido),
+        hechoDTO.contribuyente != null ?
+            new Contribuyente(hechoDTO.contribuyente.nombre, hechoDTO.contribuyente.apellido)
+            : null,
         hechoDTO.titulo,
         hechoDTO.descripcion,
         new Categoria(hechoDTO.categoria),
@@ -96,7 +99,7 @@ public class HechoDTO {
     this.ubicacion = ubicacion;
   }
 
-  public void setFechaDelHecho(LocalDateTime fechaDelHecho) {
+  public void setFechaDelHecho(LocalDate fechaDelHecho) {
     this.fechaDelHecho = fechaDelHecho;
   }
 
@@ -124,7 +127,7 @@ public class HechoDTO {
     return contribuyente;
   }
 
-  public LocalDateTime getFechaDelHecho() {
+  public LocalDate getFechaDelHecho() {
     return fechaDelHecho;
   }
 
