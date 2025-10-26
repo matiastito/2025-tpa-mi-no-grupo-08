@@ -6,6 +6,8 @@ import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado;
 
 public class SolicitudDeEliminacionDeHechoDTO {
+  private Long solicitudDeEliminacionId;
+  private Long hechoId;
   private String tituloHecho;
   private String motivo;
   private ContribuyenteDTO repotador;
@@ -24,13 +26,33 @@ public class SolicitudDeEliminacionDeHechoDTO {
   public static SolicitudDeEliminacionDeHechoDTO toDTO(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho) {
     SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO = new SolicitudDeEliminacionDeHechoDTO();
     solicitudDeEliminacionDeHechoDTO.tituloHecho = solicitudDeEliminacionDeHecho.getHecho().getTitulo();
-    solicitudDeEliminacionDeHechoDTO.motivo = solicitudDeEliminacionDeHechoDTO.getMotivo();
+    solicitudDeEliminacionDeHechoDTO.motivo = solicitudDeEliminacionDeHecho.getMotivo();
     solicitudDeEliminacionDeHechoDTO.solicitudDeEliminacionDeHechoEstado = solicitudDeEliminacionDeHecho.getEstado();
-    ContribuyenteDTO contribuyenteDTO = new ContribuyenteDTO();
-    contribuyenteDTO.setApellido(solicitudDeEliminacionDeHecho.getRepotador().getApellido());
-    contribuyenteDTO.setNombre(solicitudDeEliminacionDeHecho.getRepotador().getNombre());
+    solicitudDeEliminacionDeHechoDTO.solicitudDeEliminacionId = solicitudDeEliminacionDeHecho.getId();
+    ContribuyenteDTO contribuyenteDTO = null;
+    if (solicitudDeEliminacionDeHecho.getRepotador() != null) {
+      contribuyenteDTO = new ContribuyenteDTO();
+      contribuyenteDTO.setApellido(solicitudDeEliminacionDeHecho.getRepotador().getApellido());
+      contribuyenteDTO.setNombre(solicitudDeEliminacionDeHecho.getRepotador().getNombre());
+    }
     solicitudDeEliminacionDeHechoDTO.repotador = contribuyenteDTO;
     return solicitudDeEliminacionDeHechoDTO;
+  }
+
+  public Long getSolicitudDeEliminacionId() {
+    return solicitudDeEliminacionId;
+  }
+
+  public Long getHechoId() {
+    return hechoId;
+  }
+
+  public void setSolicitudDeEliminacionId(Long solicitudDeEliminacionId) {
+    this.solicitudDeEliminacionId = solicitudDeEliminacionId;
+  }
+
+  public void setHechoId(Long hechoId) {
+    this.hechoId = hechoId;
   }
 
   public ContribuyenteDTO getRepotador() {

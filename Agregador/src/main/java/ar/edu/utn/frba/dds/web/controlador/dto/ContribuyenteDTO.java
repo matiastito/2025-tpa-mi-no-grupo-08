@@ -9,6 +9,10 @@ public class ContribuyenteDTO {
   public ContribuyenteDTO() {
   }
 
+  public ContribuyenteDTO(String nombre) {
+    this.nombre = nombre;
+  }
+
   public static Contribuyente toModel(ContribuyenteDTO contribuyenteDTO) {
     return new Contribuyente(contribuyenteDTO.getNombre(),
         contribuyenteDTO.getApellido());

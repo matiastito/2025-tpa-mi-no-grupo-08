@@ -26,6 +26,11 @@ public class FuenteServicio {
     fuenteDinamica.ifPresent(fuente -> fuente.crear(hecho));
   }
 
+  public void editarHecho(Hecho hecho) {
+    Optional<Fuente> fuenteDinamica = fuenteRepositorio.findByTipoFuente(DINAMICA);
+    fuenteDinamica.ifPresent(fuente -> fuente.editar(hecho));
+  }
+
   public void editarFuente(Fuente fuente) {
     Optional<Fuente> fuenteAEditar = fuenteRepositorio.findById(fuente.getId());
     if (fuenteAEditar.isPresent()) {

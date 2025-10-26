@@ -19,6 +19,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -49,7 +50,7 @@ public class Hecho {
   @Embedded
   private Ubicacion ubicacion;
   @Column(name = "FECHA_DEL_HECHO", nullable = false)
-  private LocalDateTime fechaDelHecho;
+  private LocalDate fechaDelHecho;
   @Column(name = "FECHA_DE_CARGA", nullable = false)
   private LocalDateTime fechaDeCarga;
   @Enumerated(STRING)
@@ -76,7 +77,7 @@ public class Hecho {
                String titulo,
                String descripcion,
                Categoria categoria,
-               LocalDateTime fechaDelHecho,
+               LocalDate fechaDelHecho,
                Ubicacion ubicacion,
                LocalDateTime fechaDeCarga) {
     this.hechoOrigen = hechoOrigen;
@@ -103,7 +104,7 @@ public class Hecho {
     this.eliminado = true;
   }
 
-  public LocalDateTime getFechaDelHecho() {
+  public LocalDate getFechaDelHecho() {
     return fechaDelHecho;
   }
 
@@ -168,4 +169,23 @@ public class Hecho {
     return eliminado;
   }
 
+  public void setTitulo(String titulo) {
+    this.titulo = titulo;
+  }
+
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
+
+  public void setUbicacion(Ubicacion ubicacion) {
+    this.ubicacion = ubicacion;
+  }
+
+  public void setFechaDelHecho(LocalDate fechaDelHecho) {
+    this.fechaDelHecho = fechaDelHecho;
+  }
+
+  public boolean isAprobado() {
+    return this.hechoEstado.equals(HechoEstado.ACEPTADO);
+  }
 }

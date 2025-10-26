@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 
 @Entity
@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 public class FechaDelHechoFiltroDeHecho extends FiltroDeHecho {
 
   @Column(name = "FECHA_DEL_HECHO_DESDE", nullable = false)
-  private LocalDateTime fechaDelHechoDesde;
+  private LocalDate fechaDelHechoDesde;
   @Column(name = "FECHA_DEL_HECHO_HASTA", nullable = false)
-  private LocalDateTime fechaDelHechoHasta;
+  private LocalDate fechaDelHechoHasta;
 
-  public FechaDelHechoFiltroDeHecho(LocalDateTime fechaDelHechoDesde, LocalDateTime fechaDelHechoHasta) {
+  public FechaDelHechoFiltroDeHecho(LocalDate fechaDelHechoDesde, LocalDate fechaDelHechoHasta) {
     this.fechaDelHechoDesde = fechaDelHechoDesde;
     this.fechaDelHechoHasta = fechaDelHechoHasta;
   }

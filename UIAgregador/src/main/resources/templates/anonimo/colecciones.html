@@ -37,10 +37,10 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
 
-    let ubicaciones = [[${ubicaciones}]]
+    let hechos = [[${hechos}]]
 
-    ubicaciones.forEach(
-        function(ubicacion) {
+    hechos.forEach(
+        function(hecho) {
             var marker = L.marker([-34.649766, -58.454446]).addTo(map);
             marker.bindPopup("<b>Descripcion</b>");
         }

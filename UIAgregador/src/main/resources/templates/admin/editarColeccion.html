@@ -6,7 +6,7 @@
         <input id="titulo" type="text" name="titulo" th:field="*{titulo}" required/>
         <label>Descripcion</label>
         <input id="descripcion" type="text" name="descripcion" th:field="*{descripcion}" required/>
-        <input id="titulo" type="hidden" name="id" th:field="*{id}"/>
+        <input id="id" type="hidden" name="id" th:field="*{id}"/>
         <div th:each="fuente, fuenteStat : *{fuentes}">
             <label for="nuevaFuente">Fuente</label>
             <input type="text" id="nuevaFuente" th:field="*{fuentes[__${fuenteStat.index}__].baseUrl}" disabled/>

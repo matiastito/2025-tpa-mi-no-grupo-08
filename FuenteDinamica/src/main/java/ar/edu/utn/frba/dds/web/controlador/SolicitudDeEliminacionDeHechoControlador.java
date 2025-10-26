@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.web.controlador;
 
+import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.ACEPTADA;
 import static ar.edu.utn.frba.dds.web.dto.SolicitudDeEliminacionDeHechoDTO.toModel;
 
 import ar.edu.utn.frba.dds.modelo.administrador.Administrador;
@@ -60,11 +61,12 @@ public class SolicitudDeEliminacionDeHechoControlador {
     Administrador administrador =
         administradorRespositorio.findByNombre(solicitudDeEliminacionDeHechoDTO.getAdministrador().getNombre());
 
-    if (solicitudDeEliminacionDeHechoDTO.isAprobada()) {
+    if (solicitudDeEliminacionDeHechoDTO.getSolicitudDeEliminacionDeHechoEstado().equals(ACEPTADA)) {
       solicitudEliminacionServicio.aprobar(solicitudDeEliminacionDeHecho, administrador);
     } else {
       solicitudEliminacionServicio.rechazar(solicitudDeEliminacionDeHecho, administrador);
     }
+    solicitudEliminacionServicio.guardarSolicitudDeEliminacionDeHecho(solicitudDeEliminacionDeHecho);
   }
 }
 

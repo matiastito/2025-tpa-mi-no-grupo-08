@@ -13,6 +13,7 @@ import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
 import ar.edu.utn.frba.dds.modelo.hecho.Ubicacion;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -41,10 +42,11 @@ public class AlgoritmoAbsolutoTest {
     HechoOrigen origen = HechoOrigen.MANUAL;
     Categoria categoria = new Categoria("Categoria Test");
     Ubicacion ubicacion = crearUbicacion("-34.6037", "-58.3816");
-    LocalDateTime fecha = now();
+    LocalDate fecha = LocalDate.now();
+    LocalDateTime fechaCarga = LocalDateTime.now();
 
     Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria,
-        fecha, ubicacion, fecha, null);
+        fecha, ubicacion, fechaCarga, null);
 
     // Todas las fuentes contienen el hecho
     Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));
@@ -71,10 +73,11 @@ public class AlgoritmoAbsolutoTest {
     HechoOrigen origen = HechoOrigen.MANUAL;
     Categoria categoria = new Categoria("Categoria Test");
     Ubicacion ubicacion = crearUbicacion("-34.6037", "-58.3816");
-    LocalDateTime fecha = now();
+    LocalDate fecha = LocalDate.now();
+    LocalDateTime fechaCarga = now();
 
     Hecho hechoA = new Hecho(origen, "Título A", "Descripción A", categoria,
-        fecha, ubicacion, fecha, null);
+        fecha, ubicacion, fechaCarga, null);
 
     // Una fuente no lo contiene
     Fuente fuente1 = new FuenteFake("Fuente 1", TipoFuente.DINAMICA, Set.of(hechoA));

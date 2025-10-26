@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import org.hibernate.annotations.Cascade;
@@ -34,7 +35,7 @@ public class Hecho {
   @Embedded
   private Ubicacion ubicacion;
   @Column(name = "FECHA_DEL_HECHO", nullable = false)
-  private LocalDateTime fechaDelHecho;
+  private LocalDate fechaDelHecho;
   @Column(name = "FECHA_DE_CARGA", nullable = false)
   private LocalDateTime fechaDeCarga;
   @Enumerated(STRING)
@@ -42,12 +43,12 @@ public class Hecho {
 
   public Hecho() {
   }
-                                                                                                                                                                                          
+
   public Hecho(HechoOrigen hechoOrigen,
                String titulo,
                String descripcion,
                Categoria categoria,
-               LocalDateTime fechaDelHecho,
+               LocalDate fechaDelHecho,
                Ubicacion ubicacion,
                LocalDateTime fechaDeCarga) {
     this.hechoOrigen = hechoOrigen;
@@ -59,7 +60,7 @@ public class Hecho {
     this.fechaDeCarga = fechaDeCarga;
   }
 
-  public LocalDateTime getFechaDelHecho() {
+  public LocalDate getFechaDelHecho() {
     return fechaDelHecho;
   }
 

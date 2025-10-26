@@ -3,6 +3,8 @@ package ar.edu.utn.frba.dds.servicio;
 import ar.edu.utn.frba.dds.model.dto.ColeccionDTO;
 import ar.edu.utn.frba.dds.model.dto.ColeccionDTO.FuenteDTO;
 import ar.edu.utn.frba.dds.model.dto.HechoDTO;
+import ar.edu.utn.frba.dds.model.dto.HechoModificacionDTO;
+import ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoDTO;
 import ar.edu.utn.frba.dds.model.dto.TipoConsenso;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +72,16 @@ public class AgregadorServicio {
     webApiCallerService.put(agregadorServiceUrl + "/fuentes", fuenteDTO, Void.class);
   }
 
+  public void crearHecho(HechoDTO hechoDTO) {
+    webApiCallerService
+        .post(agregadorServiceUrl + "/hechos", hechoDTO, Void.class);
+  }
+
+  public void crearModificacionHecho(HechoModificacionDTO hechoModificacionDTO) {
+    webApiCallerService
+        .post(agregadorServiceUrl + "/hechosModificaciones", hechoModificacionDTO, Void.class);
+  }
+
   public void importarHechos(MultipartFile file) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -78,6 +90,30 @@ public class AgregadorServicio {
     body.add("archivoCSVDeHechos", file.getResource());
     HttpEntity<MultiValueMap<String, Object>> requestEntity
         = new HttpEntity<>(body, headers);
-    restTemplate.postForLocation(agregadorServiceUrl + "/importarHechos", requestEntity);
+    restTemplate.postForLocation(agregadorServiceUrl + "/hechos/archivo", requestEntity);
+  }
+
+  public List<HechoModificacionDTO> hechosModificaciones() {
+    return webApiCallerService.getList(agregadorServiceUrl + "/hechosModificaciones", HechoModificacionDTO.class);
+  }
+
+  public void editarModificacionHecho(HechoModificacionDTO hechoModificacionDTO) {
+    webApiCallerService
+        .put(agregadorServiceUrl + "/hechosModificaciones", hechoModificacionDTO, Void.class);
+  }
+
+  public void solicitarEliminacionDeHecho(SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO) {
+    webApiCallerService
+        .post(agregadorServiceUrl + "/solicitudes", solicitudDeEliminacionDeHechoDTO, Void.class);
+  }
+
+  public List<SolicitudDeEliminacionDeHechoDTO> solicitudesEliminacion() {
+    return webApiCallerService.getList(agregadorServiceUrl + "/solicitudes", SolicitudDeEliminacionDeHechoDTO.class);
+  }
+
+  public void editarSolicitudEliminacion(SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO) {
+    webApiCallerService
+        .put(agregadorServiceUrl + "/solicitudes", solicitudDeEliminacionDeHechoDTO, Void.class);
+
   }
 }

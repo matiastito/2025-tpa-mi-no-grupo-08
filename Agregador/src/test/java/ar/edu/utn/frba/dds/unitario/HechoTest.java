@@ -2,8 +2,7 @@ package ar.edu.utn.frba.dds.unitario;
 
 import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.PENDIENTE;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
-import static java.time.LocalDateTime.now;
-import static java.time.LocalDateTime.of;
+import static java.time.LocalDate.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -17,6 +16,7 @@ import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import ar.edu.utn.frba.dds.modelo.hecho.Ubicacion;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,9 +31,9 @@ public class HechoTest {
         "Incendio en Córdoba",
         "Incendio forestal de gran magnitud",
         Categorias.categoria("Incendio forestal"),
-        of(2025, 3, 12, 10, 0),
+        of(2025, 3, 12),
         crearUbicacion("-31.4", "-64.2"),
-        now(),
+        LocalDateTime.now(),
         mock(Fuente.class)
     );
   }
@@ -66,7 +66,7 @@ public class HechoTest {
   @Test
   public void dosHechosConElMismoTituloSonIguales() {
     Categoria categoria = new Categoria("Incendio");
-    LocalDateTime fecha = now();
+    LocalDate fecha = LocalDate.now();
     Ubicacion ubicacion = crearUbicacion("0.0", "0.0");
 
     Hecho hechoOriginal = new Hecho(
@@ -76,7 +76,7 @@ public class HechoTest {
         categoria,
         fecha,
         ubicacion,
-        now(),
+        LocalDateTime.now(),
         mock(Fuente.class)
     );
 
@@ -87,7 +87,7 @@ public class HechoTest {
         categoria,
         fecha,
         ubicacion,
-        now(),
+        LocalDateTime.now(),
         mock(Fuente.class)
     );
 

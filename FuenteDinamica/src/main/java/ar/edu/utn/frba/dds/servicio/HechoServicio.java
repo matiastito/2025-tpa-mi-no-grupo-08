@@ -23,8 +23,8 @@ public class HechoServicio {
     hechoRepositorio.save(hecho);
   }
 
-  public void modificarHecho(Hecho hecho) {
-    Hecho hechoExistente = hechoRepositorio.findById(hecho.getId()).get();
+  public void modificarHecho(Hecho hechoModificado) {
+    Hecho hechoExistente = hechoRepositorio.findById(hechoModificado.getId()).get();
 
     if (DAYS.between(hechoExistente.getFechaDeCarga(), now()) > CANTIDAD_DE_DIAS_LIMITE_MODIFICACION) {
       throw new RuntimeException("No se puede modificar el Hecho, ha pasado la fecha limite.");
@@ -32,7 +32,11 @@ public class HechoServicio {
     if (hechoExistente.getContribuyente() != null) {
       throw new RuntimeException("No se puede modificar un Hecho anonimo.");
     }
-    //TODO hacer la modifcacion
+
+    hechoExistente.setFechaDelHecho(hechoModificado.getFechaDelHecho());
+    hechoExistente.setDescripcion(hechoModificado.getDescripcion());
+    hechoExistente.setTitulo(hechoModificado.getTitulo());
+    hechoExistente.setUbicacion(hechoModificado.getUbicacion());
     hechoRepositorio.save(hechoExistente);
   }
 

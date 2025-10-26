@@ -3,20 +3,25 @@
     <table class="table table-sm table-dark">
         <thead>
         <tr>
-            <th scope="col">Handle</th>
+            <th scope="col">Hecho #</th>
+            <th scope="col">Fecha</th>
             <th scope="col">Titulo</th>
-            <th scope="col">Fuente</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col"></th>
             <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td scope="row" th:text="${coleccion.handle}"/>
-            <td th:text="${coleccion.titulo}"/>
-            <td>
-                <span th:each="fuente : ${coleccion.fuentes}" th:text="${fuente.baseUrl}"/>
+        <tr th:each="hecho : ${hechos}">
+            <td scope="row" th:text="${hecho.id}"/>
+            <td th:text="${hecho.fechaDelHecho}"/>
+            <td th:text="${hecho.titulo}"/>
+            <td th:text="${hecho.descripcion}"/>
+            <td><a class="navbar-brand"
+                   th:href="@{/contribuyente/colecciones/{coleccionId}/hechos/{hechoId}(hechoId=${hecho.id}, coleccionId=${coleccion.id})}">Ver</a>
             </td>
-            <td><a class="navbar-brand" th:href="@{/anonimo/colecciones/{id}/hechos(id=${coleccion.id})}">Hechos</a>
+            <td><a class="navbar-brand"
+                   th:href="@{/contribuyente/colecciones/{coleccionId}/hechos/{hechoId}/editar(hechoId=${hecho.id}, coleccionId=${coleccion.id})}">Editar</a>
             </td>
         </tr>
         </tbody>
@@ -37,12 +42,12 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
 
-    let hechos = [[${hechos}]]
+    let hechos = JSON.parse([[${hechosJSON}]]);
 
     hechos.forEach(
         function(hecho) {
-            var marker = L.marker([-34.649766, -58.454446]).addTo(map);
-            marker.bindPopup("<b>Descripcion</b>");
+            var marker = L.marker([Number(hecho.ubicacion.latitud), Number(hecho.ubicacion.longitud)]).addTo(map);
+            marker.bindPopup("<b>"+hecho.fechaDelHecho+" - "+hecho.titulo+"</b>");
         }
     );
     /*]]>*/

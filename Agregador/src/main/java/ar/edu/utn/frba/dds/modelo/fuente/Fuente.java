@@ -9,12 +9,16 @@ import static ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHe
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static java.util.stream.Collectors.toSet;
+import static org.hibernate.annotations.CascadeType.ALL;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.web.client.RestClient.create;
 
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
+import ar.edu.utn.frba.dds.normalizador.NormalizadorCategoria;
+import ar.edu.utn.frba.dds.web.controlador.dto.ContribuyenteDTO;
 import ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO;
+import ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHechoDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -25,6 +29,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
+import org.hibernate.annotations.Cascade;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -47,6 +52,7 @@ public class Fuente {
   private String baseUrl;
   @OneToMany
   @JoinColumn(name = "FUENTE_ID")
+  @Cascade(ALL)
   private final Set<Hecho> hechos = new HashSet<>();
 
   public Fuente() {
@@ -83,7 +89,7 @@ public class Fuente {
     return tipoFuente;
   }
 
-  public void refrescar() {
+  public void refrescar(NormalizadorCategoria normalizadorCategoria) {
     if (!METAMAPA.equals(tipoFuente)) {
       ResponseEntity<Set<HechoDTO>> result =
           create("http://" + baseUrl + "/hechos")
@@ -94,7 +100,7 @@ public class Fuente {
       this.hechos.addAll(result
           .getBody()
           .stream()
-          .map(h -> toHecho(h, this))
+          .map(h -> normalizadorCategoria.normalizar(toHecho(h, this)))
           .collect(toSet()));
     }
   }
@@ -105,6 +111,11 @@ public class Fuente {
 
   public void eliminar(SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho) {
     if (METAMAPA.equals(tipoFuente) || DINAMICA.equals(tipoFuente)) {
+      SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO = toDTO(solicitudDeEliminacionDeHecho);
+      solicitudDeEliminacionDeHechoDTO.setHechoId(solicitudDeEliminacionDeHecho.getHecho().getIdExterno());
+      if (solicitudDeEliminacionDeHecho.getRepotador() != null) {
+        solicitudDeEliminacionDeHechoDTO.setRepotador(new ContribuyenteDTO(solicitudDeEliminacionDeHecho.getRepotador().getNombre()));
+      }
       create("http://" + baseUrl + "/solicitudes")
           .post()
           .body(toDTO(solicitudDeEliminacionDeHecho))
@@ -119,6 +130,19 @@ public class Fuente {
       create("http://" + baseUrl + "/hechos")
           .post()
           .body(toDTO(hecho))
+          .retrieve()
+          .toEntity(new ParameterizedTypeReference<>() {
+          });
+    }
+  }
+
+  public void editar(Hecho hecho) {
+    if (DINAMICA.equals(tipoFuente)) {
+      HechoDTO hechoDTO = toDTO(hecho);
+      hechoDTO.setId(hecho.getIdExterno());
+      create("http://" + baseUrl + "/hechos")
+          .put()
+          .body(hechoDTO)
           .retrieve()
           .toEntity(new ParameterizedTypeReference<>() {
           });

@@ -16,9 +16,10 @@ public class ContribuyenteServicio {
   }
 
   public Contribuyente guardar(String nombre, String apellido) {
-    if (contribuyente(nombre, apellido) == null) {
-      contribuyenteRepositorio.save(new Contribuyente(nombre, apellido));
+    //FIXME ver el apellido
+    if (contribuyente(nombre, nombre) == null) {
+      contribuyenteRepositorio.save(new Contribuyente(nombre, nombre));
     }
-    return contribuyenteRepositorio.findByNombreAndApellido(nombre, apellido);
+    return contribuyenteRepositorio.findByNombreAndApellido(nombre, nombre);
   }
 }

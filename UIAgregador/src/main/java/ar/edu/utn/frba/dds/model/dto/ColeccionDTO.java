@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.model.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -7,7 +8,7 @@ public class ColeccionDTO {
   private Long id;
   private String titulo;
   private String descripcion;
-  private List<FuenteDTO> fuentes;
+  private List<FuenteDTO> fuentes = new ArrayList<>();
   private UUID handle;
   private TipoConsenso tipoConsenso;
 

@@ -1,0 +1,39 @@
+<html th:replace="~{layout/baseAdmin :: html}">
+<div th:fragment="contenido">
+    <h2 class="ms-5">Solicitudes</h2>
+    <table class="table table-sm table-dark">
+        <thead>
+        <tr>
+            <th scope="col">Hecho</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Estado</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="solicitudEliminacion : ${solicitudesEliminacion}">
+            <td scope="row" th:text="${solicitudEliminacion.tituloHecho}"/>
+            <td th:text="${solicitudEliminacion.motivo}"/>
+            <td th:text="${solicitudEliminacion.solicitudDeEliminacionDeHechoEstado}"/>
+            <td>
+                <form th:if="${#strings.equals('PENDIENTE', solicitudEliminacion.solicitudDeEliminacionDeHechoEstado)}"
+                      th:action="@{/admin/solicitudesEliminacion/{id}/rechazar(id=${solicitudEliminacion.solicitudDeEliminacionId})}"
+                      method="POST">
+                    <button class="btn btn-primary" type="submit">Rechazar</button>
+                </form>
+            </td>
+            <td>
+                <form th:if="${#strings.equals('PENDIENTE', solicitudEliminacion.solicitudDeEliminacionDeHechoEstado)}"
+                      th:action="@{/admin/solicitudesEliminacion/{id}/aceptar(id=${solicitudEliminacion.solicitudDeEliminacionId})}"
+                      method="POST">
+                    <button class="btn btn-primary" type="submit">Aceptar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" th:href="@{/css/landing.css}">

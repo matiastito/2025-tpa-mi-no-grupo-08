@@ -1,16 +1,23 @@
 package ar.edu.utn.frba.dds.web.controlador;
 
+import static ar.edu.utn.frba.dds.modelo.hecho.HechoModificacionEstado.ACEPTADA;
+import static ar.edu.utn.frba.dds.modelo.hecho.HechoModificacionEstado.RECHAZADA;
 import static ar.edu.utn.frba.dds.web.controlador.dto.ColeccionDTO.FuenteDTO.toDTO;
 import static ar.edu.utn.frba.dds.web.controlador.dto.ColeccionDTO.FuenteDTO.toModel;
 import static ar.edu.utn.frba.dds.web.controlador.dto.ColeccionDTO.toDTO;
 import static ar.edu.utn.frba.dds.web.controlador.dto.ColeccionDTO.toModel;
 import static ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO.toHecho;
+import static ar.edu.utn.frba.dds.web.controlador.dto.HechoModificacionDTO.toHechoModificacion;
 
+import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
+import ar.edu.utn.frba.dds.modelo.hecho.HechoModificacion;
 import ar.edu.utn.frba.dds.servicio.ColeccionServicio;
 import ar.edu.utn.frba.dds.servicio.FuenteServicio;
+import ar.edu.utn.frba.dds.servicio.HechoModificacionServicio;
 import ar.edu.utn.frba.dds.web.controlador.dto.ColeccionDTO;
 import ar.edu.utn.frba.dds.web.controlador.dto.ColeccionDTO.FuenteDTO;
 import ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO;
+import ar.edu.utn.frba.dds.web.controlador.dto.HechoModificacionDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +34,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class Gateway {
   @Autowired
   private ColeccionServicio coleccionServicio;
+
+  @Autowired
+  private HechoModificacionServicio hechoModificacionServicio;
 
   @Autowired
   private FuenteServicio fuenteServicio;
@@ -49,7 +59,9 @@ public class Gateway {
 
   @PutMapping("/colecciones")
   public void editarColeccion(@RequestBody ColeccionDTO coleccionDTO) {
-    coleccionServicio.editarColeccion(toModel(coleccionDTO));
+    Coleccion coleccion = toModel(coleccionDTO);
+    coleccion.setId(coleccionDTO.getId());
+    coleccionServicio.editarColeccion(coleccion);
   }
 
   @GetMapping("/fuentes")
@@ -64,12 +76,31 @@ public class Gateway {
 
   @PostMapping("/hechos")
   public void crearHecho(@RequestBody HechoDTO hechoDTO) {
-    //FIXME? ver esto de no pasarle fuente.
     fuenteServicio.crearHecho(toHecho(hechoDTO, null));
   }
 
-  @PostMapping("/importarHechos")
-  public void crearHecho(@RequestParam("archivoCSVDeHechos") MultipartFile archivoCSVDeHechos) {
+  @PostMapping("/hechos/archivo")
+  public void impotarHechos(@RequestParam("archivoCSVDeHechos") MultipartFile archivoCSVDeHechos) {
     fuenteServicio.importarHechos(archivoCSVDeHechos);
+  }
+
+  @PostMapping("/hechosModificaciones")
+  public void crearHechoModificacion(@RequestBody HechoModificacionDTO hechoModificacionDTO) {
+    HechoModificacion hechoModificacion = toHechoModificacion(hechoModificacionDTO);
+    hechoModificacionServicio.guardarHechoModificacion(hechoModificacion, hechoModificacionDTO.getId());
+  }
+
+  @PutMapping("/hechosModificaciones")
+  public void modificarHechoModificacion(@RequestBody HechoModificacionDTO hechoModificacionDTO) {
+    if (hechoModificacionDTO.getHechoModificacionEstado().equals(ACEPTADA)) {
+      hechoModificacionServicio.aceptarHechoModificacion(hechoModificacionDTO.getId());
+    } else if (hechoModificacionDTO.getHechoModificacionEstado().equals(RECHAZADA)) {
+      hechoModificacionServicio.rechazarHechoModificacion(hechoModificacionDTO.getId());
+    }
+  }
+
+  @GetMapping("/hechosModificaciones")
+  public List<HechoModificacionDTO> dameModificacionesHechos() {
+    return HechoModificacionDTO.toDTO(hechoModificacionServicio.pendientes());
   }
 }

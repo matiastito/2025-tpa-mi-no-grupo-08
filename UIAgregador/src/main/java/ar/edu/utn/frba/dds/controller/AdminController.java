@@ -1,7 +1,16 @@
 package ar.edu.utn.frba.dds.controller;
 
+import static ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoEstado.ACEPTADA;
+import static ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoEstado.PENDIENTE;
+import static ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoEstado.RECHAZADA;
+import static java.util.stream.Collectors.toList;
+import static org.springframework.web.context.request.RequestContextHolder.currentRequestAttributes;
+
 import ar.edu.utn.frba.dds.model.dto.ColeccionDTO;
 import ar.edu.utn.frba.dds.model.dto.ColeccionDTO.FuenteDTO;
+import ar.edu.utn.frba.dds.model.dto.HechoModificacionDTO;
+import ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoDTO;
+import ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoDTO.AdministradorDTO;
 import ar.edu.utn.frba.dds.model.dto.TipoConsenso;
 import ar.edu.utn.frba.dds.servicio.AgregadorServicio;
 import java.util.List;
@@ -16,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -37,7 +47,13 @@ public class AdminController {
   @GetMapping("/panelDeControl")
   public String panelDeControl(Model model) {
     List<FuenteDTO> fuentes = agregadorServicio.fuentes();
+    List<SolicitudDeEliminacionDeHechoDTO> solicitudDeEliminacionDeHecho = agregadorServicio.solicitudesEliminacion().stream()
+        .filter(solicitudDeEliminacionDeHechoDTO -> solicitudDeEliminacionDeHechoDTO.getSolicitudDeEliminacionDeHechoEstado().equals(PENDIENTE))
+        .collect(toList());
+    List<HechoModificacionDTO> hechosModificaciones = agregadorServicio.hechosModificaciones();
     model.addAttribute("fuentesDTO", fuentes);
+    model.addAttribute("hechosModificacionesCantidad", hechosModificaciones.size());
+    model.addAttribute("solicitudesDeEliminacionCantidad", solicitudDeEliminacionDeHecho.size());
     return "admin/panelDeControl.html";
   }
 
@@ -70,7 +86,9 @@ public class AdminController {
 
   @GetMapping("/colecciones/crear")
   public String crearColeccion(Model model) {
-    model.addAttribute("coleccionDTO", new ColeccionDTO());
+    ColeccionDTO coleccionDTO = new ColeccionDTO();
+    coleccionDTO.getFuentes().add(new FuenteDTO());
+    model.addAttribute("coleccionDTO", coleccionDTO);
     return "admin/crearColeccion.html";
   }
 
@@ -83,7 +101,11 @@ public class AdminController {
 
   @PostMapping("/colecciones")
   public String crearColecciones(@ModelAttribute("coleccionDTO") ColeccionDTO coleccionDTO) {
-    agregadorServicio.crearColeccion(coleccionDTO);
+    if (coleccionDTO.getId() != null) {
+      agregadorServicio.editarColeccion(coleccionDTO);
+    } else {
+      agregadorServicio.crearColeccion(coleccionDTO);
+    }
     return "redirect:/admin/colecciones";
   }
 
@@ -110,5 +132,57 @@ public class AdminController {
     return "redirect:/admin/panelDeControl"; // Return to the upload page, potentially with a message
   }
 
+  @GetMapping("/hechosModificaciones")
+  public String hechosModificaciones(Model model) {
+    List<HechoModificacionDTO> hechosModificaciones = agregadorServicio.hechosModificaciones();
+    model.addAttribute("hechosModificaciones", hechosModificaciones);
+    model.addAttribute("hechoModificacion", new HechoModificacionDTO());
+    return "admin/hechosModificaciones.html";
+  }
+
+  @PostMapping("/hechosModificaciones/{hechoModificacionId}")
+  public String hechosModificaciones(
+      @PathVariable("hechoModificacionId") Long hechoModificacionId,
+      @ModelAttribute("hechoModificacionDTO") HechoModificacionDTO hechoModificacionDTO) {
+    hechoModificacionDTO.setId(hechoModificacionId);
+    agregadorServicio.editarModificacionHecho(hechoModificacionDTO);
+    return "redirect:/admin/hechosModificaciones";
+  }
+
+  @GetMapping("/solicitudesEliminacion")
+  public String solicitudesEliminacion(Model model) {
+    List<SolicitudDeEliminacionDeHechoDTO> solicitudesEliminacion =
+        agregadorServicio.solicitudesEliminacion();
+    model.addAttribute("solicitudesEliminacion", solicitudesEliminacion);
+    return "admin/solicitudes.html";
+  }
+
+  @PostMapping("/solicitudesEliminacion/{solicitudesEliminacionId}/aceptar")
+  public String hechosModificacionesAceptar(
+      @PathVariable("solicitudesEliminacionId") Long solicitudesEliminacionId) {
+    SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO = completarSolicitudDeEliminacion(solicitudesEliminacionId);
+    solicitudDeEliminacionDeHechoDTO.setSolicitudDeEliminacionDeHechoEstado(ACEPTADA);
+    agregadorServicio.editarSolicitudEliminacion(solicitudDeEliminacionDeHechoDTO);
+    return "redirect:/admin/solicitudesEliminacion";
+  }
+
+  @PostMapping("/solicitudesEliminacion/{solicitudesEliminacionId}/rechazar")
+  public String hechosModificacionesRechazar(
+      @PathVariable("solicitudesEliminacionId") Long solicitudesEliminacionId) {
+    SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO = completarSolicitudDeEliminacion(solicitudesEliminacionId);
+    solicitudDeEliminacionDeHechoDTO.setSolicitudDeEliminacionDeHechoEstado(RECHAZADA);
+    agregadorServicio.editarSolicitudEliminacion(solicitudDeEliminacionDeHechoDTO);
+    return "redirect:/admin/solicitudesEliminacion";
+  }
+
+  private SolicitudDeEliminacionDeHechoDTO completarSolicitudDeEliminacion(Long solicitudesEliminacionId) {
+    ServletRequestAttributes attributes = (ServletRequestAttributes) currentRequestAttributes();
+    String username = (String) attributes.getRequest().getSession().getAttribute("username");
+
+    SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO = new SolicitudDeEliminacionDeHechoDTO();
+    solicitudDeEliminacionDeHechoDTO.setSolicitudDeEliminacionId(solicitudesEliminacionId);
+    solicitudDeEliminacionDeHechoDTO.setAdministrador(new AdministradorDTO(username));
+    return solicitudDeEliminacionDeHechoDTO;
+  }
 }
 

@@ -1,23 +1,30 @@
 package ar.edu.utn.frba.dds.model.dto;
 
 public class UbicacionDTO {
-  private double lat;
-  private double lon;
+  private String latitud;
+  private String longitud;
 
   public UbicacionDTO() {
-
   }
 
-  public UbicacionDTO(double lat, double lon) {
-    this.lat = lat;
-    this.lon = lon;
+  public UbicacionDTO(String latitud, String longitud) {
+    this.latitud = latitud;
+    this.longitud = longitud;
   }
 
-  public double getLat() {
-    return lat;
+  public String getLatitud() {
+    return latitud;
   }
 
-  public double getLon() {
-    return lon;
+  public String getLongitud() {
+    return longitud;
+  }
+
+  public void setLongitud(String longitud) {
+    this.longitud = longitud;
+  }
+
+  public void setLatitud(String latitud) {
+    this.latitud = latitud;
   }
 }

@@ -53,8 +53,8 @@ public class ColeccionServicio {
 
   public void editarColeccion(Coleccion coleccion) {
     Coleccion coleccionAEditar = coleccion(coleccion.getId());
-    coleccionAEditar.setTitulo(coleccionAEditar.getTitulo());
-    coleccionAEditar.setDescripcion(coleccionAEditar.getDescripcion());
-    coleccionRepositorio.save(coleccion);
+    coleccionAEditar.setTitulo(coleccion.getTitulo());
+    coleccionAEditar.setDescripcion(coleccion.getDescripcion());
+    coleccionRepositorio.save(coleccionAEditar);
   }
 }

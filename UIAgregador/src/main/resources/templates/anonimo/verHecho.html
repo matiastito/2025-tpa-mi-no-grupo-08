@@ -1,0 +1,67 @@
+<html th:replace="~{layout/baseAnonimo :: html}">
+<main th:fragment="contenido" class="auth-main">
+    <div class="auth-card">
+        <h1>Detalles del Hecho</h1>
+        <form th:object="${hecho}">
+            <label>Categoria</label>
+            <input id="categoria" type="text" name="categoria" th:field="*{categoria}" required/>
+            <label>Titulo</label>
+            <input id="titulo" type="text" name="titulo" th:field="*{titulo}" required/>
+            <label>Descripcion</label>
+            <input id="descripcion" type="text" name="descripcion" th:field="*{descripcion}" required/>
+            <label>Fecha</label>
+            <input id="fechaDelHecho" type="date" name="fechaDelHecho" th:field="*{fechaDelHecho}" required/>
+            <label>Latitud</label>
+            <input type="text" th:field="*{ubicacion.latitud}" required/>
+            <label>Longitud</label>
+            <input type="text" th:field="*{ubicacion.longitud}" required/>
+        </form>
+        <a class="navbar-brand" th:href="@{/anonimo/colecciones/{id}/hechos(id=${coleccion.id})}">Volver</a>
+        <form th:action="@{/anonimo/solicitudEliminacion}" method="post"
+              th:object="${solicitudDeEliminacionDeHecho}">
+            <input id="hechoId" type="hidden" name="hechoId" th:field="*{hechoId}"/>
+            <label>Motivo</label>
+            <input id="motivo" type="textarea" name="motivo" th:field="*{motivo}" required/>
+            <button class="btn btn-primary" type="submit">REPORTAR</button>
+        </form>
+    </div>
+    <div id="map"></div>
+</main>
+</html>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" th:href="@{/css/auth.css}"/>
+<link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      rel="stylesheet"/>
+<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- MAPA -->
+<link rel="stylesheet"
+      crossorigin=""
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="/>
+<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/js/map.js"></script>
+<script>
+    $(document).ready(function() {
+        map.on('click', function () {
+            $("#ubicacion\\.latitud").val(ubicacion.lat);
+            $("#ubicacion\\.longitud").val(ubicacion.lng);
+        });
+    });
+</script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    let hechos = JSON.parse([[${hechosJSON}]]);
+
+    hechos.forEach(
+        function(hecho) {
+            var marker = L.marker([Number(hecho.ubicacion.latitud), Number(hecho.ubicacion.longitud)]).addTo(map);
+            marker.bindPopup("<b>"+hecho.fechaDelHecho+" - "+hecho.titulo+"</b>");
+            map.setView(marker.getLatLng(), 13);
+        }
+    );
+    /*]]>*/
+</script>

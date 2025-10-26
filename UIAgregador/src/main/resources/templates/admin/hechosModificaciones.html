@@ -1,0 +1,42 @@
+<html th:replace="~{layout/baseAdmin :: html}">
+<div th:fragment="contenido">
+    <h2 class="ms-5">Hechos Modificaciones</h2>
+    <table class="table table-sm table-dark">
+        <thead>
+        <tr>
+            <th scope="col">Hecho</th>
+            <th scope="col">Titulo</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="hm : ${hechosModificaciones}">
+            <td scope="row" th:text="${hm.titulo}"/>
+            <td th:text="${hm.descripcion}"/>
+            <td>
+                <form th:action="@{/admin/hechosModificaciones/{id}(id=${hm.id})}" method="POST"
+                      th:object="${hechoModificacion}">
+                    <select th:field="*{hechoModificacionEstado}">
+                        <option value="PENDIENTE"
+                                th:selected="${#strings.equals('PENDIENTE', hm.hechoModificacionEstado)}">
+                            PENDIENTE
+                        </option>
+                        <option value="ACEPTADA"
+                                th:selected="${#strings.equals('ACEPTADA', hm.hechoModificacionEstado)}">
+                            ACEPTADA
+                        </option>
+                        <option value="RECHAZADA"
+                                th:selected="${#strings.equals('RECHAZADA', hm.hechoModificacionEstado)}">
+                            RECHAZADA
+                        </option>
+                    </select>
+                    <button class="btn btn-primary" type="submit">Editar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" th:href="@{/css/landing.css}">

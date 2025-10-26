@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HechoRepositorio extends JpaRepository<Hecho, Long> {
   @Query("select h from Hecho h where h.ubicacion.provincia is null")
-  List<Hecho> hechosSinNormalizarProvinca();
+  List<Hecho> hechosSinNormalizarProvincia();
 }

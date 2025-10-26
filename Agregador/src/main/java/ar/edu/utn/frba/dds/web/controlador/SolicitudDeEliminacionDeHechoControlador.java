@@ -1,18 +1,20 @@
 package ar.edu.utn.frba.dds.web.controlador;
 
 import static ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado.ACEPTADA;
-import static ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHechoDTO.toDTO;
 import static ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHechoDTO.toModel;
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.toList;
+
 import ar.edu.utn.frba.dds.modelo.administrador.Administrador;
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import ar.edu.utn.frba.dds.repositorio.AdministradorRepositorio;
-import ar.edu.utn.frba.dds.servicio.ColeccionServicio;
 import ar.edu.utn.frba.dds.servicio.ContribuyenteServicio;
+import ar.edu.utn.frba.dds.servicio.HechoServicio;
 import ar.edu.utn.frba.dds.servicio.SolicitudEliminacionServicio;
 import ar.edu.utn.frba.dds.web.controlador.dto.SolicitudDeEliminacionDeHechoDTO;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +27,7 @@ public class SolicitudDeEliminacionDeHechoControlador {
   @Autowired
   private SolicitudEliminacionServicio solicitudEliminacionServicio;
   @Autowired
-  private ColeccionServicio coleccionServicio;
+  private HechoServicio hechoServicio;
   @Autowired
   private ContribuyenteServicio contribuyenteServicio;
   @Autowired
@@ -49,13 +51,14 @@ public class SolicitudDeEliminacionDeHechoControlador {
     }
 
     //Buscar Hecho
-    Hecho hecho =
-        coleccionServicio.buscarHechoPorTitulo(
-            solicitudDeEliminacionDeHechoDTO.getTituloHecho());
+    Optional<Hecho> hecho =
+        hechoServicio.getHecho(solicitudDeEliminacionDeHechoDTO.getHechoId());
 
     //Registar Solicitud
-    solicitudEliminacionServicio.guardarSolicitudDeEliminacionDeHecho(
-        toModel(solicitudDeEliminacionDeHechoDTO, hecho, contribuyente));
+    if (hecho.isPresent()) {
+      solicitudEliminacionServicio.guardarSolicitudDeEliminacionDeHecho(
+          toModel(solicitudDeEliminacionDeHechoDTO, hecho.get(), contribuyente));
+    }
   }
 
   /**
@@ -68,25 +71,31 @@ public class SolicitudDeEliminacionDeHechoControlador {
   public void modificarSolicitud(
       @RequestBody SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO) {
     //Buscar Solicitud
-    Hecho hecho = coleccionServicio.buscarHechoPorTitulo(solicitudDeEliminacionDeHechoDTO.getTituloHecho());
+
     SolicitudDeEliminacionDeHecho solicitudDeEliminacionDeHecho =
-        solicitudEliminacionServicio.buscarSolicitudDeEliminacionDeHecho(hecho);
+        solicitudEliminacionServicio.solicitudDeEliminacionDeHecho(solicitudDeEliminacionDeHechoDTO.getSolicitudDeEliminacionId());
 
     //Buscar Administrador
-    Administrador administrador =
-        administradorRepositorio.findByNombre(solicitudDeEliminacionDeHechoDTO.getAdministrador().getNombre()).get();
+    Administrador administrador = null;
+    if (administradorRepositorio
+        .findByNombre(solicitudDeEliminacionDeHechoDTO.getAdministrador().getNombre()).isEmpty()) {
+      administrador = administradorRepositorio.save(new Administrador("admin"));
+    }
 
     if (ACEPTADA.equals(solicitudDeEliminacionDeHechoDTO.getSolicitudDeEliminacionDeHechoEstado())) {
       solicitudEliminacionServicio.aprobar(solicitudDeEliminacionDeHecho, administrador);
     } else {
       solicitudEliminacionServicio.rechazar(solicitudDeEliminacionDeHecho, administrador);
     }
+    solicitudEliminacionServicio.guardarSolicitudDeEliminacionDeHecho(solicitudDeEliminacionDeHecho);
   }
 
   @GetMapping("/solicitudes")
-  public void solicitudes() {
-    solicitudEliminacionServicio
-        .solicitudesDeEliminacionDeHecho().stream().map(s -> toDTO(s)).collect(toSet());
+  public List<SolicitudDeEliminacionDeHechoDTO> solicitudes() {
+    return solicitudEliminacionServicio
+        .solicitudesDeEliminacionDeHecho()
+        .stream()
+        .map(SolicitudDeEliminacionDeHechoDTO::toDTO).collect(toList());
   }
 }
 

@@ -10,6 +10,7 @@ import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
 import ar.edu.utn.frba.dds.modelo.hecho.Ubicacion;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ public class TestIntegrador_E3_1 {
                 "Inundación",
                 "Inundación leve",
                 new Categoria("Inundación"),
-                LocalDateTime.now(),
+                LocalDate.now(),
                 Ubicacion.crearUbicacion("10", "20"),
                 LocalDateTime.now(),
                 null // Fuente dummy
@@ -39,7 +40,7 @@ public class TestIntegrador_E3_1 {
                 "Incendio",
                 "Incendio en zona rural",
                 new Categoria("Incendio"),
-                LocalDateTime.now(),
+                LocalDate.now(),
                 Ubicacion.crearUbicacion("30", "40"),
                 LocalDateTime.now(),
                 null // Fuente dummy

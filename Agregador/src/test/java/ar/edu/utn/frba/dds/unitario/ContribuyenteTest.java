@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.unitario;
 
+import static ar.edu.utn.frba.dds.util.FormateadorDeFecha.formatearFecha;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.jupiter.api.Test;
 
 import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
-import static ar.edu.utn.frba.dds.util.FormateadorDeFecha.formatearFecha;
+import org.junit.jupiter.api.Test;
 
 public class ContribuyenteTest {
 
@@ -16,7 +16,7 @@ public class ContribuyenteTest {
 
   @Test
   public void sePuedeCrearContribuyenteConNombreApellidoYEdad() {
-    Contribuyente contribuyente = new Contribuyente("Ana", "García", formatearFecha("12/12/2001").toLocalDate());
+    Contribuyente contribuyente = new Contribuyente("Ana", "García", formatearFecha("12/12/2001"));
     assertNotNull(contribuyente);
   }
 }

@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.servicio;
 
 import ar.edu.utn.frba.dds.model.dto.ColeccionDTO;
 import ar.edu.utn.frba.dds.model.dto.HechoDTO;
+import ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,8 +52,18 @@ public class AgregadorAnonimoServicio {
   public void crearHecho(HechoDTO hechoDTO) {
     webClient
         .post()
-        .uri(agregadorServiceUrl + "/hecho")
+        .uri(agregadorServiceUrl + "/hechos")
         .bodyValue(hechoDTO)
+        .retrieve()
+        .bodyToMono(Void.class)
+        .block();
+  }
+
+  public void solicitarEliminacionDeHecho(SolicitudDeEliminacionDeHechoDTO solicitudDeEliminacionDeHechoDTO) {
+    webClient
+        .post()
+        .uri(agregadorServiceUrl + "/solicitudes")
+        .bodyValue(solicitudDeEliminacionDeHechoDTO)
         .retrieve()
         .bodyToMono(Void.class)
         .block();

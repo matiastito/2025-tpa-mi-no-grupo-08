@@ -15,7 +15,7 @@ import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +35,7 @@ public class ColeccionTest {
         "Protesta en La Plata",
         "Manifestación pacífica",
         categoria("Otro"),
-        LocalDateTime.of(2025, 1, 20, 14, 30),
+        LocalDate.of(2025, 1, 20),
         crearUbicacion("-34.921", "-57.954"),
         now(),
         fuente
