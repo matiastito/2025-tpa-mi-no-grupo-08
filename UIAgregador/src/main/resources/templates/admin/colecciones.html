@@ -1,52 +1,77 @@
-<html th:replace="~{layout/baseAdmin :: html}">
+<!DOCTYPE html>
+<html th:replace="~{layout/baseAdmin :: html}" xmlns:th="http://www.thymeleaf.org">
+
 <div th:fragment="contenido">
-    <h2 class="ms-5">Colecciones</h2>
-    <a class="navbar-brand" th:href="@{/admin/colecciones/crear}">Nueva Coleccion</a>
-    <table class="table table-sm table-dark">
-        <thead>
-        <tr>
-            <th scope="col">Handle</th>
-            <th scope="col">Titulo</th>
-            <th scope="col">Fuente</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="coleccion : ${colecciones}">
-            <td scope="row" th:text="${coleccion.handle}"/>
-            <td th:text="${coleccion.titulo}"/>
-            <td th:text="${coleccion.fuentes[0].baseUrl}"/>
-            <td><a class="navbar-brand" th:href="@{/admin/colecciones/editar/{id}(id=${coleccion.id})}">Editar</a></td>
-            <td>
-                <form th:action="@{/admin/colecciones/eliminar/{id}(id=${coleccion.id})}" method="POST">
-                    <button class="btn btn-primary" type="submit">Borrar</button>
-                </form>
-            </td>
-            <td>
-                <form th:action="@{/admin/colecciones/{id}/consenso(id=${coleccion.id})}" method="POST">
-                    <select id="tipoConsenso" name="tipoConsenso">
-                        <option value="ABSOLUTO" th:selected="${#strings.equals('ABSOLUTO', coleccion.tipoConsenso)}">
-                            ABSOLUTO
-                        </option>
-                        <option value="MAYORIA_SIMPLE"
-                                th:selected="${#strings.equals('MAYORIA_SIMPLE', coleccion.tipoConsenso)}">
-                            MAYORIA
-                            SIMPLE
-                        </option>
-                        <option value="MULTIPLES_MENCIONES"
-                                th:selected="${#strings.equals('MULTIPLES_MENCIONES', coleccion.tipoConsenso)}">
-                            MULTIPLES MENCIONES
-                        </option>
+    <div class="container-fluid p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h2">Gestión de Colecciones</h1>
+            <a th:href="@{/admin/colecciones/crear}" class="btn btn-success">
+                <i class="bi bi-plus-lg me-1"></i> Nueva colección
+            </a>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(colecciones)}">
+            <div th:each="coleccion : ${colecciones}" class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-1" th:text="${coleccion.titulo}">Título de la Colección</h5>
+
+                    <p class="card-text text-muted mb-3" th:if="${coleccion.descripcion}" th:text="${#strings.abbreviate(coleccion.descripcion, 150)}">
+                        Descripción corta de la colección...
+                    </p>
+
+                    <div class="d-flex align-items-center gap-3 mb-3 text-muted small">
+                        <span>
+                            <i class="bi bi-hdd-stack me-1"></i>
+                            <span th:text="${#lists.size(coleccion.fuentes)}">0</span> fuentes
+                        </span>
+                        <span>
+                            <i class="bi bi-diagram-3 me-1"></i>
+                             <span th:text="${coleccion.tipoConsenso ?: 'N/A'}">Consenso N/A</span> - consenso
+                        </span>
+                        <span>
+                            <i class="bi bi-key-fill me-1"></i> Handle:
+                            <code th:text="${coleccion.handle?.toString() ?: 'N/A'}">UUID</code>
+                        </span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-sm btn-outline-secondary"> <i class="bi bi-gear me-1"></i> Configurar fuentes
+                        </a>
+                        <a class="btn btn-sm btn-outline-primary" th:href="@{/admin/colecciones/editar/{id}(id=${coleccion.id})}">
+                            <i class="bi bi-pencil me-1"></i> Editar
+                        </a>
+                        <form th:action="@{/admin/colecciones/eliminar/{id}(id=${coleccion.id})}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta colección?');">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">
+                                <i class="bi bi-trash me-1"></i> Eliminar
+                            </button>
+                        </form>
+                    </div>
+                </div> </div> </div> <div th:if="${#lists.isEmpty(colecciones)}">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title mb-1">Emergencia por Altas Temperaturas (Ejemplo)</h5>
+                <p class="card-text text-muted mb-3">
+                    Hechos en los que las altas temperaturas han provocado malestar y/o complicaciones a la población y al medioambiente...
+                </p>
+                <div class="d-flex align-items-center gap-3 mb-3 text-muted small">
+                    <span><i class="bi bi-list-ul me-1"></i><span>145</span> hechos</span> <span><i class="bi bi-hdd-stack me-1"></i><span>3</span> fuentes</span> <span><i class="bi bi-diagram-3 me-1"></i><span>Múltiples menciones</span> - consenso</span> <span><i class="bi bi-key-fill me-1"></i> Handle: <code>ejemplo-handle-123</code></span> </div>
+                <div class="d-flex gap-2">
+                    <a href="#" class="btn btn-sm btn-outline-secondary"><i class="bi bi-gear me-1"></i> Configurar fuentes</a>
+                    <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil me-1"></i> Editar</a>
+                    <button class="btn btn-sm btn-outline-danger" type="button" onclick="alert('Acción de ejemplo: Eliminar');"><i class="bi bi-trash me-1"></i> Eliminar</button>
+                </div>
+                <form action="#" method="POST" class="mt-3 d-flex gap-2 align-items-center border-top pt-3">
+                    <label class="form-label mb-0 small text-muted">Consenso:</label>
+                    <select name="tipoConsenso" class="form-select form-select-sm" style="width: auto;">
+                        <option value="ABSOLUTO">Absoluto</option>
+                        <option value="MAYORIA_SIMPLE">Mayoría Simple</option>
+                        <option value="MULTIPLES_MENCIONES" selected>Múltiples Menciones</option>
                     </select>
-                    <button class="btn btn-primary" type="submit">Cambiar</button>
+                    <button class="btn btn-sm btn-secondary" type="submit">Cambiar</button>
                 </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+            </div>
+        </div>
+    </div>
+    </div> </div>
 </html>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" th:href="@{/css/landing.css}">

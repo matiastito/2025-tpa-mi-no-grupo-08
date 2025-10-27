@@ -1,27 +1,49 @@
 <html th:replace="~{layout/baseAdmin :: html}">
 <div th:fragment="contenido">
-    <h2 class="ms-5">Editar Coleccion</h2>
-    <form th:action="@{/admin/colecciones}" method="post" th:object="${coleccionDTO}">
-        <label>Titulo</label>
-        <input id="titulo" type="text" name="titulo" th:field="*{titulo}" required/>
-        <label>Descripcion</label>
-        <input id="descripcion" type="text" name="descripcion" th:field="*{descripcion}" required/>
-        <input id="id" type="hidden" name="id" th:field="*{id}"/>
-        <div th:each="fuente, fuenteStat : *{fuentes}">
-            <label for="nuevaFuente">Fuente</label>
-            <input type="text" id="nuevaFuente" th:field="*{fuentes[__${fuenteStat.index}__].baseUrl}" disabled/>
-            <label>Tipo Fuente</label>
-            <select id="tipoFuente" th:field="*{fuentes[__${fuenteStat.index}__].tipoFuente}" disabled>
-                <option value="PROXY" th:selected="${#strings.equals('PROXY', fuente.tipoFuente)}">PROXY</option>
-                <option value="DINAMICA" th:selected="${#strings.equals('DINAMICA', fuente.tipoFuente)}">DINAMICA
-                </option>
-                <option value="ESTATICA" th:selected="${#strings.equals('ESTATICA', fuente.tipoFuente)}">ESTATICA
-                </option>
-            </select>
-        </div>
-        <button class="btn btn-primary" type="submit">Editar</button>
-    </form>
-</div>
+    <div class="container my-5" style="max-width: 600px;"> <div class="card p-4 p-md-5 shadow-sm"> <div class="text-center mb-4">
+        <h1 class="h3 mb-3 fw-normal">Editar Colección</h1>
+    </div>
+
+        <form th:action="@{/admin/colecciones}" method="post" th:object="${coleccionDTO}">
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título <span style="color: red;">*</span></label>
+                <input id="titulo" type="text" class="form-control" th:field="*{titulo}" required/>
+            </div>
+
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción <span style="color: red;">*</span></label>
+                <textarea id="descripcion" class="form-control" rows="3" th:field="*{descripcion}" required></textarea>
+            </div>
+
+            <fieldset class="border p-3 mb-3 rounded bg-light">
+                <legend class="w-auto px-2 fs-6 text-muted">Fuentes Asociadas (Solo lectura)</legend>
+            </fieldset>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                <a th:href="@{/admin/colecciones}" class="btn btn-outline-secondary">Cancelar</a>
+                <button class="btn btn-success" type="submit">Guardar Cambios</button>
+            </div>
+
+        </form>
+        <form th:action="@{/admin/colecciones/{id}/consenso(id=${coleccionDTO.id})}" method="post" class="mt-4">
+            <div class="mb-3">
+                <label for="tipoConsenso" class="form-label">Algoritmo de Consenso <span style="color: red;">*</span></label>
+                <select id="tipoConsenso" name="tipoConsenso" class="form-select" required>
+                    <option value="" disabled th:selected="${coleccionDTO.tipoConsenso == null}">Selecciona un algoritmo...</option>
+                    <option th:each="tipo : ${T(ar.edu.utn.frba.dds.model.dto.TipoConsenso).values()}"
+                            th:value="${tipo}"
+                            th:text="${tipo}"
+                            th:selected="${tipo == coleccionDTO.tipoConsenso}">ABSOLUTO</option>
+                </select>
+            </div>
+            <div class="text-end">
+                <button class="btn btn-secondary" type="submit">Cambiar Consenso</button>
+            </div>
+        </form>
+
+    </div> </div> </div>
 </html>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" th:href="@{/css/landing.css}">
