@@ -32,6 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 //Necesarias para mockear objetos
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 import ar.edu.utn.frba.dds.model.dto.TipoFuente;
 
 @Controller
@@ -72,16 +74,34 @@ public class AdminController {
   @GetMapping("/fuentes")
   public String fuentes(Model model) {
     List<FuenteDTO> fuentes = agregadorServicio.fuentes();
+    long totalFuentes = fuentes.size();
+    long totalEstaticas = fuentes.stream()
+            .filter(f -> TipoFuente.ESTATICA.equals(f.getTipoFuente()))
+            .count();
+    long totalDinamicas = fuentes.stream()
+            .filter(f -> TipoFuente.DINAMICA.equals(f.getTipoFuente()))
+            .count();
+    long totalProxy = fuentes.stream()
+            .filter(f -> TipoFuente.PROXY.equals(f.getTipoFuente()))
+            .count();
     model.addAttribute("fuentesDTO", fuentes);
+    model.addAttribute("totalFuentes", totalFuentes);
+    model.addAttribute("totalEstaticas", totalEstaticas);
+    model.addAttribute("totalDinamicas", totalDinamicas);
+    model.addAttribute("totalProxy", totalProxy);
     return "admin/fuentes.html";
   }
   */
   //Mock para tener qué mostrar en UI
   @GetMapping("/fuentes")
   public String fuentes(Model model) {
+  // --- INICIO: Datos "Mockeados" ---
+      List<FuenteDTO> fuentesDeEjemplo = new ArrayList<>();
 
-    // --- INICIO: Datos "Mockeados" ---
-    List<FuenteDTO> fuentesDeEjemplo = new ArrayList<>();
+    long totalFuentes = 4;
+    long totalEstaticas = 2;
+    long totalDinamicas = 1;
+    long totalProxy = 1;
 
     // Ejemplo 1: Fuente Estática (CSV)
     FuenteDTO fuenteEstatica = new FuenteDTO();
@@ -112,6 +132,10 @@ public class AdminController {
     fuentesDeEjemplo.add(fuenteEstatica2);
 
     model.addAttribute("fuentesDTO", fuentesDeEjemplo);
+    model.addAttribute("totalFuentes", totalFuentes);
+    model.addAttribute("totalEstaticas", totalEstaticas);
+    model.addAttribute("totalDinamicas", totalDinamicas);
+    model.addAttribute("totalProxy", totalProxy);
 
     return "admin/fuentes.html";
   }
@@ -176,6 +200,26 @@ public class AdminController {
   public String cambiarConsenso(@PathVariable Long coleccionId, @RequestParam TipoConsenso tipoConsenso) {
     agregadorServicio.cambiarConsenso(coleccionId, tipoConsenso);
     return "redirect:/admin/colecciones";
+  }
+
+  @GetMapping("/colecciones/{coleccionId}/fuentes")
+  public String mostrarConfigurarFuentes(@PathVariable Long coleccionId, Model model) {
+    ColeccionDTO coleccion = agregadorServicio.coleccion(coleccionId);
+    List<FuenteDTO> todasLasFuentes = agregadorServicio.fuentes();
+
+    List<Long> idsFuentesAsociadas = coleccion.getFuentes().stream()
+            .map(FuenteDTO::getId)
+            .collect(Collectors.toList());
+
+    List<FuenteDTO> fuentesDisponibles = todasLasFuentes.stream()
+            .filter(fuente -> !idsFuentesAsociadas.contains(fuente.getId()))
+            .collect(Collectors.toList());
+
+    model.addAttribute("coleccion", coleccion);
+    model.addAttribute("fuentesAsociadas", coleccion.getFuentes());
+    model.addAttribute("fuentesDisponibles", fuentesDisponibles);
+
+    return "admin/configurarFuentes"; // Apunta al nuevo archivo HTML que crearemos
   }
 
   @GetMapping("/importarHechos")
