@@ -1,69 +1,65 @@
 package ar.edu.utn.frba.dds.filter;
 
-import static ar.edu.utn.frba.dds.util.JWTUtil.validarToken;
-import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
-import static java.util.Collections.singletonList;
-import static org.springframework.security.core.context.SecurityContextHolder.getContext;
-
-import ar.edu.utn.frba.dds.dto.UserRolesDTO;
-import ar.edu.utn.frba.dds.service.LoginService;
+import ar.edu.utn.frba.dds.util.JWTUtil;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-  private LoginService loginService;
+  private final JWTUtil jwtUtil;
 
-  public JwtAuthenticationFilter(@Autowired LoginService loginService) {
-    this.loginService = loginService;
+  public JwtAuthenticationFilter(JWTUtil jwtUtil) {
+    this.jwtUtil = jwtUtil;
   }
 
   @Override
   protected void doFilterInternal(HttpServletRequest request,
                                   HttpServletResponse response,
-                                  FilterChain filterChain) throws ServletException, IOException {
+                                  FilterChain chain) throws ServletException, IOException {
 
-    String header = request.getHeader("Authorization");
-    if (header != null && header.startsWith("Bearer ")) {
-      String token = header.substring(7);
+    String token = readJwtCookie(request);
+
+    if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       try {
-        String username = validarToken(token);
+        Jws<Claims> jws = jwtUtil.parse(token);
+        String username = jws.getBody().getSubject();
+        String role = jws.getBody().get("role", String.class); // viene del claim
 
-        UserRolesDTO userRolesDTO = loginService.obtenerRolesUsuario(username);
         var auth = new UsernamePasswordAuthenticationToken(
-            username,
-            null,
-            //TODO poner el Rol correcto, a partir del username
-            singletonList(new SimpleGrantedAuthority("ROLE_" + userRolesDTO.getRol().name()))
-        );
-        getContext().setAuthentication(auth);
-      } catch (Exception e) {
-        response.sendError(SC_UNAUTHORIZED, "Token inválido");
-        return;
+            username, null, List.of(new SimpleGrantedAuthority(role)));
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+      } catch (JwtException ex) {
+
       }
-    } else {
-      System.out.println("No hay token de autorización");
     }
 
-    filterChain.doFilter(request, response);
+    chain.doFilter(request, response);
   }
 
-  @Override
-  protected boolean shouldNotFilter(HttpServletRequest request) {
-    String path = request.getRequestURI();
-    String method = request.getMethod();
-    // No aplicar el filtro JWT solo a los endpoints públicos de autenticación y Registro
-    return path.equals("/api/auth")
-        || path.equals("/api/auth/refresh")
-        || (path.equals("/api/user") && method.equalsIgnoreCase("POST"));
+  private String readJwtCookie(HttpServletRequest request) {
+    Cookie[] cookies = request.getCookies();
+    if (cookies == null) return null;
+    for (Cookie c : cookies) {
+      if ("JWT".equals(c.getName())) {
+        return c.getValue();
+      }
+    }
+    return null;
   }
 }
+
