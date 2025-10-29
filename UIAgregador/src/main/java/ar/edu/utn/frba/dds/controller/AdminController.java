@@ -13,6 +13,8 @@ import ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoDTO;
 import ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoDTO.AdministradorDTO;
 import ar.edu.utn.frba.dds.model.dto.TipoConsenso;
 import ar.edu.utn.frba.dds.servicio.AgregadorServicio;
+
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+
+//Necesarias para mockear objetos
+import java.util.ArrayList;
+import ar.edu.utn.frba.dds.model.dto.TipoFuente;
 
 @Controller
 @RequestMapping("/admin")
@@ -62,18 +68,63 @@ public class AdminController {
     model.addAttribute("fuentesTotales", cantidadFuentes);
 
     return "admin/panelDeControl";
-  }
+  }/*
   @GetMapping("/fuentes")
   public String fuentes(Model model) {
     List<FuenteDTO> fuentes = agregadorServicio.fuentes();
     model.addAttribute("fuentesDTO", fuentes);
     return "admin/fuentes.html";
   }
+  */
+  //Mock para tener qué mostrar en UI
+  @GetMapping("/fuentes")
+  public String fuentes(Model model) {
+
+    // --- INICIO: Datos "Mockeados" ---
+    List<FuenteDTO> fuentesDeEjemplo = new ArrayList<>();
+
+    // Ejemplo 1: Fuente Estática (CSV)
+    FuenteDTO fuenteEstatica = new FuenteDTO();
+    fuenteEstatica.setId(1L);
+    fuenteEstatica.setBaseUrl("/ruta/a/archivo/incendios.csv");
+    fuenteEstatica.setTipoFuente(TipoFuente.ESTATICA);
+    fuentesDeEjemplo.add(fuenteEstatica);
+
+    // Ejemplo 2: Fuente Proxy (MetaMapa)
+    FuenteDTO fuenteProxyMetaMapa = new FuenteDTO();
+    fuenteProxyMetaMapa.setId(2L);
+    fuenteProxyMetaMapa.setBaseUrl("http://metamapa.otraong.org/api");
+    fuenteProxyMetaMapa.setTipoFuente(TipoFuente.PROXY);
+    fuentesDeEjemplo.add(fuenteProxyMetaMapa);
+
+    // Ejemplo 3: Fuente Dinámica (La local)
+    FuenteDTO fuenteDinamica = new FuenteDTO();
+    fuenteDinamica.setId(3L);
+    fuenteDinamica.setBaseUrl("Interna (Carga de Usuarios)"); // URL no aplica realmente
+    fuenteDinamica.setTipoFuente(TipoFuente.DINAMICA);
+    fuentesDeEjemplo.add(fuenteDinamica);
+
+    // Ejemplo 4: Otra Fuente Estática (CSV)
+    FuenteDTO fuenteEstatica2 = new FuenteDTO();
+    fuenteEstatica2.setId(4L);
+    fuenteEstatica2.setBaseUrl("/ruta/a/archivo/incendios.csv");
+    fuenteEstatica2.setTipoFuente(TipoFuente.ESTATICA);
+    fuentesDeEjemplo.add(fuenteEstatica2);
+
+    model.addAttribute("fuentesDTO", fuentesDeEjemplo);
+
+    return "admin/fuentes.html";
+  }
 
   @GetMapping("/fuentes/{fuenteId}")
   public String fuente(Model model, @PathVariable Long fuenteId) {
-    Optional<FuenteDTO> fuenteDTO = agregadorServicio.fuentes().stream().filter(f -> f.getId().equals(fuenteId)).findFirst();
-    model.addAttribute("fuenteDTO", fuenteDTO.get());
+    //Optional<FuenteDTO> fuenteDTO = agregadorServicio.fuentes().stream().filter(f -> f.getId().equals(fuenteId)).findFirst();
+    //model.addAttribute("fuenteDTO", fuenteDTO.get());
+    FuenteDTO fuenteProxyMetaMapa = new FuenteDTO();
+    fuenteProxyMetaMapa.setId(2L);
+    fuenteProxyMetaMapa.setBaseUrl("http://metamapa.otraong.org/api");
+    fuenteProxyMetaMapa.setTipoFuente(TipoFuente.PROXY);
+    model.addAttribute("fuenteDTO",fuenteProxyMetaMapa); //BORRAR
     return "admin/fuente.html";
   }
 

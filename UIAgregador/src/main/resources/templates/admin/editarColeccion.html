@@ -38,8 +38,9 @@
                             th:selected="${tipo == coleccionDTO.tipoConsenso}">ABSOLUTO</option>
                 </select>
             </div>
-            <div class="text-end">
-                <button class="btn btn-secondary" type="submit">Cambiar Consenso</button>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                <a th:href="@{/admin/colecciones}" class="btn btn-outline-secondary">Cancelar</a>
+                <button class="btn btn-success" type="submit">Cambiar Consenso</button>
             </div>
         </form>
 

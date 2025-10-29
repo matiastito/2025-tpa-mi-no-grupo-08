@@ -22,7 +22,7 @@
     --success-color: var(--brand); /* Usamos el verde principal como success */
     --danger-color: #dc3545;
     --warning-color: #ffc107;
-    --info-color: #0dcaf0;
+    --info-color: #B6B600;
     --light-color: #f8f9fa;
     --dark-color: #212529;
 }
@@ -91,6 +91,11 @@ a:hover {
     border-radius: var(--radius-xl); /* Borde redondeado grande */
     box-shadow: var(--shadow); /* Sombra definida */
     margin-bottom: 1.5rem;
+}
+
+.card .card-title { /* Selector más específico si es necesario */
+    color: var(--brand);
+    font-weight: 600; /* Opcional: hacerlo un poco más grueso */
 }
 
 .kpi-card {
