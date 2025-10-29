@@ -10,6 +10,7 @@ import static ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO.toHecho;
 import static ar.edu.utn.frba.dds.web.controlador.dto.HechoModificacionDTO.toHechoModificacion;
 
 import ar.edu.utn.frba.dds.modelo.coleccion.Coleccion;
+import ar.edu.utn.frba.dds.modelo.fuente.Fuente;
 import ar.edu.utn.frba.dds.modelo.hecho.HechoModificacion;
 import ar.edu.utn.frba.dds.servicio.ColeccionServicio;
 import ar.edu.utn.frba.dds.servicio.FuenteServicio;
@@ -19,7 +20,10 @@ import ar.edu.utn.frba.dds.web.controlador.dto.ColeccionDTO.FuenteDTO;
 import ar.edu.utn.frba.dds.web.controlador.dto.HechoDTO;
 import ar.edu.utn.frba.dds.web.controlador.dto.HechoModificacionDTO;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -72,6 +76,20 @@ public class Gateway {
   @PutMapping("/fuentes")
   public void editarFuente(@RequestBody FuenteDTO fuenteDTO) {
     fuenteServicio.editarFuente(toModel(fuenteDTO));
+  }
+
+  @GetMapping("/fuentes/{id}")
+  public ResponseEntity<FuenteDTO> dameFuentePorId(@PathVariable Long id) {
+    Fuente fuenteEncontrada = fuenteServicio.buscarFuentePorId(id);
+    if (fuenteEncontrada != null) {
+      FuenteDTO dto = new FuenteDTO();
+      dto.setId(fuenteEncontrada.getId());
+      dto.setBaseUrl(fuenteEncontrada.getBaseUrl());
+      dto.setTipoFuente(fuenteEncontrada.getTipoFuente()); // Asume getter en la entidad
+      return ResponseEntity.ok(dto);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
   }
 
   @PostMapping("/hechos")

@@ -44,4 +44,10 @@ public class FuenteServicio {
     Optional<Fuente> fuenteEstatica = fuenteRepositorio.findByTipoFuente(ESTATICA);
     fuenteEstatica.ifPresent(fuente -> fuente.importarHechos(archivoCSV));
   }
+  public Fuente buscarFuentePorId(Long id) {
+    Optional<Fuente> fuenteOptional = fuenteRepositorio.findById(id);
+    return fuenteOptional.orElse(null);
+
+  }
+
 }
