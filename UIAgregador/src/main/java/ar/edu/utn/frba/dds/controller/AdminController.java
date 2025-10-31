@@ -42,6 +42,7 @@ public class AdminController {
   @Autowired
   private final AgregadorServicio agregadorServicio;
 
+
   public AdminController(AgregadorServicio agregadorServicio) {
     this.agregadorServicio = agregadorServicio;
   }
@@ -70,7 +71,10 @@ public class AdminController {
     model.addAttribute("fuentesTotales", cantidadFuentes);
 
     return "admin/panelDeControl";
-  }/*
+  }
+
+
+  /*
   @GetMapping("/fuentes")
   public String fuentes(Model model) {
     List<FuenteDTO> fuentes = agregadorServicio.fuentes();
@@ -91,7 +95,7 @@ public class AdminController {
     model.addAttribute("totalProxy", totalProxy);
     return "admin/fuentes.html";
   }
-  */
+ */
   //Mock para tener qué mostrar en UI
   @GetMapping("/fuentes")
   public String fuentes(Model model) {
