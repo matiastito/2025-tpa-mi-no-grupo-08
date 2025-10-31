@@ -139,7 +139,25 @@ public class AdminController {
 
     return "admin/fuentes.html";
   }
+  @GetMapping("/fuentes/crear")
+  public String mostrarFormularioCrearFuente(Model model) {
+    // Prepara un DTO vacío para enlazar con el formulario (th:object)
+    model.addAttribute("fuenteDTO", new FuenteDTO());
+    return "admin/crearFuente"; // Apunta al nuevo archivo HTML
+  }
+  @PostMapping("/fuentes/crear")
+  public String crearFuente(@ModelAttribute("fuenteDTO") FuenteDTO fuenteDTO) {
 
+
+    // Aquí llama a un méthod (aún por crear) en AgregadorServicio
+    // ej: agregadorServicio.crearFuente(fuenteDTO);
+    // ----------------------
+
+    //System.out.println("Solicitud para CREAR fuente (BOCETO): " + fuenteDTO.getBaseUrl());
+
+    // Redirige de vuelta a la lista de fuentes
+    return "redirect:/admin/fuentes";
+  }
   @GetMapping("/fuentes/{fuenteId}")
   public String fuente(Model model, @PathVariable Long fuenteId) {
     //Optional<FuenteDTO> fuenteDTO = agregadorServicio.fuentes().stream().filter(f -> f.getId().equals(fuenteId)).findFirst();
@@ -157,6 +175,8 @@ public class AdminController {
     agregadorServicio.editarFuente(fuenteDTO);
     return "redirect:/admin/fuentes";
   }
+
+
 
   @GetMapping("/colecciones")
   public String colecciones(Model model) {

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/baseAdmin :: html}" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="contenido">
+    <div class="container my-5" style="max-width: 600px;"> <div class="card p-4 p-md-5 shadow-sm"> <div class="text-center mb-4">
+        <h1 class="h3 mb-3 fw-normal">Crear Nueva Fuente</h1>
+        <p style="font-size: 0.9rem; color: var(--muted); margin-top: -10px; margin-bottom: 20px;">Los campos con * son obligatorios</p>
+    </div>
+
+        <form th:action="@{/admin/fuentes/crear}" method="post" th:object="${fuenteDTO}">
+
+            <div class="mb-3">
+                <label for="baseUrl" class="form-label">URL Base <span style="color: red;">*</span></label>
+                <input id="baseUrl" type="text" class="form-control" th:field="*{baseUrl}" required/>
+            </div>
+
+            <div class="mb-3">
+                <label for="tipoFuente" class="form-label">Tipo de Fuente <span style="color: red;">*</span></label>
+                <select id="tipoFuente" class="form-select" th:field="*{tipoFuente}" required>
+                    <option value="" disabled selected>Selecciona un tipo...</option>
+                    <option th:each="tipo : ${T(ar.edu.utn.frba.dds.model.dto.TipoFuente).values()}"
+                            th:value="${tipo}"
+                            th:text="${tipo}">PROXY</option>
+                </select>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                <a th:href="@{/admin/fuentes}" class="btn btn-outline-secondary">Cancelar</a>
+                <button class="btn btn-success" type="submit">Crear Fuente</button>
+            </div>
+        </form>
+
+    </div> </div> </div>
+</html>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" th:href="@{/css/styles.css}">
