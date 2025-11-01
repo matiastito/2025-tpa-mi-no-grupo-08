@@ -3,7 +3,9 @@ package ar.edu.utn.frba.dds.controller;
 import static ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoEstado.ACEPTADA;
 import static ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoEstado.PENDIENTE;
 import static ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoEstado.RECHAZADA;
-import static java.util.stream.Collectors.toList;
+import static ar.edu.utn.frba.dds.model.dto.TipoFuente.DINAMICA;
+import static ar.edu.utn.frba.dds.model.dto.TipoFuente.ESTATICA;
+import static ar.edu.utn.frba.dds.model.dto.TipoFuente.PROXY;
 import static org.springframework.web.context.request.RequestContextHolder.currentRequestAttributes;
 
 import ar.edu.utn.frba.dds.model.dto.ColeccionDTO;
@@ -13,10 +15,10 @@ import ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoDTO;
 import ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoDTO.AdministradorDTO;
 import ar.edu.utn.frba.dds.model.dto.TipoConsenso;
 import ar.edu.utn.frba.dds.servicio.AgregadorServicio;
-
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -29,12 +31,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
-
-//Necesarias para mockear objetos
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
-import ar.edu.utn.frba.dds.model.dto.TipoFuente;
 
 @Controller
 @RequestMapping("/admin")
@@ -58,12 +54,12 @@ public class AdminController {
     int hechosTotales = agregadorServicio.hechos().size();
     int hechosPendientes = agregadorServicio.hechosModificaciones().size();
     long solicitudesPendientes = agregadorServicio.solicitudesEliminacion().stream()
-            .filter(solicitud -> PENDIENTE.equals(solicitud.getSolicitudDeEliminacionDeHechoEstado())) // Filtra por estado PENDIENTE
-            .count();
+        .filter(solicitud -> PENDIENTE.equals(solicitud.getSolicitudDeEliminacionDeHechoEstado())) // Filtra por estado PENDIENTE
+        .count();
     int cantidadFuentes = agregadorServicio.fuentes().size();
     List<SolicitudDeEliminacionDeHechoDTO> solicitudesPendientesLista = agregadorServicio.solicitudesEliminacion().stream()
-            .filter(solicitud -> PENDIENTE.equals(solicitud.getSolicitudDeEliminacionDeHechoEstado()))
-            .toList();
+        .filter(solicitud -> PENDIENTE.equals(solicitud.getSolicitudDeEliminacionDeHechoEstado()))
+        .toList();
 
     model.addAttribute("hechosTotales", hechosTotales);
     model.addAttribute("hechosPendientes", hechosPendientes);
@@ -99,78 +95,34 @@ public class AdminController {
   //Mock para tener qué mostrar en UI
   @GetMapping("/fuentes")
   public String fuentes(Model model) {
-  // --- INICIO: Datos "Mockeados" ---
-      List<FuenteDTO> fuentesDeEjemplo = new ArrayList<>();
+    List<FuenteDTO> fuentesDeEjemplo = new ArrayList<>();
 
-    long totalFuentes = 4;
-    long totalEstaticas = 2;
-    long totalDinamicas = 1;
-    long totalProxy = 1;
-
-    // Ejemplo 1: Fuente Estática (CSV)
-    FuenteDTO fuenteEstatica = new FuenteDTO();
-    fuenteEstatica.setId(1L);
-    fuenteEstatica.setBaseUrl("/ruta/a/archivo/incendios.csv");
-    fuenteEstatica.setTipoFuente(TipoFuente.ESTATICA);
-    fuentesDeEjemplo.add(fuenteEstatica);
-
-    // Ejemplo 2: Fuente Proxy (MetaMapa)
-    FuenteDTO fuenteProxyMetaMapa = new FuenteDTO();
-    fuenteProxyMetaMapa.setId(2L);
-    fuenteProxyMetaMapa.setBaseUrl("http://metamapa.otraong.org/api");
-    fuenteProxyMetaMapa.setTipoFuente(TipoFuente.PROXY);
-    fuentesDeEjemplo.add(fuenteProxyMetaMapa);
-
-    // Ejemplo 3: Fuente Dinámica (La local)
-    FuenteDTO fuenteDinamica = new FuenteDTO();
-    fuenteDinamica.setId(3L);
-    fuenteDinamica.setBaseUrl("Interna (Carga de Usuarios)"); // URL no aplica realmente
-    fuenteDinamica.setTipoFuente(TipoFuente.DINAMICA);
-    fuentesDeEjemplo.add(fuenteDinamica);
-
-    // Ejemplo 4: Otra Fuente Estática (CSV)
-    FuenteDTO fuenteEstatica2 = new FuenteDTO();
-    fuenteEstatica2.setId(4L);
-    fuenteEstatica2.setBaseUrl("/ruta/a/archivo/incendios.csv");
-    fuenteEstatica2.setTipoFuente(TipoFuente.ESTATICA);
-    fuentesDeEjemplo.add(fuenteEstatica2);
-
-    model.addAttribute("fuentesDTO", fuentesDeEjemplo);
-    model.addAttribute("totalFuentes", totalFuentes);
-    model.addAttribute("totalEstaticas", totalEstaticas);
-    model.addAttribute("totalDinamicas", totalDinamicas);
-    model.addAttribute("totalProxy", totalProxy);
+    List<FuenteDTO> fuentes = agregadorServicio.fuentes();
+    model.addAttribute("fuentesDTO", fuentes);
+    model.addAttribute("totalFuentes", fuentes.size());
+    model.addAttribute("totalEstaticas", fuentes.stream().filter(f -> f.getTipoFuente().equals(ESTATICA)).count());
+    model.addAttribute("totalDinamicas", fuentes.stream().filter(f -> f.getTipoFuente().equals(DINAMICA)).count());
+    model.addAttribute("totalProxy", fuentes.stream().filter(f -> f.getTipoFuente().equals(PROXY)).count());
 
     return "admin/fuentes.html";
   }
+
   @GetMapping("/fuentes/crear")
   public String mostrarFormularioCrearFuente(Model model) {
     // Prepara un DTO vacío para enlazar con el formulario (th:object)
     model.addAttribute("fuenteDTO", new FuenteDTO());
     return "admin/crearFuente"; // Apunta al nuevo archivo HTML
   }
+
   @PostMapping("/fuentes/crear")
   public String crearFuente(@ModelAttribute("fuenteDTO") FuenteDTO fuenteDTO) {
-
-
-    // Aquí llama a un méthod (aún por crear) en AgregadorServicio
-    // ej: agregadorServicio.crearFuente(fuenteDTO);
-    // ----------------------
-
-    //System.out.println("Solicitud para CREAR fuente (BOCETO): " + fuenteDTO.getBaseUrl());
-
-    // Redirige de vuelta a la lista de fuentes
     return "redirect:/admin/fuentes";
   }
+
   @GetMapping("/fuentes/{fuenteId}")
   public String fuente(Model model, @PathVariable Long fuenteId) {
-    //Optional<FuenteDTO> fuenteDTO = agregadorServicio.fuentes().stream().filter(f -> f.getId().equals(fuenteId)).findFirst();
-    //model.addAttribute("fuenteDTO", fuenteDTO.get());
-    FuenteDTO fuenteProxyMetaMapa = new FuenteDTO();
-    fuenteProxyMetaMapa.setId(2L);
-    fuenteProxyMetaMapa.setBaseUrl("http://metamapa.otraong.org/api");
-    fuenteProxyMetaMapa.setTipoFuente(TipoFuente.PROXY);
-    model.addAttribute("fuenteDTO",fuenteProxyMetaMapa); //BORRAR
+    Optional<FuenteDTO> fuenteDTO = agregadorServicio.fuentes().stream().filter(f -> f.getId().equals(fuenteId)).findFirst();
+    model.addAttribute("fuenteDTO", fuenteDTO.get());
     return "admin/fuente.html";
   }
 
@@ -179,7 +131,6 @@ public class AdminController {
     agregadorServicio.editarFuente(fuenteDTO);
     return "redirect:/admin/fuentes";
   }
-
 
 
   @GetMapping("/colecciones")
@@ -232,12 +183,12 @@ public class AdminController {
     List<FuenteDTO> todasLasFuentes = agregadorServicio.fuentes();
 
     List<Long> idsFuentesAsociadas = coleccion.getFuentes().stream()
-            .map(FuenteDTO::getId)
-            .collect(Collectors.toList());
+        .map(FuenteDTO::getId)
+        .collect(Collectors.toList());
 
     List<FuenteDTO> fuentesDisponibles = todasLasFuentes.stream()
-            .filter(fuente -> !idsFuentesAsociadas.contains(fuente.getId()))
-            .collect(Collectors.toList());
+        .filter(fuente -> !idsFuentesAsociadas.contains(fuente.getId()))
+        .collect(Collectors.toList());
 
     model.addAttribute("coleccion", coleccion);
     model.addAttribute("fuentesAsociadas", coleccion.getFuentes());
