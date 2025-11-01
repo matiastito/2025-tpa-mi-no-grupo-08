@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-import org.springframework.http.HttpHeaders;
 
 @Service
 public class ExternalAuthService {
@@ -46,8 +45,10 @@ public class ExternalAuthService {
     } catch (WebClientResponseException e) {
       log.error(e.getMessage());
       if (e.getStatusCode() == NOT_FOUND) {
+        // Login fallido - credenciales incorrectas
         return null;
       }
+      // Otros errores HTTP
       throw new RuntimeException("Error en el servicio de autenticación: " + e.getMessage(), e);
     } catch (Exception e) {
       throw new RuntimeException("Error de conexión con el servicio de autenticación: " + e.getMessage(), e);
@@ -76,22 +77,6 @@ public class ExternalAuthService {
         .toBodilessEntity()
         .block();
   }
-
-  public RolesPermisosDTO rolesConToken(String jwtToken) {
-    try {
-      return webClient
-          .get()
-          .uri(authServiceUrl + "/auth/user/roles")
-          .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwtToken)
-          .retrieve()
-          .bodyToMono(RolesPermisosDTO.class)
-          .block();
-    } catch (WebClientResponseException e) {
-      log.error("Error rolesConToken: status={} body={}", e.getStatusCode(), e.getResponseBodyAsString());
-      return null;
-    }
-  }
-}
 
   /*
   public List<AlumnoDTO> obtenerTodosLosAlumnos() {
@@ -138,4 +123,4 @@ public class ExternalAuthService {
     }
   }
   */
-
+}

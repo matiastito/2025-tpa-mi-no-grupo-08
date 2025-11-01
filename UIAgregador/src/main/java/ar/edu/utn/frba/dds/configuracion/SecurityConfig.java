@@ -1,8 +1,6 @@
 package ar.edu.utn.frba.dds.configuracion;
 
 import ar.edu.utn.frba.dds.provider.CustomAuthProvider;
-import ar.edu.utn.frba.dds.security.CustomAuthSuccessHandler;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,8 +8,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableMethodSecurity(prePostEnabled = true)
 @Configuration
@@ -24,38 +20,42 @@ public class SecurityConfig {
         .build();
   }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                                CustomAuthProvider customAuthProvider,
-                                                CustomAuthSuccessHandler successHandler) throws Exception {
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
-        .authenticationProvider(customAuthProvider)
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/", "/login", "/anonimo/**").permitAll()
-            .requestMatchers("/sso/**", "/css/**", "/js/**", "/images/**", "/doc/**").permitAll()
+            .requestMatchers("/", "/anonimo/**").permitAll()
+            // Recursos estáticos
+            .requestMatchers("/css/**", "/js/**", "/images/**", "/doc/**").permitAll()
+            // Registro
             .requestMatchers("/registrar").permitAll()
             .requestMatchers("/admin/**").hasRole("ADMIN")
+            .requestMatchers("/contribuyente/**").hasRole("CONTRIBUYENTE")
             .anyRequest().authenticated()
         )
         .formLogin(form -> form
-            .loginPage("/login")
-            .loginProcessingUrl("/login")
-            .successHandler(successHandler)
-            .failureUrl("/login?error")
+            .loginPage("/login")    // tu template de login
             .permitAll()
+            .defaultSuccessUrl("/home", true) // redirigir tras login exitoso
         )
         .logout(logout -> logout
             .logoutUrl("/logout")
-            .logoutSuccessUrl("/login?logout")
+            .logoutSuccessUrl("/?logout") // redirigir tras logout
+            .invalidateHttpSession(true)
             .clearAuthentication(true)
             .permitAll()
         )
         .exceptionHandling(ex -> ex
-            .authenticationEntryPoint((req, res, ex1) -> res.sendRedirect("/?unauthorized"))
-            .accessDeniedHandler((req, res, ex2) -> res.sendRedirect("/403"))
+            // Usuario no autenticado → redirigir a login
+            .authenticationEntryPoint((request, response, authException) ->
+                response.sendRedirect("/?unauthorized")
+            )
+            // Usuario autenticado pero sin permisos → redirigir a página de error
+            .accessDeniedHandler((request, response, accessDeniedException) ->
+                response.sendRedirect("/403")
+            )
         );
 
     return http.build();
-    }
-
+  }
 }

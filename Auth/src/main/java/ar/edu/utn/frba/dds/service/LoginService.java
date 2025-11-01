@@ -16,12 +16,10 @@ public class LoginService {
 
   private final UsuariosRepository usuariosRepository;
   private final BCryptPasswordEncoder passwordEncoder;
-  private final JWTUtil jwtUtil; // <-- inyectamos el bean
 
-  public LoginService(UsuariosRepository usuariosRepository, JWTUtil jwtUtil) {
+  public LoginService(UsuariosRepository usuariosRepository) {
     this.usuariosRepository = usuariosRepository;
     this.passwordEncoder = new BCryptPasswordEncoder();
-    this.jwtUtil = jwtUtil; // <-- guardamos la instancia
   }
 
   public Usuario autenticarUsuario(String username, String password) {
@@ -33,6 +31,7 @@ public class LoginService {
 
     Usuario usuario = usuarioOpt.get();
 
+    // Verificar la contraseña usando BCrypt
     if (!passwordEncoder.matches(password, usuario.getContrasenia())) {
       throw new NotFoundException("Usuario", username);
     }
@@ -41,11 +40,11 @@ public class LoginService {
   }
 
   public String generarAccessToken(String username) {
-    return jwtUtil.generarAccessToken(username); 
+    return JWTUtil.generarAccessToken(username);
   }
 
   public String generarRefreshToken(String username) {
-    return jwtUtil.generarRefreshToken(username);
+    return JWTUtil.generarRefreshToken(username);
   }
 
   public UserRolesDTO obtenerRolesUsuario(String username) {
@@ -64,11 +63,13 @@ public class LoginService {
   }
 
   public boolean registrarUsuario(String nombre, String username, String passwordPlano) {
+    // Verificamos si ya existe un usuario con ese nombre de usuario
     Optional<Usuario> existente = usuariosRepository.findByNombreDeUsuario(username);
     if (existente.isPresent()) {
       return false;
     }
 
+    // Creamos el nuevo usuario
     Usuario nuevo = new Usuario();
     nuevo.setNombre(nombre);
     nuevo.setNombreDeUsuario(username);

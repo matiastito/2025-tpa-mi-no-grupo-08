@@ -3,36 +3,16 @@
     <div class="auth-card">
         <h1>Iniciar sesión</h1>
         <form th:action="@{/login}" method="post">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <label>Usuario</label>
+            <input type="text" name="username" required/>
 
-        <label>Usuario</label>
-        <input type="text" name="username" required/>
+            <label>Contraseña</label>
+            <input type="password" name="password" required/>
 
-        <label>Contraseña</label>
-        <input type="password" name="password" required/>
-
-        <button class="btn btn-primary" type="submit">Ingresar</button>
+            <button class="btn btn-primary" type="submit">Ingresar</button>
         </form>
 
-    <div class="auth-divider"><span>o</span></div>
-
-    <div class="auth-social">
-    <a class="g-btn g-btn--full"
-        href="http://localhost:8000/oauth2/authorization/google"
-        aria-label="Iniciar sesión con Google">
-        <img src="/img/google_g_logo.svg" alt="">
-        <span>Iniciar sesión con Google</span>
-    </a>
-    </div>
-
         <p class="muted">¿No tenés cuenta? <a th:href="@{/registrar}">Registrate</a></p>
-    </div>
-    <div style="margin-top:16px">
-    <a href="http://localhost:8000/oauth2/authorization/google"
-        style="display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid #dadce0;border-radius:6px;text-decoration:none;">
-        <img src="/img/google.svg" alt="" width="18" height="18"/>
-        <span>Continuar con Google</span>
-    </a>
     </div>
 </main>
 </html>
