@@ -83,14 +83,6 @@
 <script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="/js/map.js"></script>
-<script>
-    $(document).ready(function() {
-        map.on('click', function () {
-            $("#ubicacion\\.latitud").val(ubicacion.lat);
-            $("#ubicacion\\.longitud").val(ubicacion.lng);
-        });
-    });
-</script>
 <script th:inline="javascript">
     /*<![CDATA[*/
 

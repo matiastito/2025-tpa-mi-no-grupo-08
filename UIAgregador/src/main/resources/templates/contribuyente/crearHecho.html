@@ -95,18 +95,3 @@
         });
     });
 </script>
-
-<script th:inline="javascript">
-    /*<![CDATA[*/
-
-    let hechos = JSON.parse([[${hechosJSON}]]);
-
-    hechos.forEach(
-        function(hecho) {
-            var marker = L.marker([Number(hecho.ubicacion.latitud), Number(hecho.ubicacion.longitud)]).addTo(map);
-            marker.bindPopup("<b>"+hecho.fechaDelHecho+" - "+hecho.titulo+"</b>");
-            map.setView(marker.getLatLng(), 13);
-        }
-    );
-    /*]]>*/
-</script>
