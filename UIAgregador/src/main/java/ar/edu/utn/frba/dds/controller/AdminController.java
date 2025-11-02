@@ -108,7 +108,6 @@ public class AdminController {
     return "redirect:/admin/fuentes";
   }
 
-
   @GetMapping("/colecciones")
   public String colecciones(Model model) {
     List<ColeccionDTO> colecciones = agregadorServicio.colecciones();

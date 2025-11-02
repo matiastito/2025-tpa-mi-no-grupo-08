@@ -3,27 +3,28 @@
 <div th:fragment="contenido">
     <div class="container mt-4"><h2 class="mb-4">Crear Coleccion</h2>
 
-        <form id="crearColeccionForm" th:action="@{/admin/colecciones}" method="post">
+        <form id="crearColeccionForm" th:action="@{/admin/colecciones}" method="post" th:object="${coleccionDTO}">
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="titulo" class="form-label">Titulo <span style="color: red;">*</span></label>
-                    <input id="titulo" type="text" name="titulo" class="form-control" required/>
+                    <input id="titulo" type="text" name="titulo" class="form-control" th:field="*{titulo}" required/>
                 </div>
                 <div class="col-md-6">
                     <label for="descripcion" class="form-label">Descripcion <span style="color: red;">*</span></label>
-                    <input id="descripcion" type="text" name="descripcion" class="form-control" required/>
+                    <input id="descripcion" type="text" name="descripcion" class="form-control"
+                           th:field="*{descripcion}" required/>
                 </div>
             </div>
-
-            <div class="row mb-3">
+            <div class="row mb-3" th:each="fuente, fuenteStat : *{fuentes}">
                 <div class="col-md-8">
                     <label for="fuenteUrl" class="form-label">Fuente URL <span style="color: red;">*</span></label>
-                    <input type="text" id="fuenteUrl" name="fuenteUrl" class="form-control" required/>
+                    <input th:field="*{fuentes[__${fuenteStat.index}__].baseUrl}" type="text" id="fuenteUrl"
+                           name="fuenteUrl" class="form-control" required/>
                 </div>
                 <div class="col-md-4">
                     <label for="tipoFuente" class="form-label">Tipo Fuente <span style="color: red;">*</span></label>
-                    <select id="tipoFuente" name="tipoFuente" class="form-select" required>
-                        <option value="" disabled selected>Selecciona...</option>
+                    <select id="tipoFuente" name="tipoFuente" class="form-select"
+                            th:field="*{fuentes[__${fuenteStat.index}__].tipoFuente}" required>
                         <option value="PROXY">PROXY</option>
                         <option value="DINAMICA">DINAMICA</option>
                         <option value="ESTATICA">ESTATICA</option>
