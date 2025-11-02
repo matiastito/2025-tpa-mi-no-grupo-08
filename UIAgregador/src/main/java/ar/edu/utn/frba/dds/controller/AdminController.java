@@ -69,30 +69,6 @@ public class AdminController {
     return "admin/panelDeControl";
   }
 
-
-  /*
-  @GetMapping("/fuentes")
-  public String fuentes(Model model) {
-    List<FuenteDTO> fuentes = agregadorServicio.fuentes();
-    long totalFuentes = fuentes.size();
-    long totalEstaticas = fuentes.stream()
-            .filter(f -> TipoFuente.ESTATICA.equals(f.getTipoFuente()))
-            .count();
-    long totalDinamicas = fuentes.stream()
-            .filter(f -> TipoFuente.DINAMICA.equals(f.getTipoFuente()))
-            .count();
-    long totalProxy = fuentes.stream()
-            .filter(f -> TipoFuente.PROXY.equals(f.getTipoFuente()))
-            .count();
-    model.addAttribute("fuentesDTO", fuentes);
-    model.addAttribute("totalFuentes", totalFuentes);
-    model.addAttribute("totalEstaticas", totalEstaticas);
-    model.addAttribute("totalDinamicas", totalDinamicas);
-    model.addAttribute("totalProxy", totalProxy);
-    return "admin/fuentes.html";
-  }
- */
-  //Mock para tener qué mostrar en UI
   @GetMapping("/fuentes")
   public String fuentes(Model model) {
     List<FuenteDTO> fuentesDeEjemplo = new ArrayList<>();
@@ -109,13 +85,13 @@ public class AdminController {
 
   @GetMapping("/fuentes/crear")
   public String mostrarFormularioCrearFuente(Model model) {
-    // Prepara un DTO vacío para enlazar con el formulario (th:object)
     model.addAttribute("fuenteDTO", new FuenteDTO());
-    return "admin/crearFuente"; // Apunta al nuevo archivo HTML
+    return "admin/crearFuente";
   }
 
   @PostMapping("/fuentes/crear")
   public String crearFuente(@ModelAttribute("fuenteDTO") FuenteDTO fuenteDTO) {
+    //TODO por el momento, las fuentes se crean al dar de alta una Coleccion
     return "redirect:/admin/fuentes";
   }
 
@@ -199,13 +175,13 @@ public class AdminController {
 
   @GetMapping("/importarHechos")
   public String importarHechos() {
-    return "admin/importarHechos.html"; // Returns the upload.html template
+    return "admin/importarHechos.html";
   }
 
   @PostMapping("/importarHechos")
   public String importarHechosDesdeArchivo(@RequestParam("file") MultipartFile file, Model model) {
     agregadorServicio.importarHechos(file);
-    return "redirect:/admin/panelDeControl"; // Return to the upload page, potentially with a message
+    return "redirect:/admin/panelDeControl";
   }
 
   @GetMapping("/hechosModificaciones")

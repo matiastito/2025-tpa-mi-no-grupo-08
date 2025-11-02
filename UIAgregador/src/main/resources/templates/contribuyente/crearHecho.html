@@ -1,60 +1,64 @@
 <html th:replace="~{layout/baseContribuyente :: html}" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <main th:fragment="contenido">
+    <div class="text-center mb-4">
+        <h1 class="h3 mb-3 fw-normal">Contribuir</h1>
+        <p style="font-size: 0.9rem; color: #6c757d; margin-top: -10px; margin-bottom: 20px;">Los campos con <span
+                style="color: red;">*</span> son obligatorios</p>
+        <p class="text-muted">Añade un nuevo hecho a MetaMapa.</p>
+    </div>
 
-        <div class="text-center mb-4">
-            <h1 class="h3 mb-3 fw-normal">Contribuir</h1>
-            <p style="font-size: 0.9rem; color: #6c757d; margin-top: -10px; margin-bottom: 20px;">Los campos con <span style="color: red;">*</span> son obligatorios</p>
-            <p class="text-muted">Añade un nuevo hecho a MetaMapa.</p>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card p-4 shadow-sm mb-4">
+                <form th:action="@{/contribuyente/hecho}" method="post" th:object="${hecho}">
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categoria<span style="color: red;">*</span></label>
+                        <input id="categoria" type="text" class="form-control" th:field="*{categoria}" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Titulo<span style="color: red;">*</span></label>
+                        <input id="titulo" type="text" class="form-control" th:field="*{titulo}" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripcion<span
+                                style="color: red;">*</span></label>
+                        <textarea id="descripcion" class="form-control" rows="3" th:field="*{descripcion}"
+                                  required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fechaDelHecho" class="form-label">Fecha del Hecho<span style="color: red;">*</span></label>
+                        <input id="fechaDelHecho" type="date" class="form-control" th:field="*{fechaDelHecho}"
+                               required/>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="latitud" class="form-label">Latitud<span style="color: red;">*</span></label>
+                            <input id="latitud" type="text" class="form-control" th:field="*{ubicacion.latitud}"
+                                   required/>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <p class="text-muted text-center mt-2">Haz clic en el mapa para seleccionar la
+                                ubicación.</p>
+                            <label for="longitud" class="form-label">Longitud<span style="color: red;">*</span></label>
+                            <input id="longitud" type="text" class="form-control" th:field="*{ubicacion.longitud}"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="d-grid mt-4">
+                        <button class="btn btn-primary" type="submit">Crear</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card p-4 shadow-sm mb-4">
-                    <form th:action="@{/contribuyente/hecho}" method="post" th:object="${hecho}">
-                        <div class="mb-3">
-                            <label for="categoria" class="form-label">Categoria<span style="color: red;">*</span></label>
-                            <select id="categoria" class="form-select" name="categoriaId" required>
-                                <option value="" disabled selected>Selecciona una categoría...</option>
-                                <option value="1">opcion 1</option>
-                                <option value="2">opcion 2 </option>
-                                <option value="3">opcion 3</option>
-                                <option value="4">opcion 4</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="titulo" class="form-label">Titulo<span style="color: red;">*</span></label>
-                            <input id="titulo" type="text" class="form-control" th:field="*{titulo}" required/>
-                        </div>
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripcion<span style="color: red;">*</span></label>
-                            <textarea id="descripcion" class="form-control" rows="3" th:field="*{descripcion}" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="fechaDelHecho" class="form-label">Fecha del Hecho<span style="color: red;">*</span></label>
-                            <input id="fechaDelHecho" type="date" class="form-control" th:field="*{fechaDelHecho}" required/>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="latitud" class="form-label">Latitud<span style="color: red;">*</span></label>
-                                <input id="latitud" type="text" class="form-control" th:field="*{ubicacion.latitud}" required/>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="longitud" class="form-label">Longitud<span style="color: red;">*</span></label>
-                                <input id="longitud" type="text" class="form-control" th:field="*{ubicacion.longitud}" required/>
-                            </div>
-                        </div>
-                        <div class="d-grid mt-4">
-                            <button class="btn btn-primary" type="submit">Crear</button>
-                        </div>
-                    </form>
-                </div> </div>
+        <div class="col-md-6" style="overflow: hidden;">
+            <div id="map" style="height: 500px; border-radius: 8px; width: 100%;"></div>
+            <p class="text-muted text-center mt-2">Haz clic en el mapa para seleccionar la ubicación.</p>
+        </div>
+    </div>
 
-            <div class="col-md-6" style="overflow: hidden;"> <div id="map" style="height: 600px; border-radius: 8px; width: 100%;"></div>
-                <p class="text-muted text-center mt-2">Haz clic en el mapa para seleccionar la ubicación.</p>
-            </div>
-
-        </div> </div> </main>
+</main>
 
 </html>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>

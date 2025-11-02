@@ -1,25 +1,58 @@
 <html th:replace="~{layout/baseAnonimo :: html}">
 <main th:fragment="contenido" class="auth-main">
-    <div class="auth-card">
-        <h1>Contribuir</h1>
-        <form th:action="@{/anonimo/hecho}" method="post" th:object="${hecho}">
-            <label>Categoria</label>
-            <input id="categoria" type="text" name="categoria" th:field="*{categoria}" required/>
-            <label>Titulo</label>
-            <input id="titulo" type="text" name="titulo" th:field="*{titulo}" required/>
-            <label>Descripcion</label>
-            <input id="descripcion" type="text" name="descripcion" th:field="*{descripcion}" required/>
-            <label>Fecha</label>
-            <input id="fechaDelHecho" type="date" name="fechaDelHecho" th:field="*{fechaDelHecho}" required/>
-            <label>Latitud</label>
-            <input type="text" th:field="*{ubicacion.latitud}" required/>
-            <label>Longitud</label>
-            <input type="text" th:field="*{ubicacion.longitud}" required/>
-
-            <button class="btn btn-primary" type="submit">Crear</button>
-        </form>
+    <div class="text-center mb-4">
+        <h1 class="h3 mb-3 fw-normal">Contribuir</h1>
+        <p style="font-size: 0.9rem; color: #6c757d; margin-top: -10px; margin-bottom: 20px;">Los campos con <span
+                style="color: red;">*</span> son obligatorios</p>
+        <p class="text-muted">Añade un nuevo hecho a MetaMapa.</p>
     </div>
-    <div id="map"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card p-4 shadow-sm mb-4">
+                <form th:action="@{/anonimo/hecho}" method="post" th:object="${hecho}">
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categoria<span style="color: red;">*</span></label>
+                        <input id="categoria" type="text" class="form-control" th:field="*{categoria}" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Titulo<span style="color: red;">*</span></label>
+                        <input id="titulo" type="text" class="form-control" th:field="*{titulo}" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripcion<span
+                                style="color: red;">*</span></label>
+                        <textarea id="descripcion" class="form-control" rows="3" th:field="*{descripcion}"
+                                  required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fechaDelHecho" class="form-label">Fecha del Hecho<span style="color: red;">*</span></label>
+                        <input id="fechaDelHecho" type="date" class="form-control" th:field="*{fechaDelHecho}"
+                               required/>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="latitud" class="form-label">Latitud<span style="color: red;">*</span></label>
+                            <input id="latitud" type="text" class="form-control" th:field="*{ubicacion.latitud}"
+                                   required/>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="longitud" class="form-label">Longitud<span style="color: red;">*</span></label>
+                            <input id="longitud" type="text" class="form-control" th:field="*{ubicacion.longitud}"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="d-grid mt-4">
+                        <button class="btn btn-primary" type="submit">Crear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-6" style="overflow: hidden;">
+            <div id="map" style="height: 500px; border-radius: 8px; width: 100%;"></div>
+            <p class="text-muted text-center mt-2">Haz clic en el mapa para seleccionar la ubicación.</p>
+        </div>
+    </div>
 </main>
 </html>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
