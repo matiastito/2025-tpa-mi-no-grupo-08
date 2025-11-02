@@ -80,10 +80,8 @@
 <script>
     $(document).ready(function() {
         let currentMarker = null;
-
-        map.on('click', function (e) { // <--- Ahora recibe el evento 'e' con las coordenadas
-
-            $("#latitud").val(e.latlng.lat.toFixed(6)); // .toFixed(6) limita los decimales
+        map.on('click', function (e) {
+            $("#latitud").val(e.latlng.lat.toFixed(6));
             $("#longitud").val(e.latlng.lng.toFixed(6));
 
             // Coloca o mueve un marcador en el punto del clic (feedback visual)
