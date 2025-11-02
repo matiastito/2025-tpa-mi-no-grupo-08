@@ -37,12 +37,12 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
 
-    let hechos = [[${hechos}]]
+    let hechos = JSON.parse([[${hechosJSON}]]);
 
     hechos.forEach(
         function(hecho) {
-            var marker = L.marker([-34.649766, -58.454446]).addTo(map);
-            marker.bindPopup("<b>Descripcion</b>");
+            var marker = L.marker([Number(hecho.ubicacion.latitud), Number(hecho.ubicacion.longitud)]).addTo(map);
+            marker.bindPopup("<b>"+hecho.fechaDelHecho+" - "+hecho.titulo+"</b>");
         }
     );
     /*]]>*/
