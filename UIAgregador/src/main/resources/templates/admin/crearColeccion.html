@@ -1,10 +1,9 @@
 <html th:replace="~{layout/baseAdmin :: html}">
 
 <div th:fragment="contenido">
-    <div class="container mt-4"> <h2 class="mb-4">Crear Coleccion</h2>
+    <div class="container mt-4"><h2 class="mb-4">Crear Coleccion</h2>
 
-        <form th:action="@{/admin/colecciones}" method="post">
-
+        <form id="crearColeccionForm" th:action="@{/admin/colecciones}" method="post">
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="titulo" class="form-label">Titulo <span style="color: red;">*</span></label>
@@ -33,7 +32,8 @@
             </div>
 
             <div class="mt-4">
-                <button class="btn btn-success" type="submit">Crear</button> </div>
+                <button class="btn btn-success" type="submit">CREAR</button>
+            </div>
 
         </form>
 
@@ -41,7 +41,26 @@
             <a th:href="@{/admin/colecciones}" class="text-muted small">Cancelar y volver</a>
         </div>
 
-    </div> </div>
+    </div>
+</div>
 </html>
+<script>
+    function removeProtocols(url) {
+        return url.replace(/^(https?:\/\/)/i, '');
+    }
+
+    $(document).ready(function() {
+
+      $('#crearColeccionForm').submit(function(event) {
+        event.preventDefault();
+
+        const $urlInput = $('#fuenteUrl');
+        const cleanedUrl = removeProtocols(originalUrl);
+        $urlInput.val(cleanedUrl);
+
+        this.submit();
+      });
+    });
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" th:href="@{/css/landing.css}">
