@@ -16,7 +16,7 @@
             <td th:text="${hecho.fechaDelHecho}"/>
             <td th:text="${hecho.titulo}"/>
             <td th:text="${hecho.descripcion}"/>
-            <td><a class="navbar-brand"
+            <td><a class="navbar-brand" class="btn btn-success"
                    th:href="@{/anonimo/colecciones/{coleccionId}/hechos/{hechoId}(hechoId=${hecho.id}, coleccionId=${coleccion.id})}">Ver</a>
             </td>
         </tr>

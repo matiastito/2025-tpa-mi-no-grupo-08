@@ -16,7 +16,7 @@
             <td>
                 <span th:each="fuente : ${coleccion.fuentes}" th:text="${fuente.baseUrl}"/>
             </td>
-            <td><a class="navbar-brand"
+            <td><a class="btn btn-success"
                    th:href="@{/contribuyente/colecciones/{id}/hechos(id=${coleccion.id})}">Hechos</a>
             </td>
         </tr>
