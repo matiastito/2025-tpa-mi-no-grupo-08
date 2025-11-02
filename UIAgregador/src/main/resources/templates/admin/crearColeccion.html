@@ -55,6 +55,7 @@
         event.preventDefault();
 
         const $urlInput = $('#fuenteUrl');
+        const originalUrl = $urlInput.val();
         const cleanedUrl = removeProtocols(originalUrl);
         $urlInput.val(cleanedUrl);
 
