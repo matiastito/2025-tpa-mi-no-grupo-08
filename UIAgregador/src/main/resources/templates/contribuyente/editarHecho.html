@@ -2,16 +2,16 @@
 <main th:fragment="contenido" class="auth-main">
     <div class="text-center mb-4">
         <h1 class="h3 mb-3 fw-normal">Edición</h1>
+        <p class="text-muted">Editar un hecho de MetaMapa.</p>
         <p style="font-size: 0.9rem; color: #6c757d; margin-top: -10px; margin-bottom: 20px;">Los campos con <span
                 style="color: red;">*</span> son obligatorios</p>
-        <p class="text-muted">editar un hecho de MetaMapa.</p>
     </div>
-
 
     <div class="row">
         <div class="col-md-6">
             <div class="card p-4 shadow-sm mb-4">
                 <form th:action="@{/contribuyente/hechoModificacion}" method="post" th:object="${hechoModificacion}">
+                    <input id="id" type="hidden" name="id" th:field="*{id}"/>
                     <div class="mb-3">
                         <label for="categoria" class="form-label">Categoria<span style="color: red;">*</span></label>
                         <input id="categoria" type="text" class="form-control" th:field="*{categoria}" required/>
@@ -38,15 +38,15 @@
                                    required/>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <p class="text-muted text-center mt-2">Haz clic en el mapa para seleccionar la
-                                ubicación.</p>
                             <label for="longitud" class="form-label">Longitud<span style="color: red;">*</span></label>
                             <input id="longitud" type="text" class="form-control" th:field="*{ubicacion.longitud}"
                                    required/>
                         </div>
                     </div>
                     <div class="d-grid mt-4">
-                        <button class="btn btn-primary" type="submit">Crear</button>
+                        <button class="btn btn-primary" type="submit">EDITAR</button>
+                        <p class="text-muted text-center mt-2">Haz clic en el mapa para seleccionar la
+                            ubicación.</p>
                     </div>
                 </form>
             </div>
@@ -78,12 +78,10 @@
     $(document).ready(function() {
         let currentMarker = null;
 
-        map.on('click', function (e) { // <--- Ahora recibe el evento 'e' con las coordenadas
-
-            $("#latitud").val(e.latlng.lat.toFixed(6)); // .toFixed(6) limita los decimales
+        map.on('click', function (e) {
+            $("#latitud").val(e.latlng.lat.toFixed(6));
             $("#longitud").val(e.latlng.lng.toFixed(6));
 
-            // Coloca o mueve un marcador en el punto del clic (feedback visual)
             if (currentMarker) {
                  currentMarker.setLatLng(e.latlng); // Mueve el marcador existente
             } else {

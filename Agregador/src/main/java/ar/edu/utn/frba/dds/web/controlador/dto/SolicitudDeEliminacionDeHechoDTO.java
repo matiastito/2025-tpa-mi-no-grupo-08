@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.modelo.colaborador.Contribuyente;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHecho;
 import ar.edu.utn.frba.dds.modelo.hecho.SolicitudDeEliminacionDeHechoEstado;
+import java.time.LocalDateTime;
 
 public class SolicitudDeEliminacionDeHechoDTO {
   private Long solicitudDeEliminacionId;
@@ -14,6 +15,7 @@ public class SolicitudDeEliminacionDeHechoDTO {
 
   private AdministradorDTO administrador;
   private SolicitudDeEliminacionDeHechoEstado solicitudDeEliminacionDeHechoEstado;
+  private LocalDateTime fechaCreacion;
 
   public SolicitudDeEliminacionDeHechoDTO() {
   }
@@ -29,6 +31,7 @@ public class SolicitudDeEliminacionDeHechoDTO {
     solicitudDeEliminacionDeHechoDTO.motivo = solicitudDeEliminacionDeHecho.getMotivo();
     solicitudDeEliminacionDeHechoDTO.solicitudDeEliminacionDeHechoEstado = solicitudDeEliminacionDeHecho.getEstado();
     solicitudDeEliminacionDeHechoDTO.solicitudDeEliminacionId = solicitudDeEliminacionDeHecho.getId();
+    solicitudDeEliminacionDeHechoDTO.fechaCreacion = solicitudDeEliminacionDeHecho.getFechaCreacion();
     ContribuyenteDTO contribuyenteDTO = null;
     if (solicitudDeEliminacionDeHecho.getRepotador() != null) {
       contribuyenteDTO = new ContribuyenteDTO();
@@ -93,6 +96,14 @@ public class SolicitudDeEliminacionDeHechoDTO {
 
   public void setAdministrador(AdministradorDTO administrador) {
     this.administrador = administrador;
+  }
+
+  public void setFechaCreacion(LocalDateTime fechaCreacion) {
+    this.fechaCreacion = fechaCreacion;
+  }
+
+  public LocalDateTime getFechaCreacion() {
+    return fechaCreacion;
   }
 
   public class AdministradorDTO {

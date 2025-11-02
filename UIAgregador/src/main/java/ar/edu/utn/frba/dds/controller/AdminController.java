@@ -51,20 +51,22 @@ public class AdminController {
 
   @GetMapping("/panelDeControl")
   public String panelDeControl(Model model) {
-    int hechosTotales = agregadorServicio.hechos().size();
-    int hechosPendientes = agregadorServicio.hechosModificaciones().size();
-    long solicitudesPendientes = agregadorServicio.solicitudesEliminacion().stream()
-        .filter(solicitud -> PENDIENTE.equals(solicitud.getSolicitudDeEliminacionDeHechoEstado())) // Filtra por estado PENDIENTE
-        .count();
+    int cantidadHechosTotales = agregadorServicio.hechos().size();
+    int cantidadHechosPendientes = agregadorServicio.hechosModificaciones().size();
+    List<SolicitudDeEliminacionDeHechoDTO> solicitudesPendientes = agregadorServicio.solicitudesEliminacion().stream()
+        .filter(solicitud -> PENDIENTE.equals(solicitud.getSolicitudDeEliminacionDeHechoEstado()))
+        .collect(Collectors.toList());// Filtra por estado PENDIENTE
+    int cantidadSolicitudesPendientes = solicitudesPendientes.size();
     int cantidadFuentes = agregadorServicio.fuentes().size();
     List<SolicitudDeEliminacionDeHechoDTO> solicitudesPendientesLista = agregadorServicio.solicitudesEliminacion().stream()
         .filter(solicitud -> PENDIENTE.equals(solicitud.getSolicitudDeEliminacionDeHechoEstado()))
         .toList();
 
-    model.addAttribute("hechosTotales", hechosTotales);
-    model.addAttribute("hechosPendientes", hechosPendientes);
     model.addAttribute("solicitudesPendientes", solicitudesPendientes);
-    model.addAttribute("fuentesTotales", cantidadFuentes);
+    model.addAttribute("cantidadHechosTotales", cantidadHechosTotales);
+    model.addAttribute("cantidadHechosPendientes", cantidadHechosPendientes);
+    model.addAttribute("cantidadSolicitudesPendientes", cantidadSolicitudesPendientes);
+    model.addAttribute("cantidadFuentes", cantidadFuentes);
 
     return "admin/panelDeControl";
   }

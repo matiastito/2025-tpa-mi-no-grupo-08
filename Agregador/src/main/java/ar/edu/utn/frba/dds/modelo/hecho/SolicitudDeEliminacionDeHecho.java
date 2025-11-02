@@ -68,6 +68,10 @@ public class SolicitudDeEliminacionDeHecho {
     resolver(RECHAZADA, aprobador);
   }
 
+  public LocalDateTime getFechaCreacion() {
+    return fechaCreacion;
+  }
+
   public void rechazar() {
     resolver(RECHAZADA);
   }
