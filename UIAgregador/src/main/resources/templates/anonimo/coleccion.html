@@ -16,7 +16,7 @@
             <td th:text="${hecho.fechaDelHecho}"/>
             <td th:text="${hecho.titulo}"/>
             <td th:text="${hecho.descripcion}"/>
-            <td><a class="navbar-brand" class="btn btn-success"
+            <td><a class="btn btn-success"
                    th:href="@{/anonimo/colecciones/{coleccionId}/hechos/{hechoId}(hechoId=${hecho.id}, coleccionId=${coleccion.id})}">Ver</a>
             </td>
         </tr>
@@ -25,13 +25,14 @@
     <div id="map" style="height: 600px; border-radius: 8px; width: 100%;"></div>
 </main>
 </html>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"/>
 <link rel="stylesheet" th:href="@{/css/landing.css}"/>
 <!-- MAPA -->
-<link rel="stylesheet"
-      crossorigin=""
+<link crossorigin=""
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="/>
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      rel="stylesheet"/>
 <script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="/js/map.js"></script>
