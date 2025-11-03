@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.servicio;
 import static ar.edu.utn.frba.dds.modelo.hecho.HechoOrigen.EXTERNO;
 import static ar.edu.utn.frba.dds.modelo.hecho.Ubicacion.crearUbicacion;
 import static ar.edu.utn.frba.dds.util.fecha.FormateadorDeFecha.formatearFecha;
-import static java.net.URI.create;
 import static java.time.LocalDateTime.now;
 
 import ar.edu.utn.frba.dds.modelo.fuente.FuenteArchivoCSV;
@@ -11,6 +10,7 @@ import ar.edu.utn.frba.dds.modelo.hecho.Categoria;
 import ar.edu.utn.frba.dds.modelo.hecho.Hecho;
 import ar.edu.utn.frba.dds.repositorio.RepositorioCategoria;
 import ar.edu.utn.frba.dds.util.archivo.lector.LectorDeArchivo;
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,9 @@ public class ImportadorDeHechosDesdeArchivo {
   private RepositorioCategoria repositorioCategoria;
 
   public void importarHechos(FuenteArchivoCSV fuenteArchivoCSV) {
+    File archivoCSV = new File(fuenteArchivoCSV.getUri());
     this.lectorDeArchivoDeHechos
-        .getRegistros(create("file://" + fuenteArchivoCSV.getUri()))
+        .getRegistros(archivoCSV.toURI())
         .forEach(registro -> agregarHecho(registro, fuenteArchivoCSV));
   }
 
