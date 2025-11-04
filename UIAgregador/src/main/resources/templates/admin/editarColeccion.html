@@ -1,6 +1,6 @@
 <html th:replace="~{layout/baseAdmin :: html}">
 <div th:fragment="contenido">
-    <div class="container my-5" style="max-width: 600px;"> <div class="card p-4 p-md-5 shadow-sm"> <div class="text-center mb-4">
+    <div class="container my-5" style="max-width: 600px;"> <legend class="card p-4 p-md-5 shadow-sm"> <div class="text-center mb-4">
         <h1 class="h3 mb-3 fw-normal">Editar Colección</h1>
     </div>
 
@@ -19,7 +19,13 @@
 
             <fieldset class="border p-3 mb-3 rounded bg-light">
                 <legend class="w-auto px-2 fs-6 text-muted">Fuentes Asociadas (Solo lectura)</legend>
+
+                <legend class="w-auto px-2 fs-6 text-muted" th:each="fuente, fuenteStat : *{fuentes}" style="border: 1px solid">
+                    <span th:text="*{fuentes[__${fuenteStat.index}__].baseUrl}" />
+                    <span th:text="*{fuentes[__${fuenteStat.index}__].tipoFuente}" />
+                </legend>
             </fieldset>
+
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                 <a th:href="@{/admin/colecciones}" class="btn btn-outline-secondary">Cancelar</a>
