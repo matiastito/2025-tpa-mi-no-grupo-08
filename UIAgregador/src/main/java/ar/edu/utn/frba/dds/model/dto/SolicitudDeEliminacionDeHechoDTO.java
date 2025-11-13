@@ -1,11 +1,14 @@
 package ar.edu.utn.frba.dds.model.dto;
 
+import java.time.LocalDateTime;
+
 public class SolicitudDeEliminacionDeHechoDTO {
   private Long solicitudDeEliminacionId;
   private Long hechoId;
   private String tituloHecho;
   private String motivo;
   private ContribuyenteDTO repotador;
+  private LocalDateTime fechaCreacion;
 
   private AdministradorDTO administrador;
   private SolicitudDeEliminacionDeHechoEstado solicitudDeEliminacionDeHechoEstado;
@@ -39,6 +42,14 @@ public class SolicitudDeEliminacionDeHechoDTO {
 
   public String getMotivo() {
     return motivo;
+  }
+
+  public void setFechaCreacion(LocalDateTime fechaCreacion) {
+    this.fechaCreacion = fechaCreacion;
+  }
+
+  public LocalDateTime getFechaCreacion() {
+    return fechaCreacion;
   }
 
   public void setTituloHecho(String tituloHecho) {

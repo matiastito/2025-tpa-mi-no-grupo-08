@@ -65,6 +65,16 @@ public class AnonimoControlador {
   public String colecciones(Model model) {
     List<ColeccionDTO> colecciones = agregadorAnonimoServicio.colecciones();
     model.addAttribute("colecciones", colecciones);
+    Long coleccionId = colecciones.stream().findFirst().get().getId();
+    List<HechoDTO> hechosDTO = agregadorAnonimoServicio.hechos(coleccionId);
+    String hechosJSON = null;
+    try {
+      hechosJSON = ow.writeValueAsString(hechosDTO);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
+    model.addAttribute("hechosJSON", hechosJSON);
+
     return "anonimo/colecciones.html";
   }
 

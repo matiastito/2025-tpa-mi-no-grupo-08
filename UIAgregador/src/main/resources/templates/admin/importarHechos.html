@@ -1,10 +1,26 @@
 <html th:replace="~{layout/baseAdmin :: html}">
 <div th:fragment="contenido">
-    <h1>Importar Hechos</h1>
-    <form th:action="@{/admin/importarHechos}" method="post" enctype="multipart/form-data">
-        <input type="file" name="file"/>
-        <button type="submit">SUBIR</button>
-    </form>
+    <div class="text-center mb-4">
+        <h1 class="h3 mb-3 fw-normal">Importar Hechos</h1>
+        <p class="text-muted">desde un archivo CSV.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+            <div class="card p-4 shadow-sm mb-4">
+                <div class="mb-3">
+
+                    <form th:action="@{/admin/importarHechos}" method="post" enctype="multipart/form-data">
+                        <label class="form-label">Archivo seleccionado: </label>
+                        <input class="form-control" type="file" name="file"/>
+                        <div class="d-grid mt-6">
+                            <button class="btn btn-primary" type="submit">SUBIR</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </html>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>

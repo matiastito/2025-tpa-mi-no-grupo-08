@@ -1,31 +1,71 @@
 <html th:replace="~{layout/baseAnonimo :: html}">
 <main th:fragment="contenido" class="auth-main">
-    <div class="auth-card">
-        <h1>Detalles del Hecho</h1>
-        <form th:object="${hecho}">
-            <label>Categoria</label>
-            <input id="categoria" type="text" name="categoria" th:field="*{categoria}" required/>
-            <label>Titulo</label>
-            <input id="titulo" type="text" name="titulo" th:field="*{titulo}" required/>
-            <label>Descripcion</label>
-            <input id="descripcion" type="text" name="descripcion" th:field="*{descripcion}" required/>
-            <label>Fecha</label>
-            <input id="fechaDelHecho" type="date" name="fechaDelHecho" th:field="*{fechaDelHecho}" required/>
-            <label>Latitud</label>
-            <input type="text" th:field="*{ubicacion.latitud}" required/>
-            <label>Longitud</label>
-            <input type="text" th:field="*{ubicacion.longitud}" required/>
-        </form>
-        <a class="navbar-brand" th:href="@{/anonimo/colecciones/{id}/hechos(id=${coleccion.id})}">Volver</a>
-        <form th:action="@{/anonimo/solicitudEliminacion}" method="post"
-              th:object="${solicitudDeEliminacionDeHecho}">
-            <input id="hechoId" type="hidden" name="hechoId" th:field="*{hechoId}"/>
-            <label>Motivo</label>
-            <input id="motivo" type="textarea" name="motivo" th:field="*{motivo}" required/>
-            <button class="btn btn-primary" type="submit">REPORTAR</button>
-        </form>
+    <div class="text-center mb-4">
+        <h1 class="h3 mb-3 fw-normal">Hecho</h1>
     </div>
-    <div id="map"></div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card p-4 shadow-sm mb-4">
+                <a class="navbar-brand" th:href="@{/anonimo/colecciones/{id}/hechos(id=${coleccion.id})}">Volver</a>
+                <form th:object="${hecho}">
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categoria<span style="color: red;">*</span></label>
+                        <input id="categoria" type="text" class="form-control" th:field="*{categoria}" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Titulo<span style="color: red;">*</span></label>
+                        <input id="titulo" type="text" class="form-control" th:field="*{titulo}" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripcion<span
+                                style="color: red;">*</span></label>
+                        <textarea id="descripcion" class="form-control" rows="3" th:field="*{descripcion}"
+                                  required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fechaDelHecho" class="form-label">Fecha del Hecho<span style="color: red;">*</span></label>
+                        <input id="fechaDelHecho" type="date" class="form-control" th:field="*{fechaDelHecho}"
+                               required/>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="latitud" class="form-label">Latitud<span style="color: red;">*</span></label>
+                            <input id="latitud" type="text" class="form-control" th:field="*{ubicacion.latitud}"
+                                   required/>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="longitud" class="form-label">Longitud<span style="color: red;">*</span></label>
+                            <input id="longitud" type="text" class="form-control" th:field="*{ubicacion.longitud}"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="d-grid mt-4">
+                        <button class="btn btn-primary" type="submit">Crear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-6" style="overflow: hidden;">
+            <div class="card p-4 shadow-sm mb-4">
+                <div id="map" style="height: 400px; border-radius: 8px; width: 100%;"></div>
+                <p class="text-muted text-center mt-2">Haz clic en el mapa para seleccionar la ubicación.</p>
+                <form th:action="@{/anonimo/solicitudEliminacion}" method="post"
+                      th:object="${solicitudDeEliminacionDeHecho}">
+                    <input id="hechoId" type="hidden" name="hechoId" th:field="*{hechoId}"/>
+                    <div class="mb-3">
+                        <label>Ingrese el motivo por el cual quiere reportar el hecho: </label>
+                        <textarea class="form-control" id="motivo" rows="3" name="motivo" th:field="*{motivo}"
+                                  required/>
+                    </div>
+                    <div class="d-grid mt-4">
+                        <button class="btn btn-primary" type="submit">REPORTAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </main>
 </html>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -43,14 +83,6 @@
 <script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="/js/map.js"></script>
-<script>
-    $(document).ready(function() {
-        map.on('click', function () {
-            $("#ubicacion\\.latitud").val(ubicacion.lat);
-            $("#ubicacion\\.longitud").val(ubicacion.lng);
-        });
-    });
-</script>
 <script th:inline="javascript">
     /*<![CDATA[*/
 

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>MetaMapa</title>
+    <link rel="icon" type="image/png" th:href="@{/images/logo.png}">
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -62,5 +63,40 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/common.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function() {
+        // Obtiene la ruta de la página actual (ej: "/contribuyente/hecho/crear")
+        var currentPath = window.location.pathname;
+
+        // Selector para los links de esta navbar específica (usa el ID #navbarNav)
+        var navLinksSelector = '#navbarNav .nav-link';
+
+        var bestMatch = null;
+        var longestMatchLength = 0;
+
+        $(navLinksSelector).each(function() {
+            var linkHref = $(this).attr('href');
+            // Ignorar links vacíos o que solo sean '#'
+            if (linkHref && linkHref !== '#') {
+                // Comprueba si la ruta actual EMPIEZA con el href del link
+                // Y si es una coincidencia más larga que la anterior encontrada
+                // Adicional: Si el link es solo "/", coincide solo si la ruta es exactamente "/" o "/home"
+                if (currentPath.startsWith(linkHref) && linkHref.length > longestMatchLength && linkHref !== '/') {
+                    bestMatch = $(this); // Guarda este link como el mejor candidato
+                    longestMatchLength = linkHref.length;
+                } else if ((currentPath === '/' || currentPath === '/home') && linkHref === '/') {
+                    // Caso especial para el link a la home "/"
+                    bestMatch = $(this);
+                    longestMatchLength = linkHref.length; // Asegura que la home gane si es la única coincidencia
+                }
+            }
+        });
+
+        // Si encontramos un link coincidente, le agrega la clase 'active'
+        if (bestMatch) {
+            bestMatch.addClass('active');
+        }
+    });
+</script>
 </body>
 </html>

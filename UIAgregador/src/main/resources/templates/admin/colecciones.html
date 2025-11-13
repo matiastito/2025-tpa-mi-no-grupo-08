@@ -1,52 +1,62 @@
-<html th:replace="~{layout/baseAdmin :: html}">
+<!DOCTYPE html>
+<html th:replace="~{layout/baseAdmin :: html}" xmlns:th="http://www.thymeleaf.org">
+
 <div th:fragment="contenido">
-    <h2 class="ms-5">Colecciones</h2>
-    <a class="navbar-brand" th:href="@{/admin/colecciones/crear}">Nueva Coleccion</a>
-    <table class="table table-sm table-dark">
-        <thead>
-        <tr>
-            <th scope="col">Handle</th>
-            <th scope="col">Titulo</th>
-            <th scope="col">Fuente</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="coleccion : ${colecciones}">
-            <td scope="row" th:text="${coleccion.handle}"/>
-            <td th:text="${coleccion.titulo}"/>
-            <td th:text="${coleccion.fuentes[0].baseUrl}"/>
-            <td><a class="navbar-brand" th:href="@{/admin/colecciones/editar/{id}(id=${coleccion.id})}">Editar</a></td>
-            <td>
-                <form th:action="@{/admin/colecciones/eliminar/{id}(id=${coleccion.id})}" method="POST">
-                    <button class="btn btn-primary" type="submit">Borrar</button>
-                </form>
-            </td>
-            <td>
-                <form th:action="@{/admin/colecciones/{id}/consenso(id=${coleccion.id})}" method="POST">
-                    <select id="tipoConsenso" name="tipoConsenso">
-                        <option value="ABSOLUTO" th:selected="${#strings.equals('ABSOLUTO', coleccion.tipoConsenso)}">
-                            ABSOLUTO
-                        </option>
-                        <option value="MAYORIA_SIMPLE"
-                                th:selected="${#strings.equals('MAYORIA_SIMPLE', coleccion.tipoConsenso)}">
-                            MAYORIA
-                            SIMPLE
-                        </option>
-                        <option value="MULTIPLES_MENCIONES"
-                                th:selected="${#strings.equals('MULTIPLES_MENCIONES', coleccion.tipoConsenso)}">
-                            MULTIPLES MENCIONES
-                        </option>
-                    </select>
-                    <button class="btn btn-primary" type="submit">Cambiar</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="container-fluid p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h2">Gestión de Colecciones</h1>
+            <a class="btn btn-success" th:href="@{/admin/colecciones/crear}">
+                <i class="bi bi-plus-lg me-1"></i> Nueva colección
+            </a>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(colecciones)}">
+            <div class="card mb-4 shadow-sm" th:each="coleccion : ${colecciones}">
+                <div class="card-body">
+                    <h5 class="card-title mb-1" th:text="${coleccion.titulo}">Título de la
+                        Colección</h5>
+
+                    <p class="card-text text-muted mb-3" th:if="${coleccion.descripcion}"
+                       th:text="${#strings.abbreviate(coleccion.descripcion, 150)}">
+                        Descripción corta de la colección...
+                    </p>
+
+                    <div class="d-flex align-items-center gap-3 mb-3 text-muted small">
+                        <span>
+                            <i class="bi bi-hdd-stack me-1"></i>
+                            <span th:text="${#lists.size(coleccion.fuentes)}">0</span> fuentes
+                        </span>
+                        <span>
+                            <i class="bi bi-diagram-3 me-1"></i>
+                             <span th:text="${coleccion.tipoConsenso ?: 'N/A'}">Consenso N/A</span> - consenso
+                        </span>
+                        <span>
+                            <i class="bi bi-key-fill me-1"></i> Handle:
+                            <code th:text="${coleccion.handle?.toString() ?: 'N/A'}">UUID</code>
+                        </span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-sm btn-outline-secondary"
+                           th:href="@{/admin/colecciones/{id}/fuentes(id=${coleccion.id})}">
+                            <i class="bi bi-gear me-1"></i> Configurar fuentes
+                        </a>
+                        <a class="btn btn-sm btn-outline-primary"
+                           th:href="@{/admin/colecciones/editar/{id}(id=${coleccion.id})}">
+                            <i class="bi bi-pencil me-1"></i> Editar
+                        </a>
+                        <form method="POST"
+                              onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta colección?');"
+                              th:action="@{/admin/colecciones/eliminar/{id}(id=${coleccion.id})}">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">
+                                <i class="bi bi-trash me-1"></i> Eliminar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </html>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" th:href="@{/css/landing.css}">

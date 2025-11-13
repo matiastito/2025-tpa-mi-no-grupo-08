@@ -17,16 +17,16 @@
             <td th:text="${hecho.fechaDelHecho}"/>
             <td th:text="${hecho.titulo}"/>
             <td th:text="${hecho.descripcion}"/>
-            <td><a class="navbar-brand"
+            <td><a class="btn btn-success"
                    th:href="@{/contribuyente/colecciones/{coleccionId}/hechos/{hechoId}(hechoId=${hecho.id}, coleccionId=${coleccion.id})}">Ver</a>
             </td>
-            <td><a class="navbar-brand"
+            <td><a class="btn btn-success"
                    th:href="@{/contribuyente/colecciones/{coleccionId}/hechos/{hechoId}/editar(hechoId=${hecho.id}, coleccionId=${coleccion.id})}">Editar</a>
             </td>
         </tr>
         </tbody>
     </table>
-    <div id="map"></div>
+    <div id="map" style="height: 600px; border-radius: 8px; width: 100%;"></div>
 </main>
 </html>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"/>

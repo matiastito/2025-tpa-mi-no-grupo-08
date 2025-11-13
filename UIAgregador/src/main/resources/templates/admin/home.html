@@ -1,6 +1,24 @@
 <html th:replace="~{layout/baseAdmin :: html}">
 <div th:fragment="contenido">
-    <h2 class="ms-5" th:text="${titulo}"/></div>
+    <div class="container py-4"> <div class="text-center mb-4">
+        <h1 class="display-5 fw-bold">Bienvenido, Administrador</h1>
+        <p class="fs-5 text-muted">Selecciona una acción para comenzar.</p>
+    </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+
+                <div class="card shadow-sm">
+                    <div class="card-header text-center"> <h5 class="mb-0">Acciones rápidas</h5>
+                    </div>
+                    <div class="card-body d-grid gap-3">
+                        <a th:href="@{/admin/fuentes}" class="btn btn-success btn-lg">Gestionar Fuentes</a>
+                        <a th:href="@{/admin/colecciones}" class="btn btn-success btn-lg">Gestionar Colecciones</a>
+                        <a th:href="@{/admin/hechosModificaciones}" class="btn btn-success btn-lg">Gestionar Hechos</a>
+                        <a th:href="@{/admin/solicitudesEliminacion}" class="btn btn-success btn-lg" >Administrar Solicitudes</a>
+                        <a th:href="@{/admin/importarHechos}" class="btn btn-success btn-lg" >Importar Hechos CSV</a>
+                    </div>
+                </div> </div> </div> </div> </div>
 </html>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" th:href="@{/css/landing.css}">

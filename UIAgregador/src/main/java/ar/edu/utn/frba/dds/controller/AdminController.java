@@ -3,7 +3,9 @@ package ar.edu.utn.frba.dds.controller;
 import static ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoEstado.ACEPTADA;
 import static ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoEstado.PENDIENTE;
 import static ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoEstado.RECHAZADA;
-import static java.util.stream.Collectors.toList;
+import static ar.edu.utn.frba.dds.model.dto.TipoFuente.DINAMICA;
+import static ar.edu.utn.frba.dds.model.dto.TipoFuente.ESTATICA;
+import static ar.edu.utn.frba.dds.model.dto.TipoFuente.PROXY;
 import static org.springframework.web.context.request.RequestContextHolder.currentRequestAttributes;
 
 import ar.edu.utn.frba.dds.model.dto.ColeccionDTO;
@@ -13,8 +15,10 @@ import ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoDTO;
 import ar.edu.utn.frba.dds.model.dto.SolicitudDeEliminacionDeHechoDTO.AdministradorDTO;
 import ar.edu.utn.frba.dds.model.dto.TipoConsenso;
 import ar.edu.utn.frba.dds.servicio.AgregadorServicio;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -34,6 +38,7 @@ public class AdminController {
   @Autowired
   private final AgregadorServicio agregadorServicio;
 
+
   public AdminController(AgregadorServicio agregadorServicio) {
     this.agregadorServicio = agregadorServicio;
   }
@@ -46,22 +51,50 @@ public class AdminController {
 
   @GetMapping("/panelDeControl")
   public String panelDeControl(Model model) {
-    List<FuenteDTO> fuentes = agregadorServicio.fuentes();
-    List<SolicitudDeEliminacionDeHechoDTO> solicitudDeEliminacionDeHecho = agregadorServicio.solicitudesEliminacion().stream()
-        .filter(solicitudDeEliminacionDeHechoDTO -> solicitudDeEliminacionDeHechoDTO.getSolicitudDeEliminacionDeHechoEstado().equals(PENDIENTE))
-        .collect(toList());
-    List<HechoModificacionDTO> hechosModificaciones = agregadorServicio.hechosModificaciones();
-    model.addAttribute("fuentesDTO", fuentes);
-    model.addAttribute("hechosModificacionesCantidad", hechosModificaciones.size());
-    model.addAttribute("solicitudesDeEliminacionCantidad", solicitudDeEliminacionDeHecho.size());
-    return "admin/panelDeControl.html";
+    int cantidadHechosTotales = agregadorServicio.hechos().size();
+    int cantidadHechosPendientes = agregadorServicio.hechosModificaciones().size();
+    List<SolicitudDeEliminacionDeHechoDTO> solicitudesPendientes = agregadorServicio.solicitudesEliminacion().stream()
+        .filter(solicitud -> PENDIENTE.equals(solicitud.getSolicitudDeEliminacionDeHechoEstado()))
+        .collect(Collectors.toList());// Filtra por estado PENDIENTE
+    int cantidadSolicitudesPendientes = solicitudesPendientes.size();
+    int cantidadFuentes = agregadorServicio.fuentes().size();
+    List<SolicitudDeEliminacionDeHechoDTO> solicitudesPendientesLista = agregadorServicio.solicitudesEliminacion().stream()
+        .filter(solicitud -> PENDIENTE.equals(solicitud.getSolicitudDeEliminacionDeHechoEstado()))
+        .toList();
+
+    model.addAttribute("solicitudesPendientes", solicitudesPendientes);
+    model.addAttribute("cantidadHechosTotales", cantidadHechosTotales);
+    model.addAttribute("cantidadHechosPendientes", cantidadHechosPendientes);
+    model.addAttribute("cantidadSolicitudesPendientes", cantidadSolicitudesPendientes);
+    model.addAttribute("cantidadFuentes", cantidadFuentes);
+
+    return "admin/panelDeControl";
   }
 
   @GetMapping("/fuentes")
   public String fuentes(Model model) {
+    List<FuenteDTO> fuentesDeEjemplo = new ArrayList<>();
+
     List<FuenteDTO> fuentes = agregadorServicio.fuentes();
     model.addAttribute("fuentesDTO", fuentes);
+    model.addAttribute("totalFuentes", fuentes.size());
+    model.addAttribute("totalEstaticas", fuentes.stream().filter(f -> f.getTipoFuente().equals(ESTATICA)).count());
+    model.addAttribute("totalDinamicas", fuentes.stream().filter(f -> f.getTipoFuente().equals(DINAMICA)).count());
+    model.addAttribute("totalProxy", fuentes.stream().filter(f -> f.getTipoFuente().equals(PROXY)).count());
+
     return "admin/fuentes.html";
+  }
+
+  @GetMapping("/fuentes/crear")
+  public String mostrarFormularioCrearFuente(Model model) {
+    model.addAttribute("fuenteDTO", new FuenteDTO());
+    return "admin/crearFuente";
+  }
+
+  @PostMapping("/fuentes/crear")
+  public String crearFuente(@ModelAttribute("fuenteDTO") FuenteDTO fuenteDTO) {
+    //TODO por el momento, las fuentes se crean al dar de alta una Coleccion
+    return "redirect:/admin/fuentes";
   }
 
   @GetMapping("/fuentes/{fuenteId}")
@@ -121,15 +154,35 @@ public class AdminController {
     return "redirect:/admin/colecciones";
   }
 
+  @GetMapping("/colecciones/{coleccionId}/fuentes")
+  public String mostrarConfigurarFuentes(@PathVariable Long coleccionId, Model model) {
+    ColeccionDTO coleccion = agregadorServicio.coleccion(coleccionId);
+    List<FuenteDTO> todasLasFuentes = agregadorServicio.fuentes();
+
+    List<Long> idsFuentesAsociadas = coleccion.getFuentes().stream()
+        .map(FuenteDTO::getId)
+        .collect(Collectors.toList());
+
+    List<FuenteDTO> fuentesDisponibles = todasLasFuentes.stream()
+        .filter(fuente -> !idsFuentesAsociadas.contains(fuente.getId()))
+        .collect(Collectors.toList());
+
+    model.addAttribute("coleccion", coleccion);
+    model.addAttribute("fuentesAsociadas", coleccion.getFuentes());
+    model.addAttribute("fuentesDisponibles", fuentesDisponibles);
+
+    return "admin/configurarFuentes"; // Apunta al nuevo archivo HTML que crearemos
+  }
+
   @GetMapping("/importarHechos")
   public String importarHechos() {
-    return "admin/importarHechos.html"; // Returns the upload.html template
+    return "admin/importarHechos.html";
   }
 
   @PostMapping("/importarHechos")
   public String importarHechosDesdeArchivo(@RequestParam("file") MultipartFile file, Model model) {
     agregadorServicio.importarHechos(file);
-    return "redirect:/admin/panelDeControl"; // Return to the upload page, potentially with a message
+    return "redirect:/admin/panelDeControl";
   }
 
   @GetMapping("/hechosModificaciones")
