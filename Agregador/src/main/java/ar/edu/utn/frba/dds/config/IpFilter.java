@@ -27,7 +27,7 @@ public class IpFilter implements Filter {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     String clientIp = httpRequest.getRemoteAddr(); // Basic IP retrieval
 
-    logger.info("ipAllowed check.");
+    logger.info("ipAllowed check. Request from IP: " + clientIp);
     if (isIpAllowed(clientIp)) {
       chain.doFilter(request, response);
     } else {

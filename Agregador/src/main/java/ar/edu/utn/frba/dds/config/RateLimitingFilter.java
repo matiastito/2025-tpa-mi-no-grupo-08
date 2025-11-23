@@ -36,7 +36,7 @@ public class RateLimitingFilter implements Filter {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     String clientIp = httpRequest.getRemoteAddr();
     Bucket bucket = getBucket(clientIp);
-    logger.info("RateLimit check.");
+    logger.info("RateLimit check. Client IP: " + clientIp);
     if (bucket.tryConsume(1)) {
       chain.doFilter(request, response);
     } else {
