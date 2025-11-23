@@ -12,11 +12,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class IpFilter implements Filter {
   private List<String> allowedIps = asList("127.0.0.1", "10.0.0.0/8");
+  Logger logger = LoggerFactory.getLogger(IpFilter.class);
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -24,6 +27,7 @@ public class IpFilter implements Filter {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     String clientIp = httpRequest.getRemoteAddr(); // Basic IP retrieval
 
+    logger.info("ipAllowed check.");
     if (isIpAllowed(clientIp)) {
       chain.doFilter(request, response);
     } else {
@@ -33,7 +37,7 @@ public class IpFilter implements Filter {
   }
 
   private boolean isIpAllowed(String ip) {
-    //return allowedIps.stream().anyMatch(allowedIp -> ip.equals(allowedIp) || isInRange(ip, allowedIp));
+    return allowedIps.stream().anyMatch(allowedIp -> ip.equals(allowedIp) || isInRange(ip, allowedIp));
     return true;
   }
 
