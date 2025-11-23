@@ -37,7 +37,7 @@ public class Hecho {
   private Long idExterno;
   @Column(name = "TITULO", nullable = false)
   private String titulo;
-  @Column(name = "DESCRIPCION", nullable = false)
+  @Column(name = "DESCRIPCION", nullable = false, length = 200000)
   private String descripcion;
   @ManyToOne
   @JoinColumn(name = "CATEGORIA_ID")
