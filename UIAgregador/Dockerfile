@@ -9,7 +9,7 @@ COPY pom.xml .
 COPY src ./src
 
 # Compilar el proyecto (sin tests)
-RUN mvn clean package -Pprod -DskipTests
+RUN mvn clean package -DskipTests
 
 # ==========================
 # Etapa 2: Imagen final (solo el JAR)
