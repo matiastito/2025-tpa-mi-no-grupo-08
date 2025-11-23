@@ -7,10 +7,8 @@ WORKDIR /app
 # Copiar los archivos de configuración de Maven
 COPY pom.xml .
 COPY src ./src
-COPY ../pom.xml parent-pom.xml
 
 # Compilar el proyecto (sin tests)
-RUN mvn clean -f parent-pom.xml install -N -DskipTests
 RUN mvn clean package -DskipTests
 
 # ==========================
