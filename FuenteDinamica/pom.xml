@@ -169,7 +169,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>ar.edu.utn.frba.dds.App</mainClass>
+                    <mainClass>ar.edu.utn.frba.dds.Aplicacion</mainClass>
                 </configuration>
             </plugin>
         </plugins>
