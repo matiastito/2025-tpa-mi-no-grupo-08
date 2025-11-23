@@ -4,7 +4,7 @@
     <parent>
         <groupId>ar.edu.utn.frba.dds</groupId>
         <artifactId>2025-TPA-Grupo08</artifactId>
-        <relativePath>..</relativePath
+        <relativePath>../pom.xml</relativePath>
         <version>1.0</version>
     </parent>
 
