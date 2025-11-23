@@ -11,7 +11,6 @@ COPY src ./src
 # Compilar el proyecto (sin tests)
 RUN mvn clean package -DskipTests
 
-
 # ==========================
 # Etapa 2: Imagen final (solo el JAR)
 # ==========================
@@ -20,5 +19,5 @@ WORKDIR /app
 
 # Copiar el JAR compilado desde la etapa anterior
 COPY --from=builder /app/target/*.jar app.jar
-EXPOSE 9000
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
