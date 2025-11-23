@@ -20,7 +20,6 @@ public class CacheHechos {
   public Collection<HechoDTO> getHechos() {
     return hechos;
   }
-
   
   public void actualizar(Collection<HechoDTO> hechos) {
     this.hechos.clear();
