@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.web.controlador;
+package ar.edu.utn.frba.dds.config;
 
 import static io.github.bucket4j.Bucket.builder;
 import static java.time.Duration.ofSeconds;
