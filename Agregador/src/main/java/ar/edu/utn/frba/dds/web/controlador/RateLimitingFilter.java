@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.web.controlador;
 
-import static io.github.bucket4j.Bandwidth.classic;
-import static io.github.bucket4j.Refill.intervally;
+import static io.github.bucket4j.Bucket.builder;
+import static java.time.Duration.ofSeconds;
 
 import io.github.bucket4j.Bucket;
 import jakarta.servlet.Filter;
@@ -11,7 +11,6 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.time.Duration;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import org.springframework.stereotype.Component;
@@ -22,8 +21,8 @@ public class RateLimitingFilter implements Filter {
 
   private Bucket getBucket(String clientId) {
     return buckets.computeIfAbsent(clientId, k ->
-        Bucket.builder()
-            .addLimit(classic(10, intervally(1, Duration.ofSeconds(1))))
+        builder()
+            .addLimit(limit -> limit.capacity(50).refillGreedy(10, ofSeconds(1)))
             .build()
     );
   }
