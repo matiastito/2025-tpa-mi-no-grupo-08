@@ -60,11 +60,7 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>**/static/**</exclude>
-                    <exclude>**/templates/**</exclude>
-                </excludes>
+                <directory>src/main/resources/*.properties</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
