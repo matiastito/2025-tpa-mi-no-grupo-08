@@ -171,7 +171,6 @@
                     <mainClass>ar.edu.utn.frba.dds.Aplicacion</mainClass>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>
